@@ -47,7 +47,7 @@ class Building:
         * LB_face_footprint [int] : number of floors
 
     Dragonfly:
-        *
+        * zob
         *
 
     Honeybee:

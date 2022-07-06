@@ -6,7 +6,7 @@ class Library:
 
     """
     @staticmethod
-    def load_typologies_HBjson_sets(path_construction_and_load_library_folder,path_LBT_user_defined):
+    def load_HBjson_sets(path_construction_and_load_library_folder,path_LBT_user_defined):
         """
         Load the user defined libraries of constructions, schedules and programs
         """

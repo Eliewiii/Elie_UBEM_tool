@@ -34,6 +34,7 @@ from typology import Typology
 from building import Building
 from side_function import make_sub_folders
 
+# additional methods for the Urban_canopy class
 import test
 import test_2
 
@@ -45,7 +46,7 @@ class Urban_canopy(test.Other,test_2.Other):
     Args:
         name [str] : Name of the urban canopy (just to initialize it)
 
-    Properties:
+    Attributes:
         * name
         * building_id_list
         * building_dict
@@ -274,10 +275,10 @@ class Urban_canopy(test.Other,test_2.Other):
         for id in self.building_to_simulate:
             self.building_dict[id].extract_face_typo()
 
-    def LB_layout_to_DF_building(self):
-        """ goes from list of points to Ladybug geometry objects """
-        for id in self.building_to_simulate:
-            self.building_dict[id].LB_layout_to_DF_building()
+    # def LB_layout_to_DF_building(self):
+    #     """ goes from list of points to Ladybug geometry objects """
+    #     for id in self.building_to_simulate:
+    #         self.building_dict[id].LB_layout_to_DF_building()
 
     def LB_layout_to_DF_story(self):
         """ goes from layout in Ladybug 3Dface format to DF stories for all the buildings """
@@ -289,7 +290,7 @@ class Urban_canopy(test.Other,test_2.Other):
         for id in self.building_to_simulate:
             self.building_dict[id].DF_story_to_DF_building()
 
-    def create_DF_building_according_to_typology(self, ):
+    def create_DF_building_according_to_typology(self):
         """ create DF buildings from a forced typology layout for all the buildings"""
         self.Apply_floor_layout()
         self.LB_layout_to_DF_story()
@@ -298,6 +299,11 @@ class Urban_canopy(test.Other,test_2.Other):
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # #               Honeybee modeling             # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+    # todo: reorganize
+    def generate_HB_model(self):
+        self.DF_to_HB()
+
 
     # # # # # # # # # # # # # # # #       Honeybee solve adjacencies           # # # # # # # # # # # # # # # # # # # # #
     def HB_solve_adjacencies(self):
@@ -318,6 +324,10 @@ class Urban_canopy(test.Other,test_2.Other):
         """
         for id in self.building_to_simulate:
             self.building_dict[id].HB_add_thermalmass_int_wall()
+
+
+
+
 
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # #          Context filter algorithm           # # # # # # # # # # # # # # # # # # # # #

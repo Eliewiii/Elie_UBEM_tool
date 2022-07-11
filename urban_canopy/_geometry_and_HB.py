@@ -3,22 +3,17 @@ Additional methods for the Urban_canopy class.
 Generate the geomatry and the LB/DF/HB objects of teh buildings
 """
 
-from building import Building
-
 
 class Mixin:
 
     def create_building_LB_geometry_footprint(self):
         """
-        goes from list of points to Ladybug footprints for all the building in the GIS, not only th simulated one
+        goes from list of points to Ladybug footprints for all the building_zon in the GIS, not only th simulated one
         """
         for i, id in enumerate(self.building_dict):
             self.building_dict[id].footprint_to_LB_face()
 
-    def create_building_HB_room_envelop(self):
-        """ goes from list of points to Ladybug geometry objects """
-        for i, id in enumerate(self.building_dict):
-            self.building_dict[id].LB_face_to_HB_room_envelop()
+
 
 
 
@@ -30,7 +25,7 @@ class Mixin:
     #         self.building_dict[id].LB_face_to_DF_building()
 
     def Apply_floor_layout(self):
-        """ apply the layout of a given typology without adaption to the building specificities, just for the tests """
+        """ apply the layout of a given typology without adaption to the building_zon specificities, just for the tests """
         for id in self.building_to_simulate:
             self.building_dict[id].extract_face_typo()
 

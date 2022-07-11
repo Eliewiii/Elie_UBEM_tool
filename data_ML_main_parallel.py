@@ -28,7 +28,7 @@ building_type_folders = os.listdir(building_type_folder_path)
 
 
 
-# loop on all the building shape
+# loop on all the building_zon shape
 for building_type in building_type_folders :
     type_path = os.path.join(building_type_folder_path, building_type) # path directory with all the samples
     ## create a folder to store the generated images

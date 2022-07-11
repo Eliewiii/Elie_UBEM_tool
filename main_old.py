@@ -64,7 +64,7 @@ from typology import Typology
 Typology.load_typologies_HBjson_sets(path_construction_and_load_library_folder=path_folder_construction_and_load_library,
                                      path_LBT_user_defined                    =path_LBT_user_defined)
 
-from urban_canopy import Urban_canopy
+from urban_canopy_44 import Urban_canopy
 
 from honeybee.model import Model
 from honeybee.room import Room
@@ -137,7 +137,7 @@ U_c.create_building_LB_geometry_footprint()
 ## Create HB room envellop with GIS footprint
 U_c.create_building_HB_room_envelop()
 
-####  Identify the building to simulate and the context  ####
+####  Identify the building_zon to simulate and the context  ####
 
 # identify the context of the target buildings with the filter context algorithm
 
@@ -151,7 +151,7 @@ U_c.create_building_HB_room_envelop()
 
 
 
-### force building typology (until it's guessed automatically ###
+### force building_zon typology (until it's guessed automatically ###
 
 U_c.building_dict[0].typology=U_c.typology_dict["train_40x4"]
 U_c.building_dict[1].typology=U_c.typology_dict["train_40x4"]
@@ -192,7 +192,7 @@ U_c.create_DF_building_according_to_typology()
 U_c.convert_DF_building_to_HB_models()
 U_c.HB_solve_adjacencies()
 
-## Force rotation on building  # just for a better plot here
+## Force rotation on building_zon  # just for a better plot here
 
 # U_c.building_dict[1].HB_model_force_rotation(10)
 
@@ -225,7 +225,7 @@ print("Building modeled")
 #  on the honeybee surfaces !
 
 # assign the context surfaces with their material or reflectance
-# (except for context surfaces that are not form simulated building, opt for a standard reflectance)
+# (except for context surfaces that are not form simulated building_zon, opt for a standard reflectance)
 
 ####  Compute view factors  ####
 

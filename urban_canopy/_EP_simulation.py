@@ -2,7 +2,7 @@
 Additional methods for the Urban_canopy class.
 Deals generate files (mostly .hbjson files) for visualization in Rhino with Grasshopper
 """
-
+import os
 import json
 
 
@@ -14,6 +14,7 @@ from honeybee_energy.simulation.runperiod import RunPeriod
 from honeybee_energy.simulation.parameter import SimulationParameter
 
 from honeybee.model import Model
+from ladybug.epw import EPW
 
 
 class Mixin:
@@ -82,13 +83,13 @@ class Mixin:
                                                          north_angle=north_angle, terrain_type=terrain_type)
 
     ### Not sure this function in useful
-    def simulation_parameters_for_idf(self, idf):
-        """
-        Extract simulation parameter from an idf file
-        """
-        idf_string = None  # idf in a single string to crete Simulationparameter object with HB_energy
-        with open(idf, "r") as idf_file:
-            idf_string = idf_file.read()  # convert idf file in string
-        simulation_parameter = parameter.SimulationParameter.from_idf(
-            idf_string)  # create the Simulationparameter object
-        return (simulation_parameter)
+    # def simulation_parameters_for_idf(self, idf):
+    #     """
+    #     Extract simulation parameter from an idf file
+    #     """
+    #     idf_string = None  # idf in a single string to crete Simulationparameter object with HB_energy
+    #     with open(idf, "r") as idf_file:
+    #         idf_string = idf_file.read()  # convert idf file in string
+    #     simulation_parameter = parameter.SimulationParameter.from_idf(
+    #         idf_string)  # create the Simulationparameter object
+    #     return (simulation_parameter)

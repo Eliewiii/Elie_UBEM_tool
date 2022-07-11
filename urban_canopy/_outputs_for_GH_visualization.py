@@ -10,12 +10,17 @@ from honeybee.model import Model
 
 class Mixin:
 
+    def create_building_HB_room_envelop(self):
+        """ create a honeybee room with extruded footprints of buildings, mostly for plotting purposes """
+        for i, id in enumerate(self.building_dict):
+            self.building_dict[id].LB_face_to_HB_room_envelop()
+
     def context_to_hbjson(self, path_folder_context_hbjson):
         """
         Generate a hbjson file to plot the context in Rhinoceros
         The hbjson is a HB model.
-        Each room of the model represent one building.
-        Rooms are generated with the building envelop = LB polyface3D
+        Each room of the model represent one building_zon.
+        Rooms are generated with the building_zon envelop = LB polyface3D
         """
 
         room_list = []  # list of the rooms
@@ -32,16 +37,16 @@ class Mixin:
 
     def context_surfaces_to_hbjson(self, path_folder_simulation):
         """
-        Write the context surfaces of each building in a hbjson file in the building directory
+        Write the context surfaces of each building_zon in a hbjson file in the building_zon directory
         """
         for building_id in self.building_to_simulate:
             path_dir_building_context = os.path.join(path_folder_simulation, self.building_dict[building_id].name,
-                                                     "context_surfaces_json")
+                                                     "Context_surfaces_json")
             self.building_dict[building_id].context_surfaces_to_hbjson(path_dir_building_context)
 
     def GIS_context_individual_to_hbjson(self, path_folder_simulation):
         """
-        Write the context surfaces of each building in a hbjson file in the building directory
+        Write the context surfaces of each building_zon in a hbjson file in the building_zon directory
         """
         for building_id in self.building_to_simulate:
             path_dir_building_context = os.path.join(path_folder_simulation, self.building_dict[building_id].name,

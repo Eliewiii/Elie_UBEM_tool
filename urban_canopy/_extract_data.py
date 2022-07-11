@@ -3,7 +3,7 @@ Additional methods for the Urban_canopy class.
 Deals with the data extraction
 """
 
-from building import Building
+from building.building import Building
 
 
 class Mixin:
@@ -11,16 +11,16 @@ class Mixin:
     def polygon_to_building(self, footprint, shape_file, building_number_shp, unit):
         """ Convert a Polygon to a Building object """
         point_list_footprints = polygon_to_points(footprint)  # convert the POLYGON into a list of points
-        id_building = self.num_of_buildings  # id of the building for the urban canopy object
-        # create a building object (automatically added to the urban_canopy)
+        id_building = self.num_of_buildings  # id of the building_zon for the urban canopy object
+        # create a building_zon object (automatically added to the urban_canopy_44)
         Building.from_shp_2D(id_building, point_list_footprints, self, shape_file, building_number_shp, unit)
 
     def multipolygon_to_building(self, footprint, shape_file, building_number_shp, unit):
         """ Convert a MultiPolygon to a Building object """
         for polygon in footprint.geoms:
             point_list_footprints = polygon_to_points(polygon)
-            id_building = self.num_of_buildings  # id of the building for the urban canopy object
-            # create a building object (automatically added to the urban_canopy)
+            id_building = self.num_of_buildings  # id of the building_zon for the urban canopy object
+            # create a building_zon object (automatically added to the urban_canopy_44)
             Building.from_shp_2D(id_building, point_list_footprints, self, shape_file, building_number_shp, unit)
 
 

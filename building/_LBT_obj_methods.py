@@ -2,7 +2,7 @@
 Additional methods for the Building class.
 
 """
-
+from ladybug_geometry.geometry3d import Point3D,Face3D
 
 class Mixin:
     def footprint_to_LB_face(self):

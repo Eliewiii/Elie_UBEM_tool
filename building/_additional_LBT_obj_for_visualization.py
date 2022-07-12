@@ -3,6 +3,8 @@ Additional methods for the Building class.
 
 """
 
+from ladybug_geometry.geometry3d import Polyface3D
+from honeybee.room import Room
 
 class Mixin:
 

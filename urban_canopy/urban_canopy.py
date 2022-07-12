@@ -10,7 +10,7 @@ from honeybee_energy.config import folders
 from ladybug.futil import write_to_file
 
 from typology import Typology
-from side_function import make_sub_folders
+from tools._folder_manipulation import make_sub_folders
 
 # additional methods for the Urban_canopy class
 

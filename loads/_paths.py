@@ -4,7 +4,7 @@ import json
 
 from getpass import getuser
 from datetime import datetime
-
+from _load_inputs import load_input_parameter
 
 ####  Get user  ####
 elie = 'elie-medioni'
@@ -27,22 +27,10 @@ elif user == abraham:
 else:
     print("The user is not defined")
 
-
 #### Extract Input file ####
 ## Path of the input file
 path_input_file = os.path.join(path_folder, "Input_Data", "inputs.json")
-## load input file
-input_file = open(path_input_file, "r")
-json_dict = json.load(input_file)
-input_file.close()
-## Input file variable
-epw = json_dict["epw"]
-gis = json_dict["gis"]
-unit_gis = json_dict["unit_gis"]
-target_buildings = json_dict["target_buildings"]
-VF_criterion_shading = json_dict["VF_criterion_shading"]
-# VF_criterion_simulated_buildings = json_dict["VF_criterion_simulated_buildings"]
-# VF_criterion_lwr = json_dict["VF_criterion_lwr"]
+epw, gis, unit_gis, target_buildings, VF_criterion_shading = load_input_parameter(path_input_file)
 
 #### Prepare paths ####
 path_folder_typology = os.path.join(path_folder, "Input_Data", "Typology", "Typologies")
@@ -55,13 +43,13 @@ path_file_epw = os.path.join(path_folder, "Input_Data", "EPW", epw)
 path_folder_simulation_parameter = os.path.join(path_folder, "Input_Data", "Simulation_parameters", "annual_results")
 path_simulation_parameter = os.path.join(path_folder_simulation_parameter, "simulation_parameter.json")
 ## folder outputs
-path_folder_output=os.path.join(path_folder, "Program_output", )
+path_folder_output = os.path.join(path_folder, "Program_output", )
 ## EnergyPlus
 path_energyplus_exe = "C:\EnergyPlusV22-1-0\energyplus.exe"
 
 ## name of the simulation
 now = datetime.now()
-dt_string = now.strftime("%d_%m_%Y_%Hh_%Mm_%Ss")  # get the date and time to get an unique identifier
+dt_string = now.strftime("%Y_%m_%d_%Hh_%Mm_%Ss")  # get the date and time to get an unique identifier
 
 simulation_name = ""
 manual_input = input("Type an additional string for the name of the simulation: ")

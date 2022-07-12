@@ -25,10 +25,10 @@ from honeybee.model import Model
 from honeybee.face import Face
 from honeybee.shade import Shade
 
-from building import _select_context, _attribute_setter, _shp_files
+from building import _select_context, _attribute_setter, _shp_files, _LBT_obj_methods, _additional_LBT_obj_for_visualization
 
 
-class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin):
+class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin, _LBT_obj_methods.Mixin,_additional_LBT_obj_for_visualization.Mixin):
     """
     description ............
 

@@ -127,16 +127,16 @@ class Urban_canopy(_context_filtering.Mixin, _EP_simulation.Mixin, _extract_data
 
     # # # # # # # # # # # # # # # #        Extract Simulation parameters       # # # # # # # # # # # # # # # # # # # # #
 
-    def simulation_parameters_for_idf(self, idf):
-        """
-        Extract simulation parameter from an idf file
-        """
-        idf_string = None  # idf in a single string to crete Simulationparameter object with HB_energy
-        with open(idf, "r") as idf_file:
-            idf_string = idf_file.read()  # convert idf file in string
-        simulation_parameter = parameter.SimulationParameter.from_idf(
-            idf_string)  # create the Simulationparameter object
-        return (simulation_parameter)
+    # def simulation_parameters_for_idf(self, idf):
+    #     """
+    #     Extract simulation parameter from an idf file
+    #     """
+    #     idf_string = None  # idf in a single string to crete Simulationparameter object with HB_energy
+    #     with open(idf, "r") as idf_file:
+    #         idf_string = idf_file.read()  # convert idf file in string
+    #     simulation_parameter = parameter.SimulationParameter.from_idf(
+    #         idf_string)  # create the Simulationparameter object
+    #     return (simulation_parameter)
 
 
     # # # # # # # # # # # # # #       Force characteristics on building_zon      # # # # # # # # # # # # # # # # # # # # #
@@ -181,48 +181,47 @@ class Urban_canopy(_context_filtering.Mixin, _EP_simulation.Mixin, _extract_data
     # # # # # # # # # # # # # # # #          Context filter algorithm           # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-    def filter_context(self, VF_criteria):
-        """
-        1- identify the buildings that are close to the target buildings and that should be simulated
-        2- identify the buildings that are close to the simulated context buildings and that should be part of their context
-        3- Select the context surfaces
-        """
-
-        target_buildings_face_list = []
-        all_building_face_list = []
-        context_simulated_building_face_list = []
-
-        ## prepare target building_zon surfaces
-        for id in self.target_buildings:
-            target_buildings_face_list.append([id, self.building_dict[id].prepare_face_for_context(reverse=False)])
-        ## prepare all building_zon surfaces
-        for not_used, (id, building_obj) in enumerate(self.building_dict.items()):
-            all_building_face_list.append([id, building_obj.prepare_face_for_context(reverse=True)])
-
-        for target_building_face_list in target_buildings_face_list:
-            context_building_face_list_kept = []  # list with the id of the context buildings for this building_zon
-            ## first check, just identify the buildings if one surface fits the requirement
-            for test_context_building_face_list in all_building_face_list:
-                if target_building_face_list[0] != test_context_building_face_list[
-                    0]:  # check if the buildings are not the same
-                    if is_context_building(target_building_face_list[1], test_context_building_face_list[1],
-                                           VF_criteria) == True:
-                        context_building_face_list_kept.append(test_context_building_face_list)
-                        self.building_dict[target_building_face_list[0]].context_buildings_id.append(
-                            test_context_building_face_list[0])
-                        # self.building_dict[test_context_building_face_list[0]].is_simulated=True
-                    else:
-                        None
-                else:
-                    None
-            for test_context_building_face_list in context_building_face_list_kept:
-                self.filter_context_surfaces(target_building_face_list[1], test_context_building_face_list[1],
-                                             target_id=target_building_face_list[0],
-                                             VF_criteria=VF_criteria)
-
-            ## second check, check every surfaces in the selected context buildings
-
-        ## prepare the simulated buildings that are not targets
+    # def filter_context(self, VF_criteria):
+    #     """
+    #     1- identify the buildings that are close to the target buildings and that should be simulated
+    #     2- identify the buildings that are close to the simulated context buildings and that should be part of their context
+    #     3- Select the context surfaces
+    #     """
+    #     target_buildings_face_list = []
+    #     all_building_face_list = []
+    #     context_simulated_building_face_list = []
+    #
+    #     ## prepare target building_zon surfaces
+    #     for id in self.target_buildings:
+    #         target_buildings_face_list.append([id, self.building_dict[id].prepare_face_for_context(reverse=False)])
+    #     ## prepare all building_zon surfaces
+    #     for not_used, (id, building_obj) in enumerate(self.building_dict.items()):
+    #         all_building_face_list.append([id, building_obj.prepare_face_for_context(reverse=True)])
+    #
+    #     for target_building_face_list in target_buildings_face_list:
+    #         context_building_face_list_kept = []  # list with the id of the context buildings for this building_zon
+    #         ## first check, just identify the buildings if one surface fits the requirement
+    #         for test_context_building_face_list in all_building_face_list:
+    #             if target_building_face_list[0] != test_context_building_face_list[
+    #                 0]:  # check if the buildings are not the same
+    #                 if is_context_building(target_building_face_list[1], test_context_building_face_list[1],
+    #                                        VF_criteria) == True:
+    #                     context_building_face_list_kept.append(test_context_building_face_list)
+    #                     self.building_dict[target_building_face_list[0]].context_buildings_id.append(
+    #                         test_context_building_face_list[0])
+    #                     # self.building_dict[test_context_building_face_list[0]].is_simulated=True
+    #                 else:
+    #                     None
+    #             else:
+    #                 None
+    #         for test_context_building_face_list in context_building_face_list_kept:
+    #             self.filter_context_surfaces(target_building_face_list[1], test_context_building_face_list[1],
+    #                                          target_id=target_building_face_list[0],
+    #                                          VF_criteria=VF_criteria)
+    #
+    #         ## second check, check every surfaces in the selected context buildings
+    #
+    #     ## prepare the simulated buildings that are not targets
 
 
     def add_context_surfaces_to_HB_model(self):
@@ -328,16 +327,16 @@ def polygon_to_points(polygon):
     return ([exterior_footprint, interior_holes])
 
 
-def is_context_building(target_building_face_list, test_context_building_face_list, VF_criteria):
-    """
-    Check if the  test_context_building is part of the context
-    """
-    for target_face in target_building_face_list:
-        for test_face in test_context_building_face_list:
-            if max_VF(target_face, test_face) >= VF_criteria:
-                return (True)
-    return (False)
-
+# def is_context_building(target_building_face_list, test_context_building_face_list, VF_criteria):
+#     """
+#     Check if the  test_context_building is part of the context
+#     """
+#     for target_face in target_building_face_list:
+#         for test_face in test_context_building_face_list:
+#             if max_VF(target_face, test_face) >= VF_criteria:
+#                 return (True)
+#     return (False)
+#
 
 
 def clean_folder(path):

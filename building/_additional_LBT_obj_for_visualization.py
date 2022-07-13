@@ -1,6 +1,6 @@
 """
 Additional methods for the Building class.
-
+Mainly used to generate HB objects that will be used for plotting purposes
 """
 
 from ladybug_geometry.geometry3d import Polyface3D
@@ -9,7 +9,7 @@ from honeybee.room import Room
 class Mixin:
 
     def LB_face_to_HB_room_envelop(self):
-        """ create a honeybee room with extruded footprints of buildings, mostly for plotting purposes  """
+        """ create a honeybee room with extruded footprints of the building, mostly for plotting purposes  """
         ## NEED TO FIND SOMETHING ELSE? IT 'S ONLY FOR TEST
         # if self.height==None:
         #     self.height=0.

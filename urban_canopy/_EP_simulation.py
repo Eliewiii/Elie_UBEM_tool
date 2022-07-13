@@ -21,6 +21,7 @@ class Mixin:
 
     def add_design_days_to_simulation_parameters(self, path_simulation_parameter, path_file_epw, terrain_type_in="City",
                                                  timestep_in=6):
+        """ Add the design days, necessary for EnergyPlus to simulate, to the simulation parameters """
         # sim_parameter_obj = None
         with open(path_simulation_parameter, 'r') as f:
             json_dic = json.load(f)
@@ -37,19 +38,8 @@ class Mixin:
         with open(path_simulation_parameter, "w") as json_file:
             json.dump(sim_parameter_dic, json_file)
 
-    def load_simulation_parameter(self, path_folder_simulation_parameter, path_simulation_parameter):
-        """
-        convert properly the simulation parameters for HB
-        """
-        self.simulation_parameters_from_json(path_folder_simulation_parameter)
-        HB_simulation_parameter_dic = SimulationParameter.to_dict(self.simulation_parameters)
-        with open(path_simulation_parameter, "w") as json_file:
-            json.dump(HB_simulation_parameter_dic, json_file)
-
     def simulation_parameters_from_json(self, simulation_parameter_folder):
-        """
-
-        """
+        """ Concatenate the individual simulation parameter files to a global one """
         output = None
         run_period = None
         simulation_control = None
@@ -58,7 +48,7 @@ class Mixin:
         # default
         timestep = 6  # By default here, but might be changed
         north_angle = 0
-        terrain_type = 'Urban'  # By default here, but might be changed
+        terrain_type = "City" #'Urban'  # By default here, but might be changed
         # Extract the parameters from json files
         with open(os.path.join(simulation_parameter_folder, "SimulationOutput.json"), 'r') as f:
             json_dict = json.load(f)
@@ -81,6 +71,12 @@ class Mixin:
                                                          shadow_calculation=shadow_calculation,
                                                          sizing_parameter=sizing_parameter,
                                                          north_angle=north_angle, terrain_type=terrain_type)
+    def load_simulation_parameter(self, path_folder_simulation_parameter, path_simulation_parameter):
+        """ convert properly the simulation parameters for HB """
+        self.simulation_parameters_from_json(path_folder_simulation_parameter)
+        HB_simulation_parameter_dic = SimulationParameter.to_dict(self.simulation_parameters)
+        with open(path_simulation_parameter, "w") as json_file:
+            json.dump(HB_simulation_parameter_dic, json_file)
 
     ### Not sure this function in useful
     # def simulation_parameters_for_idf(self, idf):

@@ -5,7 +5,6 @@ Deals generate files (mostly .hbjson files) for visualization in Rhino with Gras
 import os
 import json
 
-
 from honeybee_energy.simulation.output import SimulationOutput
 from honeybee_energy.simulation.sizing import SizingParameter
 from honeybee_energy.simulation.control import SimulationControl
@@ -48,7 +47,7 @@ class Mixin:
         # default
         timestep = 6  # By default here, but might be changed
         north_angle = 0
-        terrain_type = "City" #'Urban'  # By default here, but might be changed
+        terrain_type = "City"  # 'Urban'  # By default here, but might be changed
         # Extract the parameters from json files
         with open(os.path.join(simulation_parameter_folder, "SimulationOutput.json"), 'r') as f:
             json_dict = json.load(f)
@@ -71,6 +70,7 @@ class Mixin:
                                                          shadow_calculation=shadow_calculation,
                                                          sizing_parameter=sizing_parameter,
                                                          north_angle=north_angle, terrain_type=terrain_type)
+
     def load_simulation_parameter(self, path_folder_simulation_parameter, path_simulation_parameter):
         """ convert properly the simulation parameters for HB """
         self.simulation_parameters_from_json(path_folder_simulation_parameter)

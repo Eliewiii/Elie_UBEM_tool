@@ -1,6 +1,6 @@
 """
 Additional methods for the Building class.
-
+Deals with LBT obj attributes of the Building objects
 """
 from ladybug_geometry.geometry3d import Point3D,Face3D
 

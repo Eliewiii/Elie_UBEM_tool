@@ -1,13 +1,15 @@
 """
 Additional methods for the Building class.
-
+Deals with the context selection of the context.
 """
 from ladybug_geometry.geometry3d import Vector3D
+
 
 class Mixin:
 
     def prepare_face_for_context(self, reverse=False):
         """
+        Returns a a list that will be used for the context selection.
         return a list as followed:
         [  [face_obj, area, centroid], [], .... ]
         order from the smallest area to the biggest
@@ -21,4 +23,4 @@ class Mixin:
                 face_list.append([face, face.geometry.area, face.geometry.centroid])
 
         face_list.sort(key=lambda x: x[1], reverse=reverse)  # sort the list according to the 2nd element = the area
-        return (face_list)
+        return face_list

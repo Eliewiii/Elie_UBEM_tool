@@ -118,25 +118,7 @@ class Urban_canopy(_context_filtering.Mixin, _EP_simulation.Mixin, _extract_data
         self.building_dict[building_id].is_simulated = True
 
 
-    def assign_conditioned_zone(self):
-        """
-        Assign an ideal hvac system for every apartment types rooms, turning them into conditioned zones for all buildings.
-        """
-        for id in self.building_to_simulate:
-            self.building_dict[id].HB_assign_conditioned_zone()
 
-    # # # # # # # # # # # # # # # #        Extract Simulation parameters       # # # # # # # # # # # # # # # # # # # # #
-
-    # def simulation_parameters_for_idf(self, idf):
-    #     """
-    #     Extract simulation parameter from an idf file
-    #     """
-    #     idf_string = None  # idf in a single string to crete Simulationparameter object with HB_energy
-    #     with open(idf, "r") as idf_file:
-    #         idf_string = idf_file.read()  # convert idf file in string
-    #     simulation_parameter = parameter.SimulationParameter.from_idf(
-    #         idf_string)  # create the Simulationparameter object
-    #     return (simulation_parameter)
 
 
     # # # # # # # # # # # # # #       Force characteristics on building_zon      # # # # # # # # # # # # # # # # # # # # #
@@ -409,5 +391,3 @@ def run_idf_windows_modified(idf_file_path, epw_file_path=None, expand_objects=T
 # todo: make proper name=name with proper mixin classes
 if __name__ == '__main__':
     a = Urban_canopy("yo")
-    print(a.big_method())
-    print(a.small_method())

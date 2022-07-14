@@ -1,6 +1,6 @@
 """
 Additional methods for the Urban_canopy class.
-Deals with the data extraction
+Deals with the data extraction.
 """
 
 from building.building import Building

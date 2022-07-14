@@ -1,7 +1,11 @@
 """
 Additional methods for the Building class.
-
+Contains the setter for Building object attribute.
+They verify if the attributes are valid, which mean the proper type, acceptable, and consistent
+(with the other attributes) values.
 """
+
+import logging
 
 
 class Mixin:
@@ -29,7 +33,7 @@ class Mixin:
             try:
                 int(age)
             except:
-                print("the format of the age is wrong")
+                logging.warning("Building {}: the format of the age is wrong".format(self.id))
             else:
                 self.__age = float(age)
 
@@ -60,7 +64,7 @@ class Mixin:
             try:
                 float(height)
             except:
-                print("the format of height is wrong")
+                logging.warning("Building {}: the format of the height is wrong".format(self.id))
             else:
                 self.__height = float(height)
 
@@ -77,7 +81,7 @@ class Mixin:
             try:
                 float(num_floor)
             except:
-                print("the format of the number of floor is wrong")
+                logging.warning("Building {}: the format of the number of floor is wrong".format(self.id))
             else:
                 self.__num_floor = int(num_floor)
 
@@ -93,10 +97,10 @@ class Mixin:
             try:
                 float(floor_height)
             except:
-                print("the format of the floor height is wrong")
+                logging.warning("Building {}: the format of the number of floor height is wrong".format(self.id))
                 self.__floor_height = self.height / self.num_floor
             else:
-                if floor_height > 0:
+                if 6 > floor_height > 2.2:
                     self.__floor_height = float(floor_height)
                 else:
                     self.__floor_height = self.height / self.num_floor
@@ -144,16 +148,20 @@ class Mixin:
             try:
                 float(int_mass_ratio)
             except:
-                print("the format of height is wrong")
+                logging.warning("Building {}: the format of the internal mass ratio is wrong".format(self.id))
             else:
-                self.__int_mass_ratio = float(int_mass_ratio)
+                if 0 < self.__int_mass_ratio < 5:
+                    self.__int_mass_ratio = float(int_mass_ratio)
+                else:
+                    logging.warning("Building {}: the value of the internal mass ratio is not good, it was replaced by 1.5".format(self.id))
+                    self.__int_mass_ratio = 1.5
 
-    # @property
-    # def is_simulated(self):
-    #     return self.__is_simulated
-    # @is_simulated.setter
-    # def is_simulated(self, is_simulated):
-    #     if is_simulated==None:
-    #         self.__is_simulated="Building_"+str(self.id)
-    #     else:
-    #         None
+                    # @property
+                # def is_simulated(self):
+                #     return self.__is_simulated
+                # @is_simulated.setter
+                # def is_simulated(self, is_simulated):
+                #     if is_simulated==None:
+                #         self.__is_simulated="Building_"+str(self.id)
+                #     else:
+                #         None

@@ -8,10 +8,11 @@ from math import sqrt, atan, pi, log
 
 class Mixin:
 
-    def filter_context(self, VF_criteria):
+    def filter_context(self, vf_criteria):
         """
         1- identify the buildings that are close to the target buildings and that should be simulated as well
-        2- identify the buildings that are close to the simulated context buildings and that should be part of their context
+        2- identify the buildings that are close to the simulated context buildings and that should be part
+           of their context
         3- Select the context surfaces
         """
 
@@ -30,10 +31,10 @@ class Mixin:
             context_building_face_list_kept = []  # list with the id of the context buildings for this building_zon
             ## first check, just identify the buildings if one surface fits the requirement
             for test_context_building_face_list in all_building_face_list:
-                if target_building_face_list[0] != test_context_building_face_list[
-                    0]:  # check if the buildings are not the same
+                # check if the buildings are not the same
+                if target_building_face_list[0] != test_context_building_face_list[0]:
                     if is_context_building(target_building_face_list[1], test_context_building_face_list[1],
-                                           VF_criteria) == True:
+                                           vf_criteria):
                         context_building_face_list_kept.append(test_context_building_face_list)
                         self.building_dict[target_building_face_list[0]].context_buildings_id.append(
                             test_context_building_face_list[0])
@@ -45,19 +46,19 @@ class Mixin:
             for test_context_building_face_list in context_building_face_list_kept:
                 self.filter_context_surfaces(target_building_face_list[1], test_context_building_face_list[1],
                                              target_id=target_building_face_list[0],
-                                             VF_criteria=VF_criteria)
+                                             vf_criteria=vf_criteria)
 
             ## second check, check every surfaces in the selected context buildings
 
         ## prepare the simulated buildings that are not targets
 
     def filter_context_surfaces(self, target_building_face_list, test_context_building_face_list, target_id,
-                                VF_criteria):
+                                vf_criteria):
         """ Check if the test_context_building is part of the context """
         ## first pass
         for test_face in test_context_building_face_list:
             for target_face in target_building_face_list:
-                if max_VF(target_face, test_face) >= VF_criteria:
+                if max_VF(target_face, test_face) >= vf_criteria:
                     self.building_dict[target_id].context_buildings_HB_faces.append(test_face[0])
                     break
         ## second pass
@@ -80,7 +81,7 @@ def is_context_building(target_building_face_list, test_context_building_face_li
 
 def LB_distance_pt_3D(pt_1, pt_2):
     """ Distance between 2 LB geometry Point3D """
-    return (sqrt((pt_1.x - pt_2.x) ** 2 + (pt_1.y - pt_2.y) ** 2 + (pt_1.z - pt_2.z) ** 2))
+    return sqrt((pt_1.x - pt_2.x) ** 2 + (pt_1.y - pt_2.y) ** 2 + (pt_1.z - pt_2.z) ** 2)
 
 
 def max_VF(target_face, test_face):
@@ -106,4 +107,4 @@ def max_VF(target_face, test_face):
     v = sqrt(y ** 2 + 4)
     s = u * (x * atan(x / u) - y * atan(y / u))
     t = v * (x * atan(x / v) - y * atan(y / v))
-    return (1 / (pi * w_1 ** 2) * (log(p / q) + s - t))
+    return 1 / (pi * w_1 ** 2) * (log(p / q) + s - t)

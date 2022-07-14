@@ -13,10 +13,6 @@ class Mixin:
         for i, id in enumerate(self.building_dict):
             self.building_dict[id].footprint_to_LB_face()
 
-
-
-
-
     # # # # # # # # # # # # # # # #       Dragonfly   # # # # # # # # # # # # # # # # # # # # #
 
     # def create_DF_building(self):
@@ -25,7 +21,7 @@ class Mixin:
     #         self.building_dict[id].LB_face_to_DF_building()
 
     def Apply_floor_layout(self):
-        """ apply the layout of a given typology without adaption to the building_zon specificities, just for the tests """
+        """ apply the layout of a given typology without adaption to the building_zon specificities """
         for id in self.building_to_simulate:
             self.building_dict[id].extract_face_typo()
 
@@ -60,20 +56,13 @@ class Mixin:
             self.building_dict[id].HB_building_window_generation_floor_area_ratio()
 
     def add_thermal_mass_int_wall(self):
-        """
-        Add thermal mass to buildings
-        """
+        """ Add thermal mass to buildings """
         for id in self.building_to_simulate:
             self.building_dict[id].HB_add_thermalmass_int_wall()
 
-
-
-
-
-
-
-
-
-
-
-
+    def assign_conditioned_zone(self):
+        """
+        Assign an ideal hvac system for every apartment types rooms, turning them into conditioned zones for all buildings.
+        """
+        for id in self.building_to_simulate:
+            self.building_dict[id].HB_assign_conditioned_zone()

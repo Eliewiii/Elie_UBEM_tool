@@ -4,13 +4,15 @@ Deals generate files (mostly .hbjson files) for visualization in Rhino with Gras
 """
 import os
 import json
-
+from honeybee_energy.hvac.idealair import IdealAirSystem
 from honeybee_energy.simulation.output import SimulationOutput
 from honeybee_energy.simulation.sizing import SizingParameter
 from honeybee_energy.simulation.control import SimulationControl
 from honeybee_energy.simulation.shadowcalculation import ShadowCalculation
 from honeybee_energy.simulation.runperiod import RunPeriod
 from honeybee_energy.simulation.parameter import SimulationParameter
+from honeybee_energy.altnumber import autosize
+from honeybee.altnumber import no_limit
 
 from honeybee.model import Model
 from ladybug.epw import EPW
@@ -78,6 +80,32 @@ class Mixin:
         with open(path_simulation_parameter, "w") as json_file:
             json.dump(HB_simulation_parameter_dic, json_file)
 
+    def configure_ideal_hvac_system(self,paramater_set="default"):
+        """ """
+        if paramater_set == "default":
+            ideal_air_system_obj = IdealAirSystem("ideal_air_system_UBEM", economizer_type='DifferentialDryBulb',
+                 demand_controlled_ventilation=False,
+                 sensible_heat_recovery=0, latent_heat_recovery=0,
+                 heating_air_temperature=50, cooling_air_temperature=13,
+                 heating_limit=autosize, cooling_limit=autosize,
+                 heating_availability=None, cooling_availability=None)
+        elif paramater_set == "team_design_builder":
+            ideal_air_system_obj = IdealAirSystem("ideal_air_system_UBEM", economizer_type='NoEconomizer',
+                 demand_controlled_ventilation=False,
+                 sensible_heat_recovery=0, latent_heat_recovery=0,
+                 heating_air_temperature=35, cooling_air_temperature=12,
+                 heating_limit=autosize, cooling_limit=autosize,
+                 heating_availability=None, cooling_availability=None)
+        else: # our ideal
+            ideal_air_system_obj = IdealAirSystem("ideal_air_system_UBEM", economizer_type='NoEconomizer',
+                     demand_controlled_ventilation=False,
+                     sensible_heat_recovery=0, latent_heat_recovery=0,
+                     heating_air_temperature=50, cooling_air_temperature=13,
+                     heating_limit=no_limit, cooling_limit=no_limit,
+                     heating_availability=None, cooling_availability=None)
+
+        self.hvac_system = ideal_air_system_obj
+
     ### Not sure this function in useful
     # def simulation_parameters_for_idf(self, idf):
     #     """
@@ -89,3 +117,10 @@ class Mixin:
     #     simulation_parameter = parameter.SimulationParameter.from_idf(
     #         idf_string)  # create the Simulationparameter object
     #     return (simulation_parameter)
+
+
+if __name__ == '__main__':
+    a = Mixin()
+    a.configure_ideal_hvac_system(paramater_set="default")
+    print(a.hvac_system.cooling_air_temperature)
+

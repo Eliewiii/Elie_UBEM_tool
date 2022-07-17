@@ -25,3 +25,9 @@ class Mixin:
         ## Create the Ladybug face for the footprint
         self.LB_face_footprint = Face3D(footprint_point_list, holes=holes_list, enforce_right_hand=True)
         self.LB_face_centroid = self.LB_face_footprint.centroid
+
+    def add_hvac_system(self,LBT_hvac_system_obj):
+        """ Add the HVAC system to the conditionned zone in the building"""
+        for room in self.HB_model.rooms:  # loop on all rooms
+            if room.is_conditioned:  # if not a core, add ideal air Hvac system, making it a conditioned zone
+                room.properties.energy.hvac = LBT_hvac_system_obj

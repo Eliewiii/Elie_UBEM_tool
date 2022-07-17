@@ -46,6 +46,7 @@ class Urban_canopy(_context_filtering.Mixin, _EP_simulation.Mixin, _extract_data
         self.typology_dict = {}
         self.simulation_parameters = None  # Simulation parameters, extracted from json files
         self.simulation_parameters_idf_str = None
+        self.hvac_system = None
 
     def __str__(self):
         """ what you see when you print the urban canopy object """
@@ -117,10 +118,6 @@ class Urban_canopy(_context_filtering.Mixin, _EP_simulation.Mixin, _extract_data
         self.building_to_simulate.append(self.building_dict[building_id])
         self.building_dict[building_id].is_simulated = True
 
-
-
-
-
     # # # # # # # # # # # # # #       Force characteristics on building_zon      # # # # # # # # # # # # # # # # # # # # #
 
     def apply_buildings_characteristics(self):
@@ -157,7 +154,14 @@ class Urban_canopy(_context_filtering.Mixin, _EP_simulation.Mixin, _extract_data
     def generate_HB_model(self):
         self.DF_to_HB()
 
+    def add_hvac_system_to_building(self, paramater_set="default"):
+        """
 
+        Need to be set after conditioning the zones
+        """
+        self.configure_ideal_hvac_system(paramater_set="default")  # set the self.hvac_system
+        for id in self.building_to_simulate:
+            self.building_dict[id].add_hvac_system(self.hvac_system)
 
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # #          Context filter algorithm           # # # # # # # # # # # # # # # # # # # # #
@@ -205,7 +209,6 @@ class Urban_canopy(_context_filtering.Mixin, _EP_simulation.Mixin, _extract_data
     #
     #     ## prepare the simulated buildings that are not targets
 
-
     def add_context_surfaces_to_HB_model(self):
         """
         """
@@ -236,8 +239,6 @@ class Urban_canopy(_context_filtering.Mixin, _EP_simulation.Mixin, _extract_data
     # # # # # # # # # # # # # # # #                Generate IDF                 # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-
-
     def model_to_HBjson(self, path_folder_building_simulation):  # can be done in parallel
         """
 
@@ -250,7 +251,6 @@ class Urban_canopy(_context_filtering.Mixin, _EP_simulation.Mixin, _extract_data
                 room.remove_colinear_vertices_envelope(0.1)
             self.building_dict[building_id].HB_model.to_hbjson("in", os.path.join(path_dir_building, "HBjson_model"))
             # run.measure_compatible_model_json(path_dir_building + "//model_json//in.hbjson")
-
 
     def simulate_idf(self, path_folder_building_simulation, path_simulation_parameter, path_file_epw,
                      path_energyplus_exe):
@@ -280,12 +280,9 @@ class Urban_canopy(_context_filtering.Mixin, _EP_simulation.Mixin, _extract_data
                              ["Building_object", "Context_surfaces_json", "EnergyPlus_simulation", "HBjson_model",
                               "Results"])
 
-
-
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # #                Context                      # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
 
 
 ########################## additional functions for GIS/shp extraction##############
@@ -328,8 +325,6 @@ def clean_folder(path):
     if os.path.exists(path):
         shutil.rmtree(path)
     os.mkdir(path)
-
-
 
 
 def run_idf_windows_modified(idf_file_path, epw_file_path=None, expand_objects=True,

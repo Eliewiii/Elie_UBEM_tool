@@ -4,7 +4,7 @@ import json
 
 from getpass import getuser
 from datetime import datetime
-from _load_inputs import load_input_parameter
+from loads._load_inputs import load_input_parameter
 
 ####  Get user  ####
 elie = 'elie-medioni'

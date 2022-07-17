@@ -113,6 +113,7 @@ U_c.building_dict[0].HB_model_force_rotation(180)
 
 # create windows
 U_c.assign_conditioned_zone()
+U_c.add_hvac_system_to_building(paramater_set="default")
 U_c.HB_building_window_generation_floor_area_ratio()
 
 # add shades

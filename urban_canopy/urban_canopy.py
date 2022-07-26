@@ -154,14 +154,14 @@ class Urban_canopy(_context_filtering.Mixin, _EP_simulation.Mixin, _extract_data
     def generate_HB_model(self):
         self.DF_to_HB()
 
-    def add_hvac_system_to_building(self, paramater_set="default"):
-        """
-
-        Need to be set after conditioning the zones
-        """
-        self.configure_ideal_hvac_system(paramater_set="default")  # set the self.hvac_system
-        for id in self.building_to_simulate:
-            self.building_dict[id].add_hvac_system(self.hvac_system)
+    # def add_hvac_system_to_building(self, paramater_set="default"):
+    #     """
+    #
+    #     Need to be set after conditioning the zones
+    #     """
+    #     self.configure_ideal_hvac_system(paramater_set="default")  # set the self.hvac_system
+    #     for id in self.building_to_simulate:
+    #         self.building_dict[id].add_hvac_system(self.hvac_system)
 
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # #          Context filter algorithm           # # # # # # # # # # # # # # # # # # # # #

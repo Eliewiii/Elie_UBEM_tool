@@ -81,8 +81,7 @@ class Typology:
         If some parameters are not available in the json file and are critical for the simulation, default values will be set
         * path      : path to the json file containing the typology details
         """
-
-
+        logging.warning("loggin path file :"+path)
         with open(path + "//typo_details.json", 'r') as f:
             # load json file
             json_dict = json.load(f)

@@ -25,10 +25,12 @@ from honeybee.model import Model
 from honeybee.face import Face
 from honeybee.shade import Shade
 
-from building import _select_context, _attribute_setter, _shp_files, _LBT_obj_methods, _additional_LBT_obj_for_visualization
+from building import _select_context, _attribute_setter, _shp_files, _LBT_obj_methods, \
+    _additional_LBT_obj_for_visualization
 
 
-class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin, _LBT_obj_methods.Mixin,_additional_LBT_obj_for_visualization.Mixin):
+class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin, _LBT_obj_methods.Mixin,
+               _additional_LBT_obj_for_visualization.Mixin):
     """
     description ............
 
@@ -127,13 +129,9 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
         ## check if the properties given are sufficient to run building_zon simulation
         building_obj.check_property()
 
-
-
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # #                   Ladybug                   # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
-
 
     #
     #
@@ -165,8 +163,6 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
         """
 
         None
-
-
 
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # #              Typology extraction            # # # # # # # # # # # # # # # # # # # # #
@@ -409,6 +405,12 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
                     self.typology.program_type_apartment_id)  # if conditioned => apartment
             else:
                 room.properties.energy.program_type = program_type_by_identifier(self.typology.program_type_core_id)
+
+    def HB_assign_ideal_hvac_system(self, ideal_hvac_system):
+        """ Assign an ideal HVAC_system to the conditioned zones"""
+        for room in self.HB_model.rooms:
+            if room.properties.energy.is_conditioned:
+                room.properties.energy.hvac = ideal_hvac_system
 
     # # # # # # # # # # # # # # # #                     IDF                    # # # # # # # # # # # # # # # # # # # # #
 

@@ -87,7 +87,7 @@ U_c.filter_context(0.1)
 
 # %% Force Typology
 
-U_c.building_dict[0].typology = U_c.typology_dict["BER_proj_R1-W1-G4_s_005"]
+U_c.building_dict[0].typology = U_c.typology_dict["BER_ref_A_east"]
 
 # %% Force Typology
 
@@ -107,13 +107,17 @@ U_c.HB_solve_adjacencies()
 ## Force rotation on building
 # need to guess it and rotate it at the beginning
 
-U_c.building_dict[0].HB_model_force_rotation(180)
+# U_c.building_dict[0].HB_model_force_rotation(180)
 
 # %% DF + HB modeling using GIS data + typology
 
-# create windows
+
 U_c.assign_conditioned_zone()
-U_c.add_hvac_system_to_building(paramater_set="default")
+# add Ideal HVAC system
+U_c.assign_ideal_hvac_system("team_design_builder")
+# U_c.add_hvac_system_to_building(paramater_set="default")
+
+# create windows
 U_c.HB_building_window_generation_floor_area_ratio()
 
 # add shades
@@ -125,6 +129,7 @@ U_c.apply_buildings_characteristics()
 
 # add thermal mass
 U_c.add_thermal_mass_int_wall()
+
 
 # log #
 logging.info("Building modeled")

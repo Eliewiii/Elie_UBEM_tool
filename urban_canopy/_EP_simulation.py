@@ -13,6 +13,7 @@ from honeybee_energy.simulation.runperiod import RunPeriod
 from honeybee_energy.simulation.parameter import SimulationParameter
 from honeybee_energy.altnumber import autosize
 from honeybee.altnumber import no_limit
+from honeybee_energy.lib.schedules import schedule_by_identifier
 
 from honeybee.model import Model
 from ladybug.epw import EPW
@@ -80,29 +81,34 @@ class Mixin:
         with open(path_simulation_parameter, "w") as json_file:
             json.dump(HB_simulation_parameter_dic, json_file)
 
-    def configure_ideal_hvac_system(self,paramater_set="default"):
+    def configure_ideal_hvac_system(self, hvac_paramater_set="default"):
         """ """
-        if paramater_set == "default":
+        schedule_cooling = schedule_by_identifier("Is_5280_CoolingSch_A_B")
+        schedule_heating = schedule_by_identifier("Is_5280_HeatingSch_A_B")
+        if hvac_paramater_set == "default":
             ideal_air_system_obj = IdealAirSystem("ideal_air_system_UBEM", economizer_type='DifferentialDryBulb',
-                 demand_controlled_ventilation=False,
-                 sensible_heat_recovery=0, latent_heat_recovery=0,
-                 heating_air_temperature=50, cooling_air_temperature=13,
-                 heating_limit=autosize, cooling_limit=autosize,
-                 heating_availability=None, cooling_availability=None)
-        elif paramater_set == "team_design_builder":
+                                                  demand_controlled_ventilation=False,
+                                                  sensible_heat_recovery=0, latent_heat_recovery=0,
+                                                  heating_air_temperature=50, cooling_air_temperature=13,
+                                                  heating_limit=autosize, cooling_limit=autosize,
+                                                  heating_availability=schedule_heating,
+                                                  cooling_availability=schedule_cooling)
+        elif hvac_paramater_set == "team_design_builder":
             ideal_air_system_obj = IdealAirSystem("ideal_air_system_UBEM", economizer_type='NoEconomizer',
-                 demand_controlled_ventilation=False,
-                 sensible_heat_recovery=0, latent_heat_recovery=0,
-                 heating_air_temperature=35, cooling_air_temperature=12,
-                 heating_limit=autosize, cooling_limit=autosize,
-                 heating_availability=None, cooling_availability=None)
-        else: # our ideal
+                                                  demand_controlled_ventilation=False,
+                                                  sensible_heat_recovery=0, latent_heat_recovery=0,
+                                                  heating_air_temperature=35, cooling_air_temperature=12,
+                                                  heating_limit=autosize, cooling_limit=autosize,
+                                                  heating_availability=schedule_heating,
+                                                  cooling_availability=schedule_cooling)
+        else:  # our ideal
             ideal_air_system_obj = IdealAirSystem("ideal_air_system_UBEM", economizer_type='NoEconomizer',
-                     demand_controlled_ventilation=False,
-                     sensible_heat_recovery=0, latent_heat_recovery=0,
-                     heating_air_temperature=50, cooling_air_temperature=13,
-                     heating_limit=no_limit, cooling_limit=no_limit,
-                     heating_availability=None, cooling_availability=None)
+                                                  demand_controlled_ventilation=False,
+                                                  sensible_heat_recovery=0, latent_heat_recovery=0,
+                                                  heating_air_temperature=50, cooling_air_temperature=13,
+                                                  heating_limit=no_limit, cooling_limit=no_limit,
+                                                  heating_availability=schedule_heating,
+                                                  cooling_availability=schedule_cooling)
 
         self.hvac_system = ideal_air_system_obj
 
@@ -121,6 +127,5 @@ class Mixin:
 
 if __name__ == '__main__':
     a = Mixin()
-    a.configure_ideal_hvac_system(paramater_set="default")
+    a.configure_ideal_hvac_system(hvac_paramater_set="default")
     print(a.hvac_system.cooling_air_temperature)
-

@@ -41,7 +41,8 @@ class Mixin:
         """
 
         for room in self.HB_model.rooms:  # loop on all rooms
-                room.properties.energy.abolute_infiltration_ach(air_exchange_rate)
+            room.properties.energy.abolute_infiltration_ach(air_exchange_rate)
+            print(room.properties.energy.infiltration)
 
 if __name__ == "__main__":
     None

@@ -115,9 +115,6 @@ U_c.HB_solve_adjacencies()
 U_c.assign_conditioned_zone()
 # add Ideal HVAC system
 U_c.assign_ideal_hvac_system(climate_zone="A",hvac_paramater_set="team_design_builder")
-# Add infiltration in volume per hour
-U_c.add_infiltration_air_exchange(air_exchange_rate=1.)
-# U_c.add_hvac_system_to_building(paramater_set="default")
 
 # create windows
 U_c.HB_building_window_generation_floor_area_ratio()
@@ -126,6 +123,10 @@ U_c.HB_building_window_generation_floor_area_ratio()
 U_c.add_context_surfaces_to_HB_model()
 # assign constructions, loads etc...
 U_c.apply_buildings_characteristics()
+# Add infiltration in volume per hour
+U_c.add_infiltration_air_exchange(air_exchange_rate=1.)
+
+print(U_c.building_dict[0].HB_model.rooms[0].properties.energy.infiltration)
 
 # add blinds
 

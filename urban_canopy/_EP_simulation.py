@@ -4,6 +4,8 @@ Deals generate files (mostly .hbjson files) for visualization in Rhino with Gras
 """
 import os
 import json
+import logging
+
 from honeybee_energy.hvac.idealair import IdealAirSystem
 from honeybee_energy.simulation.output import SimulationOutput
 from honeybee_energy.simulation.sizing import SizingParameter
@@ -81,10 +83,23 @@ class Mixin:
         with open(path_simulation_parameter, "w") as json_file:
             json.dump(HB_simulation_parameter_dic, json_file)
 
-    def configure_ideal_hvac_system(self, hvac_paramater_set="default"):
+    def configure_ideal_hvac_system(self, climate_zone="A", hvac_paramater_set="default"):
         """ """
-        schedule_cooling = schedule_by_identifier("Is_5280_CoolingSch_A_B")
-        schedule_heating = schedule_by_identifier("Is_5280_HeatingSch_A_B")
+        if climate_zone not in ["A", "B", "C", "D"]:
+            logging.warning("The climate zone input to configure the HVAC system cooling and heating period "
+                            "is invalid, it will be set as 'A'.")
+            climate_zone = "A"
+        # Select the heating and cooling schedules
+        if climate_zone == "A" or climate_zone == "B":
+            schedule_cooling = schedule_by_identifier("Is_5280_CoolingSch_A_B")
+            schedule_heating = schedule_by_identifier("Is_5280_HeatingSch_A_B")
+        elif climate_zone == "C":
+            schedule_cooling = schedule_by_identifier("Is_5280_CoolingSch_C")
+            schedule_heating = schedule_by_identifier("Is_5280_HeatingSch_C")
+        else:
+            schedule_cooling = schedule_by_identifier("Is_5280_CoolingSch_D")
+            schedule_heating = schedule_by_identifier("Is_5280_HeatingSch_D")
+        # Generate the ideal hvac_system
         if hvac_paramater_set == "default":
             ideal_air_system_obj = IdealAirSystem("ideal_air_system_UBEM", economizer_type='DifferentialDryBulb',
                                                   demand_controlled_ventilation=False,

@@ -67,10 +67,19 @@ class Mixin:
         for id in self.building_to_simulate:
             self.building_dict[id].HB_assign_conditioned_zone()
 
-    def assign_ideal_hvac_system(self,hvac_paramater_set=None):
+    def assign_ideal_hvac_system(self, climate_zone=None, hvac_paramater_set=None):
         """
         Assign an ideal hvac system for every apartment types rooms, turning them into conditioned zones for all buildings.
         """
-        self.configure_ideal_hvac_system(hvac_paramater_set)
+        self.configure_ideal_hvac_system(climate_zone, hvac_paramater_set)
         for id in self.building_to_simulate:
             self.building_dict[id].HB_assign_ideal_hvac_system(ideal_hvac_system=self.hvac_system)
+
+    def add_infiltration_air_exchange(self, air_exchange_rate):
+        """
+        Add air infiltration exchange with a rate in volume per hour, Always_on schedule by default
+        :param air_exchange_rate: float : air flow exchange rate with the exterior due to infiltration [vol/h]
+        :return:
+        """
+        for id in self.building_to_simulate:
+            self.building_dict[id].add_infiltration_air_exchange(air_exchange_rate)

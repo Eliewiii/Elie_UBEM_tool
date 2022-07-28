@@ -87,7 +87,7 @@ U_c.filter_context(0.1)
 
 # %% Force Typology
 
-U_c.building_dict[0].typology = U_c.typology_dict["BER_ref_A_east"]
+U_c.building_dict[0].typology = U_c.typology_dict["BER_ref_A_west"]
 
 # %% Force Typology
 
@@ -114,7 +114,9 @@ U_c.HB_solve_adjacencies()
 
 U_c.assign_conditioned_zone()
 # add Ideal HVAC system
-U_c.assign_ideal_hvac_system("team_design_builder")
+U_c.assign_ideal_hvac_system(climate_zone="A",hvac_paramater_set="team_design_builder")
+# Add infiltration in volume per hour
+U_c.add_infiltration_air_exchange(air_exchange_rate=1.)
 # U_c.add_hvac_system_to_building(paramater_set="default")
 
 # create windows

@@ -165,3 +165,36 @@ class Mixin:
                 #         self.__is_simulated="Building_"+str(self.id)
                 #     else:
                 #         None
+
+    @property
+    def cop_h(self):
+        return self.__cop_h
+
+    @cop_h.setter
+    def cop_h(self, cop_h):
+        if cop_h == None:
+            self.__cop_h = 3.  # by default 3
+        else:
+            try:
+                float(cop_h)
+            except:
+                logging.warning("Building {}: the format of the COP is wrong".format(self.id))
+            else:
+                self.__cop_h = float(cop_h)
+
+    @property
+    def cop_c(self):
+        return self.__cop_c
+
+    @cop_c.setter
+    def cop_c(self, cop_c):
+        if cop_c == None:
+            self.__cop_c = 3.  # by default 3
+        else:
+            try:
+                float(cop_c)
+            except:
+                logging.warning("Building {}: the format of the COP is wrong".format(self.id))
+            else:
+                self.__cop_c = float(cop_c)
+

@@ -108,7 +108,16 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
         # # EnergyPlus
         self.idf_path = None
         # # Result extraction
+        self.path_csv = None
         self.apartment_dict = {}
+        self.apartment_area = 0.
+        self.energy_consumption={"total_w_cop":0.,"total_BER":0.,"total_BER_no_light":0.}
+        self.cop_h = None
+        self.cop_c = None
+        self.climate_zone = "A"
+        self.rating = None
+        self.grade_value = 0
+
 
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # #                   Class methods             # # # # # # # # # # # # # # # # # # # # #
@@ -262,8 +271,6 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
         self.HB_model.rotate(axis=z_vect, angle=angle, origin=self.LB_face_centroid)
 
     # # # # # # # # # # # # # # # #                  Internal mass                # # # # # # # # # # # # # # # # # # # # #
-
-
 
     # # # # # # # # # # # # # # # #                Create Windows              # # # # # # # # # # # # # # # # # # # # #
     def HB_building_window_generation_floor_area_ratio(self):

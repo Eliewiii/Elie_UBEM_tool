@@ -170,6 +170,14 @@ save_object_pickle(os.path.join(path_folder_simulation,"Urban_canopy","uc_obj.p"
 # %% Generate IDF and simulate the building
 U_c.simulate_idf(path_folder_building_simulation, path_simulation_parameter, path_file_epw, path_energyplus_exe)
 
+# %% Extract and print results
+
+U_c.extract_building_csv_results(path_folder_building_simulation)
+U_c.print_detailed_results_BER(apartment_details=True)
+
+
 # %% test
 
+
+# print(U_c.building_dict[0].HB_model.rooms[0].identifier)
 # print(U_c.building_dict[0].HB_model.rooms[0].properties.energy.infiltration) #test infiltration

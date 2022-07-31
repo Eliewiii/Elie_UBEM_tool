@@ -8,16 +8,22 @@ from os.path import join
 
 def save_object_pickle(file_path, obj):
     """ Save an object in a pickle file (mostly for bebugging urban canopy and building object)"""
-    pickle.dump(obj, open(file_path, "wb"))
+    with open(file_path, "wb") as pickle_file:
+        pickle.dump(obj,pickle_file)
 
 
 def load_object_pickle(file_path):
     """ Save an object in a pickle file (mostly for bebugging urban canopy and building object)"""
-    return pickle.load(open(file_path, "rb"))
+    obj=None
+    with open(file_path, "rb") as pickle_file:
+        obj=pickle.load(pickle_file)
+    return obj
 
 def save_sample_object_pickle(file_path, obj):
     """ Save an object in a pickle file (mostly for bebugging urban canopy and building object)"""
     now = datetime.now()
     dt_string = now.strftime("%Y_%m_%d_")  # get the date
 
-    pickle.dump(obj, open(file_path+"_"+dt_string, "wb"))
+    with open(file_path+"_"+dt_string, "wb") as pickle_file:
+        pickle.dump(obj,pickle_file)
+

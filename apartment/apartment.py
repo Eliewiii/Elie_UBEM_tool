@@ -18,7 +18,7 @@ class Apartment:
         self.building_obj = building_obj
         ##
         self.identifier = identifier
-        self.hb_room_obj=hb_room_obj
+        self.hb_room_obj = hb_room_obj
         self.floor_number = floor_number
         self.apartment_number = apartment_number
         ##
@@ -63,10 +63,16 @@ class Apartment:
     #
     #     self.heating["total"] = sum(self.heating["data"])
 
-    def convert_to_kWh_per_sqrm(self):
+    def get_floor_area(self):
+        """  """
+        self.area = self.hb_room_obj.floor_area
+
+    def convert_to_kWh_per_sqrm_and_sum_consumption(self):
         """
 
         """
+        # get floor area
+        self.get_floor_area()
         # conversion
         self.heating["data"] = [value / self.area / 3600 / 1000 for value in self.heating["data"]]
         self.cooling["data"] = [value / self.area / 3600 / 1000 for value in self.cooling["data"]]
@@ -115,33 +121,6 @@ class Apartment:
         else:
             self.rating = "A+"
             self.grade_value = 5
-
-    # def rate_apartment(self,climate_zone_building):
-    #
-    #     ec_ref = BER_reference_values[climate_zone_building][self.position]  # energy consumption of the reference
-    #     ip = (ec_ref - self.total_BER) / ec_ref * 100  # improvement percentage compare to the reference
-    #
-    #     if ip < 0:
-    #         self.rating = "F"
-    #         self.grade_value = -1
-    #     elif ip < 10:
-    #         self.rating = "E"
-    #         self.grade_value = 0
-    #     elif ip < 20:
-    #         self.rating = "D"
-    #         self.grade_value = 1
-    #     elif ip < 25:
-    #         self.rating = "C"
-    #         self.grade_value = 2
-    #     elif ip < 30:
-    #         self.rating = "B"
-    #         self.grade_value = 3
-    #     elif ip < 35:
-    #         self.rating = "A"
-    #         self.grade_value = 4
-    #     else:
-    #         self.rating = "A+"
-    #         self.grade_value = 5
 
     @staticmethod
     def is_core(apartment_identifier):

@@ -11,15 +11,16 @@ from ladybug.futil import write_to_file
 
 from typology import Typology
 from tools._folder_manipulation import make_sub_folders
+from tools._save_and_load_objects import load_object_pickle
 
 # additional methods for the Urban_canopy class
 
 from urban_canopy import _EP_simulation, _context_filtering, _extract_data, _outputs_for_GH_visualization, \
-    _geometry_and_HB
+    _geometry_and_HB, _extract_result_csv
 
 
 class Urban_canopy(_context_filtering.Mixin, _EP_simulation.Mixin, _extract_data.Mixin, _geometry_and_HB.Mixin,
-                   _outputs_for_GH_visualization.Mixin):
+                   _outputs_for_GH_visualization.Mixin,_extract_result_csv.Mixin):
     """
     Urban canopy recreated from a GIS file.
 
@@ -55,6 +56,8 @@ class Urban_canopy(_context_filtering.Mixin, _EP_simulation.Mixin, _extract_data
     def __repr__(self):
         """ what you see when you type the urban canopy variable in the console """
         return (f"The urban canopy, named {self.name}, is composed of {self.num_of_buildings} buildings")
+
+    # # # # # # # # # # # # # # # # Load Urban_canopy from Pickel_file    # # # # # # # # # # # # # # # # # # # # #
 
     # # # # # # # # # # # # # # # #                Load Typology               # # # # # # # # # # # # # # # # # # # # #
 
@@ -279,6 +282,11 @@ class Urban_canopy(_context_filtering.Mixin, _EP_simulation.Mixin, _extract_data
             make_sub_folders(path_dir_building,
                              ["Building_object", "Context_surfaces_json", "EnergyPlus_simulation", "HBjson_model",
                               "Results"])
+
+
+
+
+
 
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # #                Context                      # # # # # # # # # # # # # # # # # # # # #

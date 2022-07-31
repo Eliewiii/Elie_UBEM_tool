@@ -26,11 +26,11 @@ from honeybee.face import Face
 from honeybee.shade import Shade
 
 from building import _select_context, _attribute_setter, _shp_files, _LBT_obj_methods, \
-    _additional_LBT_obj_for_visualization
+    _additional_LBT_obj_for_visualization, _extract_result_csv
 
 
 class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin, _LBT_obj_methods.Mixin,
-               _additional_LBT_obj_for_visualization.Mixin):
+               _additional_LBT_obj_for_visualization.Mixin, _extract_result_csv.Mixin):
     """
     description ............
 
@@ -107,6 +107,8 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
         self.use = None  # use of the building_zon, given by the GIS por the typology: ["residential", "residential with 1st floor commercial", "office"]
         # # EnergyPlus
         self.idf_path = None
+        # # Result extraction
+        self.apartment_dict = {}
 
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # #                   Class methods             # # # # # # # # # # # # # # # # # # # # #
@@ -249,22 +251,6 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # #               Honeybee modeling             # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-    def HB_solve_adjacencies(self):
-        """
-        Solve the adjacency ...
-        Correct the boundary conditions, here especially for the floor/ceiling and the ground floor and roof.
-        In addition to the one from Dragonfly, but
-        """
-
-        Room.solve_adjacency(self.HB_model.rooms)
-        # correct the adiabatic surfaces on the ground and on roof (need to check why it happens)
-        for room in self.HB_model.rooms:  # loop on rooms (could be just do the ground floor and last floor but whatever)
-            for face in room.faces:  # loop on the faces
-                if isinstance(face.boundary_condition, honeybee.boundarycondition.Adiabatic):
-                    if room.average_floor_height == 0:  # if can be ground => it's ground floor
-                        face.boundary_condition = honeybee.boundarycondition.boundary_conditions.ground
-                    else:  # if it's not ground and it's adiabatic it's roof a priori, but need to investigate deeper.
-                        face.boundary_condition = honeybee.boundarycondition.boundary_conditions.outdoors
 
     # # # # # # # # # # # # # # # #                  force rotation                 # # # # # # # # # # # # # # # # # # # # #
 
@@ -277,22 +263,7 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
 
     # # # # # # # # # # # # # # # #                  Internal mass                # # # # # # # # # # # # # # # # # # # # #
 
-    def HB_add_thermalmass_int_wall(self):
-        """
-        Add the internal mass due the non-load-bearing internal walls
-        Israeli Standards suggests 1.5m2 of intwall per floor m2 for a 3m height floor
-        Can be generalize to 0.5m2*height
-        The intwall is only half an int wall here, the surface counts both sides of the walls
-        The default value for self.int_wall_ratio is 1.5
-        """
-        for room in self.HB_model.rooms:
-            if room.properties.energy.is_conditioned:
-                int_mass_area = room.floor_area * self.int_mass_ratio
-                construction_internal_wall = opaque_construction_by_identifier(
-                    self.typology.construction_int_wall_int_mass)
-                mass = InternalMass(identifier="int_mass" + room.identifier, construction=construction_internal_wall,
-                                    area=int_mass_area)
-                room.properties.energy.add_internal_mass(mass)
+
 
     # # # # # # # # # # # # # # # #                Create Windows              # # # # # # # # # # # # # # # # # # # # #
     def HB_building_window_generation_floor_area_ratio(self):

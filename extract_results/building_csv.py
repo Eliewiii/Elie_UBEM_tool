@@ -5,8 +5,7 @@ from honeybee.model import Model
 
 class Building:
     """
-
-    """
+ """
 
     def __init__(self, building_number_arg, simulation_name_arg, path_csv_arg, path_hbjson_arg, results_obj_arg):
         """Initialize a building"""
@@ -30,6 +29,7 @@ class Building:
         self.total_w_cop = 0
 
         ## BER
+        self.total_BER_no_light = 0
         self.total_BER = 0
         self.climate_zone = "A"
         self.apartment_area = 0
@@ -152,3 +152,4 @@ class Building:
             if apartment_obj.is_core == False:
                 self.total_w_cop += apartment_obj.total_w_cop * apartment_obj.area / self.apartment_area
                 self.total_BER += apartment_obj.total_BER * apartment_obj.area / self.apartment_area
+                self.total_BER_no_light += apartment_obj.total_BER_no_light * apartment_obj.area / self.apartment_area

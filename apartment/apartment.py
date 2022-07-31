@@ -1,20 +1,24 @@
-BER_reference_values = {"A": {"top": 50.40, "middle": 40.08, "bottom": 34.35},
+"""
+Apartment class, representing a thermal zone.
+Only used (for now) for building energy rating and result extraction
+"""
+
+BER_reference_values = {"A": {"top": 40.6, "middle": 38.58, "bottom": 28.558},
                         "B": {"top": 46.54, "middle": 38.87, "bottom": 30.66},
                         "C": {"top": 46.54, "middle": 38.87, "bottom": 30.66},  # to update in the future
                         "D": {"top": 46.54, "middle": 38.87, "bottom": 30.66}}  # to update in the future
 
-BER_ip_threshold_values = {"A": {"A": 46.54, "middle": 38.87, "bottom": 30.66},
-                           "B": {"top": 46.54, "middle": 38.87, "bottom": 30.66},
-                           "C": {"top": 46.54, "middle": 38.87, "bottom": 30.66},  # to update in the future
-                           "D": {"top": 46.54, "middle": 38.87, "bottom": 30.66}}  # to update in the future
+apartment_types = ["ground", "over_open_space", "over_unheated", "under_unheated", "between_unheated", "unheated",
+                   "middle", "top"]
 
 
 class Apartment:
 
-    def __init__(self, identifier, floor_number, apartment_number, building_obj):
+    def __init__(self, identifier, hb_room_obj, floor_number, apartment_number, building_obj):
         self.building_obj = building_obj
         ##
         self.identifier = identifier
+        self.hb_room_obj=hb_room_obj
         self.floor_number = floor_number
         self.apartment_number = apartment_number
         ##
@@ -25,7 +29,6 @@ class Apartment:
         ##
         self.total = None
         self.total_w_cop = None
-        self.total_BER = None
         ## BER
         self.total_BER_no_light = None
         self.total_BER = None
@@ -35,6 +38,17 @@ class Apartment:
         self.grade_value = None
         ##
         self.area = None
+
+    @classmethod
+    def apartment_from_hb_room(cls, hb_room_obj, building_obj):
+        """
+        """
+        identifier = hb_room_obj.identifier
+        floor_number = int(identifier.split("_")[0][3:])
+        apartment_number = int(identifier.split("_")[2])
+        return (Apartment(identifier=identifier, hb_room_obj=hb_room_obj, floor_number=floor_number,
+                          apartment_number=apartment_number,
+                          building_obj=building_obj))
 
     @classmethod
     def apartment_from_id(cls, identifier, building_obj):

@@ -22,8 +22,8 @@ class Results:
 
             building_list = os.listdir(path_folder_buildings)
             for building in building_list:
-                path_csv_results_file = os.path.join(path_folder_buildings, building, "osw", "run", "eplusout.csv")
-                path_model_hbjson = os.path.join(path_folder_buildings, building, "model_json", "in.hbjson")
+                path_csv_results_file = os.path.join(path_folder_buildings, building, "EnergyPlus_simulation", "run", "eplusout.csv")
+                path_model_hbjson = os.path.join(path_folder_buildings, building, "HBjson_model", "in.hbjson")
                 Building.create_building_object_and_extract_csv(results_obj=self, building_name=building,
                                                                 simulation_name=simulation,
                                                                 path_csv=path_csv_results_file,
@@ -77,16 +77,15 @@ class Results:
 
         for building in self.dict_building:
             building_obj = self.dict_building[building]
-            print( "{} : rating={}, tot_cop={}kWh/m2,tot_ber={}kWh/m2 ".format(building_obj.identifier,building_obj.rating,str(building_obj.total_w_cop)[:5],str(building_obj.total_BER)[:5]))
+            print( "{} : rating={}, tot_cop={}kWh/m2,tot_ber={}kWh/m2 ".format(building_obj.identifier,building_obj.rating,str(building_obj.total_w_cop)[:5],str(building_obj.total_BER_no_light)[:5]))
             if apartment_details :
                 for apartment in building_obj.dict_apartment:
                     apartment_obj = building_obj.dict_apartment[apartment]
                     if apartment_obj.is_core == False:
-                        print("\t {} : h_cop={}, c_cop={}, l={}, tot_ber={} kWh/m2, rating={} kWh/m2".format(
+                        print("\t {} : h_cop={}, c_cop={}, tot_ber_no_light={} kWh/m2, rating={} kWh/m2".format(
                             apartment_obj.identifier,
-                            str(apartment_obj.heating["total_cop"])[:3],
-                            str(apartment_obj.cooling["total_cop"])[:3],
-                            str(apartment_obj.lighting["total"])[:3],
-                            str(apartment_obj.total_BER)[:6],
+                            str(apartment_obj.heating["total_cop"])[:5],
+                            str(apartment_obj.cooling["total_cop"])[:5],
+                            str(apartment_obj.total_BER_no_light)[:6],
                             str(apartment_obj.rating)))
 

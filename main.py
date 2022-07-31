@@ -126,7 +126,7 @@ U_c.apply_buildings_characteristics()
 # Add infiltration in volume per hour
 U_c.add_infiltration_air_exchange(air_exchange_rate=1.)
 
-print(U_c.building_dict[0].HB_model.rooms[0].properties.energy.infiltration)
+
 
 # add blinds
 
@@ -171,3 +171,5 @@ save_object_pickle(os.path.join(path_folder_simulation,"Urban_canopy","uc_obj.p"
 U_c.simulate_idf(path_folder_building_simulation, path_simulation_parameter, path_file_epw, path_energyplus_exe)
 
 # %% test
+
+# print(U_c.building_dict[0].HB_model.rooms[0].properties.energy.infiltration) #test infiltration

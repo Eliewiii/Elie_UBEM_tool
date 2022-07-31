@@ -1,5 +1,8 @@
-import os
+"""
+Generate the paths necessary to collect the data and write the output
+"""
 
+import os
 import json
 
 from getpass import getuser

@@ -2,6 +2,7 @@
 Functions to generate modified EPW files (for EnergyPlus) considering the microclimate
 """
 import dragonfly.building
+
 import honeybee
 
 
@@ -11,6 +12,7 @@ def hb_models_to_df_buildings(hb_model_list):
     for hb_model in hb_model_list:
         building_list.append(dragonfly.building.Building.from_honeybee(hb_model))
     return building_list
+
 
 
 
@@ -25,3 +27,6 @@ if __name__=="__main__" :
     df_building=df_building_list[0]
 
     print(df_building.properties.uwg.program)
+    print(df_building.properties.energy.construction_set)
+    print(df_building.unique_room_2ds[0].window_parameters)
+    print(hb_model.rooms[0].properties.energy.construction_set)

@@ -26,11 +26,11 @@ from honeybee.face import Face
 from honeybee.shade import Shade
 
 from building import _select_context, _attribute_setter, _shp_files, _LBT_obj_methods, \
-    _additional_LBT_obj_for_visualization, _extract_result_csv
+    _additional_LBT_obj_for_visualization, _extract_result_csv, _uwg
 
 
 class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin, _LBT_obj_methods.Mixin,
-               _additional_LBT_obj_for_visualization.Mixin, _extract_result_csv.Mixin):
+               _additional_LBT_obj_for_visualization.Mixin, _extract_result_csv.Mixin, _uwg.Mixin):
     """
     description ............
 
@@ -111,13 +111,21 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
         self.path_csv = None
         self.apartment_dict = {}
         self.apartment_area = 0.
-        self.energy_consumption={"total_w_cop":0.,"total_BER":0.,"total_BER_no_light":0.}
+        self.energy_consumption = {"total_w_cop": 0., "total_BER": 0., "total_BER_no_light": 0.}
         self.cop_h = None
         self.cop_c = None
         self.climate_zone = "A"
         self.rating = None
         self.grade_value = 0
-
+        # # df building for UWG   # to extract either form the typology or the construction sets
+        self.df_model = None
+        self.uwg_program = "MidriseApartment"
+        self.vintage = "New"
+        self.fract_heat_to_canyon = 0.5
+        self.shgc = 0.7
+        self.wall_albedo = 0.2  # ?
+        self.roof_albedo = 0.7
+        self.roof_veg_fraction = 0
 
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # #                   Class methods             # # # # # # # # # # # # # # # # # # # # #

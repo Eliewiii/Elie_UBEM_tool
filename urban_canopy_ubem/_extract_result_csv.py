@@ -3,7 +3,7 @@ Additional methods for the Urban_canopy class.
 Deals with the result extraction, here csv files
 """
 from os.path import join
-from building.building import Building
+from building_ubem.building import Building
 
 
 class Mixin:

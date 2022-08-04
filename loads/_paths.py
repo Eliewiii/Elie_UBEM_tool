@@ -9,6 +9,7 @@ from getpass import getuser
 from datetime import datetime
 from loads._load_inputs import load_input_parameter
 
+
 ####  Get user  ####
 elie = 'elie-medioni'
 # path_folder_elie="D://Elie//PhD//Simulation"

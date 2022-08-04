@@ -15,12 +15,12 @@ from tools._save_and_load_objects import load_object_pickle
 
 # additional methods for the Urban_canopy class
 
-from urban_canopy import _EP_simulation, _context_filtering, _extract_data, _outputs_for_GH_visualization, \
-    _geometry_and_HB, _extract_result_csv
+from urban_canopy_ubem import _EP_simulation, _context_filtering, _extract_data, _outputs_for_GH_visualization, \
+    _geometry_and_HB, _extract_result_csv, _uwg, _generate_sample
 
 
 class Urban_canopy(_context_filtering.Mixin, _EP_simulation.Mixin, _extract_data.Mixin, _geometry_and_HB.Mixin,
-                   _outputs_for_GH_visualization.Mixin,_extract_result_csv.Mixin):
+                   _outputs_for_GH_visualization.Mixin, _extract_result_csv.Mixin, _uwg.Mixin, _generate_sample.Mixin):
     """
     Urban canopy recreated from a GIS file.
 
@@ -48,6 +48,10 @@ class Urban_canopy(_context_filtering.Mixin, _EP_simulation.Mixin, _extract_data
         self.simulation_parameters = None  # Simulation parameters, extracted from json files
         self.simulation_parameters_idf_str = None
         self.hvac_system = None
+
+        ## UWG
+        self.df_model_uwg = None
+        self.parameters_uwg = None
 
     def __str__(self):
         """ what you see when you print the urban canopy object """
@@ -266,7 +270,7 @@ class Urban_canopy(_context_filtering.Mixin, _EP_simulation.Mixin, _extract_data
             model_json_path = os.path.join(path_dir_building, "HBjson_model", "in.hbjson")
             ## Prepare simulation for OpenStudio ##
             osw = run.to_openstudio_osw(osw_directory=os.path.join(path_dir_building, "EnergyPlus_simulation"),
-                                        model_json_path=model_json_path,
+                                        model_path=model_json_path,
                                         sim_par_json_path=path_simulation_parameter,
                                         epw_file=path_file_epw)
             ## Run simulation in OpenStudio to generate IDF ##
@@ -282,11 +286,6 @@ class Urban_canopy(_context_filtering.Mixin, _EP_simulation.Mixin, _extract_data
             make_sub_folders(path_dir_building,
                              ["Building_object", "Context_surfaces_json", "EnergyPlus_simulation", "HBjson_model",
                               "Results"])
-
-
-
-
-
 
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # #                Context                      # # # # # # # # # # # # # # # # # # # # #
@@ -392,5 +391,15 @@ def run_idf_windows_modified(idf_file_path, epw_file_path=None, expand_objects=T
 
 
 # todo: make proper name=name with proper mixin classes
-if __name__ == '__main__':
-    a = Urban_canopy("yo")
+# if __name__ == '__main__':
+#     a = Urban_canopy("yo")
+#     print("zob")
+
+
+if __name__ == "__main__":
+    path_folder_typology = "D:\\Elie\\PhD\\Simulation\\Input_Data\\Typology\\Typologies"
+
+    u_c_obj = Urban_canopy.generate_sample_buildings(path_folder_typology,nb_buildings=4)
+
+    u_c_obj.generate_local_epw_with_uwg(path_epw="D:\Elie\PhD\Simulation\Input_Data\EPW\IS_5280_A_Haifa.epw",
+                                        path_folder_epw_uwg="D:\Elie\PhD\\test")

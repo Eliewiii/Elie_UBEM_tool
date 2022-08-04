@@ -37,6 +37,25 @@ class Mixin:
             else:
                 self.__age = float(age)
 
+    @property
+    def shp_id(self):
+        return self.__shp_id
+
+    @shp_id.setter
+    def shp_id(self, shp_id):
+        if shp_id == None:
+            self.__shp_id = self.id
+        else:
+            try:
+                int(shp_id)
+            except:
+                logging.warning("Building {}: the format of the building_id_shp is wrong".format(self.id))
+            else:
+                self.__shp_id=shp_id
+
+
+
+
     # @property
     # def use(self):
     #     return self.__use

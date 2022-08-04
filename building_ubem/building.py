@@ -25,12 +25,13 @@ from honeybee.model import Model
 from honeybee.face import Face
 from honeybee.shade import Shade
 
-from building import _select_context, _attribute_setter, _shp_files, _LBT_obj_methods, \
-    _additional_LBT_obj_for_visualization, _extract_result_csv, _uwg
+from building_ubem import _select_context, _attribute_setter, _shp_files, _LBT_obj_methods, \
+    _additional_LBT_obj_for_visualization, _extract_result_csv, _uwg, _generate_sample
 
 
 class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin, _LBT_obj_methods.Mixin,
-               _additional_LBT_obj_for_visualization.Mixin, _extract_result_csv.Mixin, _uwg.Mixin):
+               _additional_LBT_obj_for_visualization.Mixin, _extract_result_csv.Mixin, _uwg.Mixin,
+               _generate_sample.Mixin):
     """
     description ............
 
@@ -118,7 +119,8 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
         self.rating = None
         self.grade_value = 0
         # # df building for UWG   # to extract either form the typology or the construction sets
-        self.df_model = None
+        self.df_building_uwg = None
+        self.df_model_uwg = None
         self.uwg_program = "MidriseApartment"
         self.vintage = "New"
         self.fract_heat_to_canyon = 0.5
@@ -496,3 +498,4 @@ def surface_txt_to_LB_surfaces(path_file):
         LB_surfaces = None
 
     return (LB_surfaces)
+

@@ -140,7 +140,7 @@ class Mixin:
     #     return (simulation_parameter)
 
 
-if __name__ == '__main__':
-    a = Mixin()
-    a.configure_ideal_hvac_system(hvac_paramater_set="default")
-    print(a.hvac_system.cooling_air_temperature)
+# if __name__ == '__main__':
+#     a = Mixin()
+#     a.configure_ideal_hvac_system(hvac_paramater_set="default")
+#     print(a.hvac_system.cooling_air_temperature)

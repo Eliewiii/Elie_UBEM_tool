@@ -43,7 +43,7 @@ logging.info("Library imported")
 
 # %% Load libraries
 
-from urban_canopy.urban_canopy import Urban_canopy
+from urban_canopy_ubem.urban_canopy import Urban_canopy
 
 # %% Initialize Urban Canopy object and load typologies
 
@@ -163,12 +163,16 @@ U_c.add_design_days_to_simulation_parameters(path_simulation_parameter, path_fil
 U_c.model_to_HBjson(path_folder_building_simulation)
 
 # %% Save urban_canopy object in a pickle file
-save_object_pickle(os.path.join(path_folder_simulation,"Urban_canopy","uc_obj.p"), U_c)
+save_object_pickle(os.path.join(path_folder_simulation, "Urban_canopy", "uc_obj.p"), U_c)
 
+U_c.generate_local_epw_with_uwg(path_epw="D:\Elie\PhD\Simulation\Input_Data\EPW\IS_5280_A_Haifa.epw",
+                                    path_folder_epw_uwg="D:\Elie\PhD\\test")
 
 
 # %% Generate IDF and simulate the building
 U_c.simulate_idf(path_folder_building_simulation, path_simulation_parameter, path_file_epw, path_energyplus_exe)
+# U_c.simulate_idf(path_folder_building_simulation, path_simulation_parameter, "D:\Elie\PhD\\test\\random_neighborhood_uwg.epw", path_energyplus_exe)
+
 
 # %% Extract and print results
 

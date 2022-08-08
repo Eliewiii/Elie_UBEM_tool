@@ -87,7 +87,7 @@ U_c.filter_context(0.1)
 
 # %% Force Typology
 
-U_c.building_dict[0].typology = U_c.typology_dict["BER_ref_A_west"]
+U_c.building_dict[45].typology = U_c.typology_dict["train_40x4_Z_A"]
 
 # %% Force Typology
 
@@ -107,7 +107,7 @@ U_c.HB_solve_adjacencies()
 ## Force rotation on building
 # need to guess it and rotate it at the beginning
 
-# U_c.building_dict[0].HB_model_force_rotation(180)
+# U_c.building_dict[45].HB_model_force_rotation(80)  ################  TO MODIFY
 
 # %% DF + HB modeling using GIS data + typology
 
@@ -118,6 +118,9 @@ U_c.assign_ideal_hvac_system(climate_zone="A",hvac_paramater_set="team_design_bu
 
 # create windows
 U_c.HB_building_window_generation_floor_area_ratio()
+
+U_c.building_dict[45].HB_model_force_rotation(80)  ################  TO MODIFY
+
 
 # add shades
 U_c.add_context_surfaces_to_HB_model()
@@ -165,8 +168,8 @@ U_c.model_to_HBjson(path_folder_building_simulation)
 # %% Save urban_canopy object in a pickle file
 save_object_pickle(os.path.join(path_folder_simulation, "Urban_canopy", "uc_obj.p"), U_c)
 
-U_c.generate_local_epw_with_uwg(path_epw="D:\Elie\PhD\Simulation\Input_Data\EPW\IS_5280_A_Haifa.epw",
-                                    path_folder_epw_uwg="D:\Elie\PhD\\test")
+# U_c.generate_local_epw_with_uwg(path_epw="D:\Elie\PhD\Simulation\Input_Data\EPW\IS_5280_A_Haifa.epw",
+#                                     path_folder_epw_uwg="D:\Elie\PhD\\test")
 
 
 # %% Generate IDF and simulate the building

@@ -51,10 +51,7 @@ class Mixin:
             except:
                 logging.warning("Building {}: the format of the building_id_shp is wrong".format(self.id))
             else:
-                self.__shp_id=shp_id
-
-
-
+                self.__shp_id = shp_id
 
     # @property
     # def use(self):
@@ -71,58 +68,56 @@ class Mixin:
     #         else:
     #             self.__use = float(use)
 
-    @property
-    def height(self):
-        return self.__height
+    # @property
+    # def height(self):
+    #     return self.__height
+    #
+    # @height.setter
+    # def height(self, height):
+    #     try:
+    #         float(height)
+    #     except:
+    #         logging.warning("Building {}: the format of the height is wrong".format(self.id))
+    #     else:
+    #
+    #         self.__height = float(height)
 
-    @height.setter
-    def height(self, height):
-        if height == None:
-            self.__height = 9.0  # by default 3 floors of 3 meters
-        else:
-            try:
-                float(height)
-            except:
-                logging.warning("Building {}: the format of the height is wrong".format(self.id))
-            else:
-                self.__height = float(height)
+    # @property
+    # def num_floor(self):
+    #     return self.__num_floor
+    #
+    # @num_floor.setter
+    # def num_floor(self, num_floor):
+    #     if num_floor == None:
+    #         self.__num_floor = 3  # by default 3 floors
+    #     else:
+    #         None
+    #         try:
+    #             float(num_floor)
+    #         except:
+    #             logging.warning("Building {}: the format of the number of floor is wrong".format(self.id))
+    #         else:
+    #             self.__num_floor = int(num_floor)
 
-    @property
-    def num_floor(self):
-        return self.__num_floor
-
-    @num_floor.setter
-    def num_floor(self, num_floor):
-        if num_floor == None:
-            self.__num_floor = self.height // 3.  # by default 3 meters
-        else:
-            None
-            try:
-                float(num_floor)
-            except:
-                logging.warning("Building {}: the format of the number of floor is wrong".format(self.id))
-            else:
-                self.__num_floor = int(num_floor)
-
-    @property
-    def floor_height(self):
-        return self.__floor_height
-
-    @floor_height.setter
-    def floor_height(self, floor_height):
-        if floor_height == None:
-            self.__floor_height = self.height / self.num_floor
-        else:
-            try:
-                float(floor_height)
-            except:
-                logging.warning("Building {}: the format of the number of floor height is wrong".format(self.id))
-                self.__floor_height = self.height / self.num_floor
-            else:
-                if 6 > floor_height > 2.2:
-                    self.__floor_height = float(floor_height)
-                else:
-                    self.__floor_height = self.height / self.num_floor
+    # @property
+    # def floor_height(self):
+    #     return self.__floor_height
+    #
+    # @floor_height.setter
+    # def floor_height(self, floor_height):
+    #     if floor_height == None:
+    #         self.__floor_height = self.height / self.num_floor
+    #     else:
+    #         try:
+    #             float(floor_height)
+    #         except:
+    #             logging.warning("Building {}: the format of the number of floor height is wrong".format(self.id))
+    #             self.__floor_height = self.height / self.num_floor
+    #         else:
+    #             if 6 > floor_height > 2.2:
+    #                 self.__floor_height = float(floor_height)
+    #             else:
+    #                 self.__floor_height = self.height / self.num_floor
 
     @property
     def is_target(self):
@@ -172,7 +167,9 @@ class Mixin:
                 if 0 < self.__int_mass_ratio < 5:
                     self.__int_mass_ratio = float(int_mass_ratio)
                 else:
-                    logging.warning("Building {}: the value of the internal mass ratio is not good, it was replaced by 1.5".format(self.id))
+                    logging.warning(
+                        "Building {}: the value of the internal mass ratio is not good, it was replaced by 1.5".format(
+                            self.id))
                     self.__int_mass_ratio = 1.5
 
                     # @property
@@ -216,4 +213,3 @@ class Mixin:
                 logging.warning("Building {}: the format of the COP is wrong".format(self.id))
             else:
                 self.__cop_c = float(cop_c)
-

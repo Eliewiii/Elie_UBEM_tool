@@ -10,7 +10,8 @@ class Mixin:
 
     def set_building_path_csv_result_file(self, path_folder_building_simulation):
         """  """
-        for building_obj in self.building_dict.values():
+        for building_id in self.building_to_simulate:
+            building_obj = self.building_dict[building_id]
             path_to_csv = join(path_folder_building_simulation, building_obj.name, "EnergyPlus_simulation", "run",
                                "eplusout.csv")
             building_obj.set_path_csv_result_file(path_csv=path_to_csv)
@@ -21,12 +22,14 @@ class Mixin:
         # Set the path to the csv file of each building
         self.set_building_path_csv_result_file(path_folder_building_simulation)
 
-        for building_obj in self.building_dict.values():
+        for building_id in self.building_to_simulate:
+            building_obj = self.building_dict[building_id]
             building_obj.extract_results_csv()
 
     def print_total_results(self):
 
-        for building_obj in self.building_dict.values():
+        for building_id in self.building_to_simulate:
+            building_obj = self.building_dict[building_id]
             print(building_obj.identifier + ":")
             for apartment in building_obj.dict_apartment:
                 apartment_obj = building_obj.dict_apartment[apartment]
@@ -34,7 +37,8 @@ class Mixin:
 
     def print_detailed_results(self):
 
-        for building_obj in self.building_dict.values():
+        for building_id in self.building_to_simulate:
+            building_obj = self.building_dict[building_id]
             print(building_obj.identifier + ":")
             for apartment in building_obj.dict_apartment:
                 apartment_obj = building_obj.dict_apartment[apartment]
@@ -57,7 +61,8 @@ class Mixin:
 
     def print_detailed_results_with_COP(self):
 
-        for building_obj in self.building_dict.values():
+        for building_id in self.building_to_simulate:
+            building_obj = self.building_dict[building_id]
             print(building_obj.identifier + ":")
             for apartment in building_obj.dict_apartment:
                 apartment_obj = building_obj.dict_apartment[apartment]
@@ -72,7 +77,8 @@ class Mixin:
 
     def print_detailed_results_BER(self, apartment_details=False):
 
-        for building_obj in self.building_dict.values():
+        for building_id in self.building_to_simulate:
+            building_obj = self.building_dict[building_id]
             print("{} : rating={}, tot_cop={}kWh/m2,tot_ber={}kWh/m2 ".format(building_obj.name,
                                                                               building_obj.rating,
                                                                               round(building_obj.energy_consumption[

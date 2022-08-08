@@ -141,22 +141,21 @@ class Mixin:
         for property_name in height_possibilities:
             try:
                 shp_file[property_name]
+                float(shp_file[property_name][building_id_shp])
             except:
                 None
             else:
-                self.height = shp_file[property_name][building_id_shp]
-                self.floor_height = None
+                self.height = float(shp_file[property_name][building_id_shp])
                 break
         ## number of floor ##
         for property_name in number_floor_possibilities:
             try:
                 shp_file[property_name]
+                int(shp_file[property_name][building_id_shp])
             except:
-                self.num_floor = None
-                self.floor_height = None  # not optimized, find a way  to put it outside
+                None
             else:
-                self.num_floor = shp_file[property_name][building_id_shp]
-                self.floor_height = None
+                self.num_floor = int(shp_file[property_name][building_id_shp])
                 break
 
         ## typology ##
@@ -173,8 +172,29 @@ class Mixin:
 
     def check_property(self):
         """ check if there is enough information about the building_zon to create a model"""
+        if self.height == None and self.num_floor == None:
+            self.height = 9.
+            self.num_floor = 3
+            self.floor_height = 3.
+        elif self.height == None and type(self.num_floor) == int:  # assume 3m floor height
+            self.height = 3. * self.num_floor
+            self.floor_height = 3.
+        elif self.num_floor == None and (type(self.height) == int or type(self.height) == float):
+            # assume approximately 3m floor height
+            self.num_floor = self.height // 3.
+            self.floor_height = self.height / 3.
+        elif (type(self.height) == int or type(self.height) == float) and type(
+                self.num_floor) == int:  # both height and number of floor
+            if 4. <= self.height / float(self.num_floor) <= 2.5:  # then ok
+                self.floor_height = self.height / float(self.num_floor)
+            else:  # prioritize the number of floor
+                self.height = 3. * self.num_floor
+                self.floor_height = 3.
+        else:  # not the proper format
+            self.height = 9.
+            self.num_floor = 3
+            self.floor_height = 3.
 
-        None
 
         # Todo : building_zon.check_property
         # have to define the criteria later

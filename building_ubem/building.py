@@ -76,17 +76,15 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
         self.group = group
         self.age = age
         self.typology = typo
-        self.height = height
-        self.num_floor = num_floor
+        self.num_floor = None
+        self.height = None
         self.elevation = elevation
         self.dimension = dimension
         self.shp_id = building_id_shp  # id in the shp file, can be useful to see which is the building_zon if a problem is spotted
         self.floor_height = None
         self.int_mass_ratio = None
-
         self.is_target = False
         self.is_simulated = False
-
         # # Ladybug #
         self.LB_face_footprint = None  # EVENTUALLY ANOTHER VERSION FOR THE FIRST FLOOR IF DIFFERENT
         self.LB_face_centroid = None
@@ -149,6 +147,7 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
         building_obj.affect_properties_shp(shape_file, building_id_shp)
         ## check if the properties given are sufficient to run building_zon simulation
         building_obj.check_property()
+        # print(building_obj.num_floor)
 
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # #                   Ladybug                   # # # # # # # # # # # # # # # # # # # # #
@@ -498,4 +497,3 @@ def surface_txt_to_LB_surfaces(path_file):
         LB_surfaces = None
 
     return (LB_surfaces)
-

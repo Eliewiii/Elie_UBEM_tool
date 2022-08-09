@@ -58,16 +58,17 @@ class Mixin:
         max_iteration = 30
         converged = False
         for i in range(max_iteration):
-
+            print("it {}".format(i),footprint_area,target_core_area)
             perimeter_offset = (perimeter_offset_boundary_up + perimeter_offset_boundary_down) / 2.
 
             df_building = dragonfly.building.Building.from_footprint(identifier="Building_" + str(self.id),
                                                                      footprint=[self.LB_face_footprint],
                                                                      floor_to_floor_heights=[3.],
                                                                      perimeter_offset=perimeter_offset)
-
-            if len(df_building.unique_stories[0].room_2ds) == nb_rooms_per_stories:
-                core_area = df_building.unique_stories[0].room_2ds[-1].floor_area
+            print("it {}".format(i))
+            if len(df_building.unique_stories[0].room_2ds) >= nb_rooms_per_stories:
+                nb_cores=len(df_building.unique_stories[0].room_2ds)-nb_rooms_per_stories+1
+                core_area = sum([df_building.unique_stories[0].room_2ds[-i-1].floor_area for i in range(nb_cores)])
                 if max_core_area < core_area:
                     perimeter_offset_boundary_down = perimeter_offset
                 elif min_core_area > core_area:
@@ -89,7 +90,8 @@ class Mixin:
                 for room_id in range(nb_rooms_per_stories-1):
                     self.DF_building.unique_stories[0].room_2ds[room_id].identifier= "apartment_" + str(room_id)
                 # last room is the core
-                self.DF_building.unique_stories[0].room_2ds[-1].identifier = "core_" + str(0)
+                for i in range(len(self.DF_building.unique_stories[0].room_2ds)-nb_rooms_per_stories + 1):
+                    self.DF_building.unique_stories[0].room_2ds[-i-1].identifier = "core_" + str(i)
 
 
 

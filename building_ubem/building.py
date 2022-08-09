@@ -188,34 +188,7 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
     # # # # # # # # # # # # # # # #              Typology extraction            # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-    def extract_face_typo(self):
-        """
-        Extract the typology faces from txt file
 
-        input:
-        * path_file :
-
-        outputs:
-        * apartments :
-        * core :
-        """
-        path_file = self.typology.path_file_layout
-        ## Apartments
-        self.LB_apartments = surface_txt_to_LB_surfaces(path_file + "//apartment.txt")
-        self.LB_cores = surface_txt_to_LB_surfaces(path_file + "//core.txt")
-        self.LB_balconies = surface_txt_to_LB_surfaces(path_file + "//balcony.txt")
-        ## Move the elements to be a the position of building_zon
-        [x, y, z] = [self.LB_face_centroid.x, self.LB_face_centroid.y, self.LB_face_centroid.z]
-        mov_vector = Vector3D(x, y, z)
-        if self.LB_apartments:
-            for i, apartment in enumerate(self.LB_apartments):
-                self.LB_apartments[i] = apartment.move(mov_vector)
-        if self.LB_cores:
-            for i, core in enumerate(self.LB_cores):
-                self.LB_cores[i] = core.move(mov_vector)
-        if self.LB_balconies:
-            for i, balcony in enumerate(self.LB_balconies):
-                self.LB_balconies[i] = balcony.move(mov_vector)
 
     def load_characteristic_typo(self):
         """
@@ -227,44 +200,7 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
     # # # # # # # # # # # # # # # #              Dragonfly modeling             # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-    def LB_layout_to_DF_story(self):
-        """
-        Convert the LB layout to a DF story
 
-        The difference between the first floor and the other floor might have to be made in the future
-        """
-        DF_room2Dlist = []  # list with all the Room2D objects for the story
-
-        # Create DF Room2D for each apartment (originally a Ladybug 3Dface)
-        for i, room in enumerate(self.LB_apartments):
-            DF_room2Dlist.append(
-                df.room2d.Room2D("apartment_" + str(i), floor_geometry=room, floor_to_ceiling_height=self.floor_height))
-        # Create DF Room2D for each core
-        if self.LB_cores:
-            for i, room in enumerate(self.LB_cores):
-                DF_room2Dlist.append(
-                    df.room2d.Room2D("core_" + str(i), floor_geometry=room, floor_to_ceiling_height=self.floor_height))
-
-        # Create the story
-        self.DF_story = df.story.Story(identifier="floor", room_2ds=DF_room2Dlist, multiplier=self.num_floor)
-        # Solve adjacency and boundary conditions for all the Rooms/Faces
-        self.DF_story.intersect_room_2d_adjacency()  # prevent some issues with non identified interior walls.
-        self.DF_story.solve_room_2d_adjacency()
-
-    def DF_story_to_DF_building(self):
-        """
-        Convert DF story to DF building_zon.
-
-        Will need to be modified to consider different stories for the same building_zon, especially a first floor.
-        """
-
-        self.DF_building = df.building.Building(identifier="Building_" + str(self.id), unique_stories=[self.DF_story])
-
-    def DF_building_to_HB_model(self):
-        """ Create an extruded DF building_zon from LB geometry footprint """
-
-        self.HB_model = self.DF_building.to_honeybee(use_multiplier=False)
-        # print(self.id,self.LB_face_centroid)
 
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # #               Honeybee modeling             # # # # # # # # # # # # # # # # # # # # #

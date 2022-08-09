@@ -88,6 +88,7 @@ U_c.filter_context(0.1)
 # %% Force Typology
 
 U_c.building_dict[45].typology = U_c.typology_dict["train_40x4_Z_A"]
+U_c.force_default_typology()
 
 # %% Force Typology
 

@@ -143,13 +143,28 @@ class Urban_canopy(_context_filtering.Mixin, _EP_simulation.Mixin, _extract_data
             if self.building_dict[id].typology == None:
                 self.building_dict[id].typology = self.typology_dict[typo_identifier]
 
+    def force_default_typology(self):
+        """ apply the layout of a given typology without adaption to the building_zon specificities, just for the tests """
+        for id in self.building_to_simulate:
+            if self.building_dict[id].typology == None:
+                self.building_dict[id].typology = self.typology_dict["default"]
     # # # # # # # # # # # # # # # #       force floor layout on buildings    # # # # # # # # # # # # # # # # # # # # #
 
     def create_DF_building_according_to_typology(self):
         """ create DF buildings from a forced typology layout for all the buildings"""
-        self.Apply_floor_layout()
-        self.LB_layout_to_DF_story()
-        self.DF_story_to_DF_building()
+
+        for id in self.building_to_simulate:
+            building_obj = self.building_dict[id]
+            if building_obj.typology.identifier== "default" :
+                building_obj.lb_footprint_to_df_building()
+            else:
+                building_obj.extract_face_typo()
+                building_obj.LB_layout_to_DF_story()
+                building_obj.DF_story_to_DF_building()
+        #
+        # self.Apply_floor_layout()
+        # self.LB_layout_to_DF_story()
+        # self.DF_story_to_DF_building()
 
         # todo : make it complete and add the typology
 
@@ -399,7 +414,7 @@ def run_idf_windows_modified(idf_file_path, epw_file_path=None, expand_objects=T
 if __name__ == "__main__":
     path_folder_typology = "D:\\Elie\\PhD\\Simulation\\Input_Data\\Typology\\Typologies"
 
-    u_c_obj = Urban_canopy.generate_sample_buildings(path_folder_typology,nb_buildings=4)
+    u_c_obj = Urban_canopy.generate_sample_buildings(path_folder_typology, nb_buildings=4)
 
     u_c_obj.generate_local_epw_with_uwg(path_epw="D:\Elie\PhD\Simulation\Input_Data\EPW\IS_5280_A_Haifa.epw",
                                         path_folder_epw_uwg="D:\Elie\PhD\\test")

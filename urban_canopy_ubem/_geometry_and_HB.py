@@ -35,6 +35,12 @@ class Mixin:
         for id in self.building_to_simulate:
             self.building_dict[id].DF_story_to_DF_building()
 
+    # # # # # # # # # # # # # # # #  Dragonfly without typology   # # # # # # # # # # # # # # # # # # # # #
+
+
+
+
+
     # # # # # # # # # # # # # # # #   Dragonfly to Honeybee   # # # # # # # # # # # # # # # # # # # # #
 
     def DF_to_HB(self):

@@ -1,7 +1,7 @@
 """
 
 """
-from data_ML import *
+from sample_and_test_data import *
 import os
 
 building_type_folder_path = "D://Elie//PhD//Programming//GIS//Building_type//North_Tel_Aviv//Training_data"

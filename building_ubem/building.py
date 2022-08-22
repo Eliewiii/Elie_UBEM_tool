@@ -70,7 +70,7 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
         self.urban_canopy = urban_canopy
         # # # # # # # properties # # # # # # #
         self.id = id
-        self.footprint = footprint
+        self.footprint = footprint # will be oriented down as the ground floor "look" down
         self.holes = holes_footprint
         self.name = name
         self.group = group
@@ -85,6 +85,8 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
         self.int_mass_ratio = None
         self.is_target = False
         self.is_simulated = False
+        # # Context filtering
+        self.pv_pd_facet_list=[]
         # # Ladybug #
         self.LB_face_footprint = None  # EVENTUALLY ANOTHER VERSION FOR THE FIRST FLOOR IF DIFFERENT
         self.LB_face_centroid = None

@@ -170,8 +170,57 @@ def Identify_shape_typology(image_path, transform=None) :
 
 
 
+if __name__=="__main__":
+    model = Net()  # open the model before the loop of the buildings
+
+    model.load_state_dict(torch.load('model2.pkl'))
+    model.eval()
+
+    test_path = "D:\Elie\PhD\Programming\Machine_Learning_Identifier\Test_data\double_z\sample_0.png"
+    # test_path = "D:\Elie\PhD\Programming\Machine_Learning_Identifier\Test_data\h_type_1\sample_0.png"
+    # test_path = "D:\Elie\PhD\Programming\Machine_Learning_Identifier\Test_data\h_type_2\sample_0.png"
+    # test_path = "D:\Elie\PhD\Programming\Machine_Learning_Identifier\Test_data\\rect_crop\sample_0.png"
+    # test_path = "D:\Elie\PhD\Programming\Machine_Learning_Identifier\Test_data\square\sample_0.png"
 
 
+    test_dataset = BuildingsDataset_single(image_path=test_path,
+                                    transform=transforms.Compose([
+                                        transforms.ToTensor(), transforms.Scale((90, 90))
+                                    ]))
+
+    # test_dataset_2 = BuildingsDataset2.full_data_set(root_dir=test_path, classes=classes,class_to_label=class_to_label,
+    #                                            transform=transforms.Compose([
+    #                                                transforms.ToTensor(),transforms.Scale((90,90))
+    #                                            ]))
+    # print(test_dataset.idx_to_image[0])
+    # print(test_dataset_2.idx_to_image[0])
+
+    test_loader = DataLoader(dataset=test_dataset)
+    # test_loader = DataLoader(dataset=test_dataset_2)
+
+    # print(test_loader[0])
+
+    total = 0
+    correct = 0
+    for data in test_loader:
+        images = data['image']
+        labels = data['label']
+
+        outputs = model(images)
+        print(outputs)
+
+        # ## test
+        # print(outputs)
+        # print(labels)
+        # break
+        # ## test
+
+        _, predicted = torch.max(outputs.data, 1)
+        total += labels.size(0)
+
+        correct += (predicted.cpu() == labels).sum()
+
+    print("Test Accuracy: {} %".format(100 * correct / total))
 
 
 

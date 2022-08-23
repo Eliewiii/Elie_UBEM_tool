@@ -14,7 +14,8 @@ from loads._load_inputs import load_input_parameter
 elie = 'elie-medioni'
 # path_folder_elie="D://Elie//PhD//Simulation"
 path_folder_elie = "D://Elie//PhD//Simulation"
-path_LBT_elie = "C://Users//elie-medioni//ladybug_tools//resources//standards//honeybee_standards"
+# path_LBT_elie = "C://Users//elie-medioni//ladybug_tools//resources//standards//honeybee_standards"
+path_LBT_elie = "C://Users//elie-medioni//AppData//Roaming//ladybug_tools//standards"
 
 abraham = ''
 path_folder_abraham = None

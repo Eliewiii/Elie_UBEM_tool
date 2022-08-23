@@ -88,7 +88,8 @@ model.eval()
 
 # torch.save(model, 'model1.pkl')
 
-test_path = "Test_data/"
+# test_path = "Test_data/"
+test_path = "D:\Elie\PhD\Programming\Machine_Learning_Identifier\Test_data/"
 
 test_dataset = BuildingsDataset(root_dir=test_path, classes=classes,class_to_label=class_to_label,
                                            transform=transforms.Compose([

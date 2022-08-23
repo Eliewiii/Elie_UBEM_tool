@@ -40,21 +40,21 @@ class Mixin:
         nb_points_footprint = len(vertex_list) # number of vertices in the footprint
         surface_dict_list=[]
 
-        for
-            surface_dict_list.append({"pv_surface":,"pt_left","pt_right","pt_middle"})
-        for
-
-
-
-        for
-
-            pt_left,pt_right,pt_middle=
-
-        self.dict_surface_context_filtering={"id":self.id,"height":self.height,"surfaces"=surface_dict_list}
-
-
-
-
+        # for
+        #     surface_dict_list.append({"pv_surface":,"pt_left","pt_right","pt_middle"})
+        # for
+        #
+        #
+        #
+        # for
+        #
+        #     pt_left,pt_right,pt_middle=
+        #
+        # self.dict_surface_context_filtering={"id":self.id,"height":self.height,"surfaces"=surface_dict_list}
+        #
+        #
+        #
+        #
 
 
 

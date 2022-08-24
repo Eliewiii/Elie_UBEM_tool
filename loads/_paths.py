@@ -11,15 +11,23 @@ from loads._load_inputs import load_input_parameter
 
 
 ####  Get user  ####
+# # Elie
 elie = 'elie-medioni'
 # path_folder_elie="D://Elie//PhD//Simulation"
 path_folder_elie = "D://Elie//PhD//Simulation"
 # path_LBT_elie = "C://Users//elie-medioni//ladybug_tools//resources//standards//honeybee_standards"
 path_LBT_elie = "C://Users//elie-medioni//AppData//Roaming//ladybug_tools//standards"
-
+# # Abraham
 abraham = ''
 path_folder_abraham = None
 path_LBT_abraham = None
+# # Tiantian
+tiantian = 'elie-medioni'
+# path_folder_elie="D://Elie//PhD//Simulation"
+path_folder_tiantian = "D://Elie//PhD//Simulation"
+# path_LBT_elie = "C://Users//elie-medioni//ladybug_tools//resources//standards//honeybee_standards"
+path_LBT_tiantian = "C://Users//elie-medioni//AppData//Roaming//ladybug_tools//standards"
+
 
 user = getuser()
 

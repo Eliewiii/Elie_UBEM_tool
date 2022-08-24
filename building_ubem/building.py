@@ -331,6 +331,17 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
             else:
                 room.properties.energy.program_type = program_type_by_identifier(self.typology.program_type_core_id)
 
+    def hb_change_construction_set(self,new_constructionset_id):
+        """
+
+        """
+        for room in self.HB_model.rooms:
+            ## assign construction set
+            room.properties.energy.construction_set = construction_set_by_identifier(new_constructionset_id)
+
+
+
+
     def HB_assign_ideal_hvac_system(self, ideal_hvac_system):
         """ Assign an ideal HVAC_system to the conditioned zones"""
         for room in self.HB_model.rooms:

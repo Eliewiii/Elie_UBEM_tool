@@ -22,22 +22,21 @@ class Apartment:
         self.floor_number = floor_number
         self.apartment_number = apartment_number
         ##
-        self.heating = {}
+        self.heating = {}  # dictionary with "data", the list of al the values (daily/monthly/yearly?)
         self.cooling = {}
         self.lighting = {}
         self.equipment = {}
-        ##
-        self.total = None
-        self.total_w_cop = None
         ## BER
-        self.total_BER_no_light = None
-        self.total_BER = None
-        self.position = None
+        self.total = None               # heating, cooling, equipment and lighting
+        self.total_w_cop = None         # heating, cooling, equipment and lighting considering the COP
+        self.total_BER = None           # heating, cooling and lighting considering the COP
+        self.total_BER_no_light = None  # only heating and cooling considering the COP
+        self.position = None            # if top floor, middle floor or groundfloor
         self.is_core = self.is_core(identifier)
-        self.rating = None
-        self.grade_value = None
+        self.rating = None              # apartment rating (A+, A, B, C ...)
+        self.grade_value = None         # grade of the apartment (-1, 0, 1, 2 ...)
         ##
-        self.area = None
+        self.area = None                # floor area
 
     @classmethod
     def apartment_from_hb_room(cls, hb_room_obj, building_obj):
@@ -64,13 +63,11 @@ class Apartment:
     #     self.heating["total"] = sum(self.heating["data"])
 
     def get_floor_area(self):
-        """  """
+        """ get the floor area of the apartment  """
         self.area = self.hb_room_obj.floor_area
 
     def convert_to_kWh_per_sqrm_and_sum_consumption(self):
-        """
-
-        """
+        """ Convert the energy consumption in KwH/m2 """
         # get floor area
         self.get_floor_area()
         # conversion

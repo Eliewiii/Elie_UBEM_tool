@@ -26,54 +26,54 @@ class Mixin:
             building_obj = self.building_dict[building_id]
             building_obj.extract_results_csv()
 
-    def print_total_results(self):
-
-        for building_id in self.building_to_simulate:
-            building_obj = self.building_dict[building_id]
-            print(building_obj.identifier + ":")
-            for apartment in building_obj.dict_apartment:
-                apartment_obj = building_obj.dict_apartment[apartment]
-                print("\t {} : {} kWh/m2".format(apartment_obj.identifier, str(apartment_obj.total)[:4]))
-
-    def print_detailed_results(self):
-
-        for building_id in self.building_to_simulate:
-            building_obj = self.building_dict[building_id]
-            print(building_obj.identifier + ":")
-            for apartment in building_obj.dict_apartment:
-                apartment_obj = building_obj.dict_apartment[apartment]
-                if apartment_obj.is_core == False:
-                    print("\t {} : h={}, c={}, l={}, e={}, tot={} kWh/m2, {}m2".format(apartment_obj.identifier,
-                                                                                       str(apartment_obj.heating[
-                                                                                               "total"])[
-                                                                                       :3],
-                                                                                       str(apartment_obj.cooling[
-                                                                                               "total"])[
-                                                                                       :3],
-                                                                                       str(apartment_obj.lighting[
-                                                                                               "total"])[
-                                                                                       :3],
-                                                                                       str(apartment_obj.equipment[
-                                                                                               "total"])[
-                                                                                       :3],
-                                                                                       str(apartment_obj.total)[:3],
-                                                                                       apartment_obj.area))
-
-    def print_detailed_results_with_COP(self):
-
-        for building_id in self.building_to_simulate:
-            building_obj = self.building_dict[building_id]
-            print(building_obj.identifier + ":")
-            for apartment in building_obj.dict_apartment:
-                apartment_obj = building_obj.dict_apartment[apartment]
-                if apartment_obj.is_core == False:
-                    print("\t {} : h_cop={}, c_cop={}, l={}, e={}, tot_cop={} kWh/m2".format(
-                        apartment_obj.identifier,
-                        str(apartment_obj.heating["total_cop"])[:3],
-                        str(apartment_obj.cooling["total_cop"])[:3],
-                        str(apartment_obj.lighting["total"])[:3],
-                        str(apartment_obj.equipment["total"])[:3],
-                        str(apartment_obj.total_w_cop)[:3]))
+    # def print_total_results(self):
+    #
+    #     for building_id in self.building_to_simulate:
+    #         building_obj = self.building_dict[building_id]
+    #         print(building_obj.identifier + ":")
+    #         for apartment in building_obj.dict_apartment:
+    #             apartment_obj = building_obj.dict_apartment[apartment]
+    #             print("\t {} : {} kWh/m2".format(apartment_obj.identifier, str(apartment_obj.total)[:4]))
+    #
+    # def print_detailed_results(self):
+    #
+    #     for building_id in self.building_to_simulate:
+    #         building_obj = self.building_dict[building_id]
+    #         print(building_obj.identifier + ":")
+    #         for apartment in building_obj.dict_apartment:
+    #             apartment_obj = building_obj.dict_apartment[apartment]
+    #             if apartment_obj.is_core == False:
+    #                 print("\t {} : h={}, c={}, l={}, e={}, tot={} kWh/m2, {}m2".format(apartment_obj.identifier,
+    #                                                                                    str(apartment_obj.heating[
+    #                                                                                            "total"])[
+    #                                                                                    :3],
+    #                                                                                    str(apartment_obj.cooling[
+    #                                                                                            "total"])[
+    #                                                                                    :3],
+    #                                                                                    str(apartment_obj.lighting[
+    #                                                                                            "total"])[
+    #                                                                                    :3],
+    #                                                                                    str(apartment_obj.equipment[
+    #                                                                                            "total"])[
+    #                                                                                    :3],
+    #                                                                                    str(apartment_obj.total)[:3],
+    #                                                                                    apartment_obj.area))
+    #
+    # def print_detailed_results_with_COP(self):
+    #
+    #     for building_id in self.building_to_simulate:
+    #         building_obj = self.building_dict[building_id]
+    #         print(building_obj.identifier + ":")
+    #         for apartment in building_obj.dict_apartment:
+    #             apartment_obj = building_obj.dict_apartment[apartment]
+    #             if apartment_obj.is_core == False:
+    #                 print("\t {} : h_cop={}, c_cop={}, l={}, e={}, tot_cop={} kWh/m2".format(
+    #                     apartment_obj.identifier,
+    #                     str(apartment_obj.heating["total_cop"])[:3],
+    #                     str(apartment_obj.cooling["total_cop"])[:3],
+    #                     str(apartment_obj.lighting["total"])[:3],
+    #                     str(apartment_obj.equipment["total"])[:3],
+    #                     str(apartment_obj.total_w_cop)[:3]))
 
     def print_detailed_results_BER(self, apartment_details=False):
 

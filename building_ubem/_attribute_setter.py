@@ -19,7 +19,7 @@ class Mixin:
         if name == None:
             self.__name = "Building_" + str(self.id)
         else:
-            None  # for now, will add the real name of the building_zon when we define properly how to treat it
+            self.__name= name  # for now, will add the real name of the building_zon when we define properly how to treat it
 
     @property
     def age(self):

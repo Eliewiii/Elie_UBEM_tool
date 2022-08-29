@@ -27,3 +27,6 @@ def save_sample_object_pickle(file_path, obj):
     with open(file_path+"_"+dt_string, "wb") as pickle_file:
         pickle.dump(obj,pickle_file)
 
+if __name__=="__main__":
+    path_building_obj = "D:\Elie\PhD\Simulation\Program_output\Simulation_2222\\Urban_canopy\\uc_obj.p"
+    original_building_obj = load_object_pickle(path_building_obj)

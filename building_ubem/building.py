@@ -331,6 +331,8 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
             else:
                 room.properties.energy.program_type = program_type_by_identifier(self.typology.program_type_core_id)
 
+
+
     def hb_change_construction_set(self,new_constructionset_id):
         """
 

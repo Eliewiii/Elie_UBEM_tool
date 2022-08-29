@@ -87,7 +87,7 @@ U_c.filter_context(0.1)
 
 # %% Force Typology
 
-U_c.building_dict[45].typology = U_c.typology_dict["train_40x4_Z_A"]
+U_c.building_dict[0].typology = U_c.typology_dict["train_40x4_Z_A"]
 U_c.force_default_typology()
 
 # %% Force Typology
@@ -115,12 +115,12 @@ U_c.HB_solve_adjacencies()
 
 U_c.assign_conditioned_zone()
 # add Ideal HVAC system
-U_c.assign_ideal_hvac_system(climate_zone="A",hvac_paramater_set="team_design_builder")
+U_c.assign_ideal_hvac_system(climate_zone="A", hvac_paramater_set="team_design_builder")
 
 # create windows
 U_c.HB_building_window_generation_floor_area_ratio()
 
-U_c.building_dict[45].HB_model_force_rotation(80)  ################  TO MODIFY
+# U_c.building_dict[45].HB_model_force_rotation(80)  ################  TO MODIFY
 
 
 # add shades
@@ -130,17 +130,15 @@ U_c.apply_buildings_characteristics()
 # Add infiltration in volume per hour
 U_c.add_infiltration_air_exchange(air_exchange_rate=1.)
 
-
-
 # add blinds
 
 # add thermal mass
 U_c.add_thermal_mass_int_wall()
 
-
 # log #
 logging.info("Building modeled")
 #
+
 
 # %% test
 
@@ -168,7 +166,7 @@ U_c.model_to_HBjson(path_folder_building_simulation)
 
 # %% Save urban_canopy object in a pickle file
 save_object_pickle(os.path.join(path_folder_simulation, "Urban_canopy", "uc_obj.p"), U_c)
-
+#
 # U_c.generate_local_epw_with_uwg(path_epw="D:\Elie\PhD\Simulation\Input_Data\EPW\IS_5280_A_Haifa.epw",
 #                                     path_folder_epw_uwg="D:\Elie\PhD\\test")
 
@@ -182,7 +180,6 @@ U_c.simulate_idf(path_folder_building_simulation, path_simulation_parameter, pat
 
 U_c.extract_building_csv_results(path_folder_building_simulation)
 U_c.print_detailed_results_BER(apartment_details=True)
-
 
 # %% test
 

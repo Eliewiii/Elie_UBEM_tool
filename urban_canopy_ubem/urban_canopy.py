@@ -100,6 +100,24 @@ class Urban_canopy(_context_filtering.Mixin, _EP_simulation.Mixin, _extract_data
             else:
                 print(("geometry {} in shp file is not a POLYGON").format(building_number_shp))
 
+    def vary_construction_set_from_one_building_gis(self, path, unit,list_constructionsets_id):
+        """ exctract the data from a shp file and create the associated buildings objects"""
+        ## read GIS
+        shape_file = gpd.read_file(path)
+
+        ## loop to create a building_zon for each foot print in the shp file
+        for i,constructionsets_id in enumerate(list_constructionsets_id):
+            # for building_number_shp in range(0, 5):  # few buildings
+            # for building_number_shp in range(3,8): # few buildings
+            footprint = shape_file['geometry'][0]
+            if isinstance(footprint,
+                          shapely.geometry.polygon.Polygon):  # if the building_zon is made of 1 footprint (isinstance check if the type is correct)
+                self.polygon_to_building(footprint, shape_file, 0, unit)
+                self.building_dict[i].name="Building_{}_{}".format(i,constructionsets_id)
+
+            else:
+                print("geometry in shp file is not a POLYGON")
+
     # # # # # # # # # # # # # # # #          Create Building and Geometry      # # # # # # # # # # # # # # # # # # # # #
 
     def add_building(self, id, building_object):
@@ -134,6 +152,18 @@ class Urban_canopy(_context_filtering.Mixin, _EP_simulation.Mixin, _extract_data
         """
         for id in self.building_to_simulate:
             self.building_dict[id].HB_apply_buildings_characteristics()
+
+    def hb_change_construction_set_according_to_name(self,list_constructionsets_id):
+        """
+
+        """
+        for constructionsets_id in list_constructionsets_id:
+            ## assign construction set
+            for id in self.building_dict:
+                if constructionsets_id in self.building_dict[id].name:
+                    self.building_dict[id].hb_change_construction_set(constructionsets_id)
+                    break
+
 
     # # # # # # # # # # # # # # # #       force floor typology   # # # # # # # # # # # # # # # # # # # # #
 

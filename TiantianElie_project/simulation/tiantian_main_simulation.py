@@ -56,7 +56,11 @@ U_c.load_typologies(path_folder_typology)
 # %% Extract GIS
 
 ## Extract data from GIS files
-U_c.extract_gis_2D(path_file_gis, unit_gis)
+
+## todo : extract this list from a text file
+list_constructionsets_id = ["IS_5280_ReferenceConstSet_A","FR_BER_LCA_A_R0-W1-G0","FR_BER_LCA_A_R0-W2-G0","FR_BER_LCA_A_R1-W0-G0"] # to extract from file
+
+U_c.vary_construction_set_from_one_building_gis(path_file_gis, unit_gis,list_constructionsets_id=list_constructionsets_id)
 
 # log #
 logging.info("GIS extracted")
@@ -79,16 +83,14 @@ U_c.create_building_HB_room_envelop()
 
 # filter context and identify the buildings to simulate
 
-U_c.filter_context(0.1)
-
 # %% test
 
 # print(len(U_c.building_dict[0].context_buildings_id))
 
 # %% Force Typology
 
-U_c.building_dict[45].typology = U_c.typology_dict["train_40x4_Z_A"]
-U_c.force_default_typology()
+U_c.force_typology("train_40x4_Z_A")
+# U_c.force_default_typology()
 
 # %% Force Typology
 
@@ -115,12 +117,10 @@ U_c.HB_solve_adjacencies()
 
 U_c.assign_conditioned_zone()
 # add Ideal HVAC system
-U_c.assign_ideal_hvac_system(climate_zone="A",hvac_paramater_set="team_design_builder")
+U_c.assign_ideal_hvac_system(climate_zone="A", hvac_paramater_set="team_design_builder")
 
 # create windows
 U_c.HB_building_window_generation_floor_area_ratio()
-
-U_c.building_dict[45].HB_model_force_rotation(80)  ################  TO MODIFY
 
 
 # add shades
@@ -130,35 +130,26 @@ U_c.apply_buildings_characteristics()
 # Add infiltration in volume per hour
 U_c.add_infiltration_air_exchange(air_exchange_rate=1.)
 
-
-
 # add blinds
 
 # add thermal mass
 U_c.add_thermal_mass_int_wall()
+
+# change the constructionsets
+U_c.hb_change_construction_set_according_to_name(list_constructionsets_id=list_constructionsets_id)
+
 
 
 # log #
 logging.info("Building modeled")
 #
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# save_object_pickle(os.path.join("D:\Elie\PhD\Simulation\Input_Data\Sample_objects\Tiantian\Sample_building_LCA_project",
+#                                 "Building_LCA_z_A.p"),
+#                    U_c.building_dict[0])
+# save_object_pickle(os.path.join("D:\Elie\PhD\Simulation\Input_Data\Sample_objects\Tiantian\Sample_building_LCA_project",
+#                                 "Uc_LCA_z_A.p"),
+#                    U_c)
 
 # %% test
 
@@ -171,8 +162,7 @@ U_c.create_simulation_folder_buildings(path_folder_building_simulation)
 
 # %% Generate json to plot context
 # All the buildings that are target buildings
-U_c.context_to_hbjson(path_folder_context_hbjson)
-U_c.context_surfaces_to_hbjson(path_folder_building_simulation)
+
 # U_c.GIS_context_individual_to_hbjson(path_folder_building_simulation)
 
 # %% Extract simulation parameters
@@ -185,7 +175,6 @@ U_c.add_design_days_to_simulation_parameters(path_simulation_parameter, path_fil
 U_c.model_to_HBjson(path_folder_building_simulation)
 
 # %% Save urban_canopy object in a pickle file
-save_object_pickle(os.path.join(path_folder_simulation, "Urban_canopy", "uc_obj.p"), U_c)
 
 # U_c.generate_local_epw_with_uwg(path_epw="D:\Elie\PhD\Simulation\Input_Data\EPW\IS_5280_A_Haifa.epw",
 #                                     path_folder_epw_uwg="D:\Elie\PhD\\test")
@@ -201,9 +190,26 @@ U_c.simulate_idf(path_folder_building_simulation, path_simulation_parameter, pat
 U_c.extract_building_csv_results(path_folder_building_simulation)
 U_c.print_detailed_results_BER(apartment_details=True)
 
-
 # %% test
 
 
 # print(U_c.building_dict[0].HB_model.rooms[0].identifier)
 # print(U_c.building_dict[0].HB_model.rooms[0].properties.energy.infiltration) #test infiltration
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -201,31 +201,15 @@ U_c.simulate_idf(path_folder_building_simulation, path_simulation_parameter, pat
 U_c.extract_building_csv_results(path_folder_building_simulation)
 U_c.print_detailed_results_BER(apartment_details=True)
 
-# create a csv file in the output folder names "results"
+
+# create a csv file in the output folder names "results" and write into the results
 path_folder_building_results = os.path.join(path_folder_simulation, "Results")
 csv_name = "Results.csv"
 path_csv = os.path.join(path_folder_building_results, csv_name)
 
-# define the first line of csv file
-with open(path_csv, 'w') as csvfile:
-    csvfile.write(" , h_cop, c_cop, tot_ber_no_light[kWh/m2], rating[kWh/m2]\n")
+from TiantianElie_project.simulation.extract_result_csv_tiantian import extract_to_csv
 
-# define the content of csv file
-with open(path_csv, 'a') as csvfile:
-    for building_id in U_c.building_to_simulate:
-        building_obj = U_c.building_dict[building_id]
-        for apartment_obj in building_obj.apartment_dict.values():
-            csvfile.write("Apartment_{}, {}, {}, {}, {}\n".format(
-                apartment_obj.identifier,
-                round(apartment_obj.heating["total_cop"], 3),
-                round(apartment_obj.cooling["total_cop"], 3),
-                round(apartment_obj.total_BER_no_light, 3),
-                apartment_obj.rating))
-        # define the total data of csv file
-        csvfile.write("Total, rating={}, tot_cop={}kWh/m2, tot_ber={}kWh/m2 ".format(
-            building_obj.rating,
-            round(building_obj.energy_consumption["total_w_cop"], 3),
-            round(building_obj.energy_consumption["total_BER_no_light"], 3)))
+extract_to_csv(path_csv, U_c)
 
 # %% test
 

@@ -58,9 +58,21 @@ U_c.load_typologies(path_folder_typology)
 ## Extract data from GIS files
 
 ## todo : extract this list from a text file
-list_constructionsets_id = ["IS_5280_ReferenceConstSet_A","FR_BER_LCA_A_R0-W1-G0","FR_BER_LCA_A_R0-W2-G0","FR_BER_LCA_A_R1-W0-G0"] # to extract from file
+list_constructionsets_id = []
+const_set_list_path = "D:\\Pycharm\\Task\\Simulation\\Input_Data\\Constructions_and_Loads\\constructionsets"
+file_list = os.listdir(const_set_list_path)
+suffix = '.txt'
+for txt_file in file_list:
+    if txt_file.endswith(suffix):
+        path_txt = os.path.join(const_set_list_path, txt_file)
+        break
+with open(path_txt, 'r') as f:
+    for line in f:
+        list_constructionsets_id.append(line.strip())
+## list_constructionsets_id = ["IS_5280_ReferenceConstSet_A","FR_BER_LCA_A_R0-W1-G0","FR_BER_LCA_A_R0-W2-G0","FR_BER_LCA_A_R1-W0-G0"] # to extract from file
 
-U_c.vary_construction_set_from_one_building_gis(path_file_gis, unit_gis,list_constructionsets_id=list_constructionsets_id)
+U_c.vary_construction_set_from_one_building_gis(path_file_gis, unit_gis,
+                                                list_constructionsets_id=list_constructionsets_id)
 
 # log #
 logging.info("GIS extracted")
@@ -184,11 +196,36 @@ U_c.model_to_HBjson(path_folder_building_simulation)
 U_c.simulate_idf(path_folder_building_simulation, path_simulation_parameter, path_file_epw, path_energyplus_exe)
 # U_c.simulate_idf(path_folder_building_simulation, path_simulation_parameter, "D:\Elie\PhD\\test\\random_neighborhood_uwg.epw", path_energyplus_exe)
 
-
 # %% Extract and print results
 
 U_c.extract_building_csv_results(path_folder_building_simulation)
 U_c.print_detailed_results_BER(apartment_details=True)
+
+# create a csv file in the output folder names "results"
+path_folder_building_results = os.path.join(path_folder_simulation, "Results")
+csv_name = "Results.csv"
+path_csv = os.path.join(path_folder_building_results, csv_name)
+
+# define the first line of csv file
+with open(path_csv, 'w') as csvfile:
+    csvfile.write(" , h_cop, c_cop, tot_ber_no_light[kWh/m2], rating[kWh/m2]\n")
+
+# define the content of csv file
+with open(path_csv, 'a') as csvfile:
+    for building_id in U_c.building_to_simulate:
+        building_obj = U_c.building_dict[building_id]
+        for apartment_obj in building_obj.apartment_dict.values():
+            csvfile.write("Apartment_{}, {}, {}, {}, {}\n".format(
+                apartment_obj.identifier,
+                round(apartment_obj.heating["total_cop"], 3),
+                round(apartment_obj.cooling["total_cop"], 3),
+                round(apartment_obj.total_BER_no_light, 3),
+                apartment_obj.rating))
+        # define the total data of csv file
+        csvfile.write("Total, rating={}, tot_cop={}kWh/m2, tot_ber={}kWh/m2 ".format(
+            building_obj.rating,
+            round(building_obj.energy_consumption["total_w_cop"], 3),
+            round(building_obj.energy_consumption["total_BER_no_light"], 3)))
 
 # %% test
 

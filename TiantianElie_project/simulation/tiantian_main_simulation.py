@@ -59,8 +59,8 @@ U_c.load_typologies(path_folder_typology)
 
 ## todo : extract this list from a text file
 list_constructionsets_id = []
-const_set_list_path = "D:\\Pycharm\\Task\\Simulation\\Input_Data\\Constructions_and_Loads\\constructionsets" # Tiantian
-# const_set_list_path = "D:\Elie\PhD\Simulation\Input_Data\Typology\list_constructionsets\partial_list"   # Elie
+# const_set_list_path = "D:\\Pycharm\\Task\\Simulation\\Input_Data\\Constructions_and_Loads\\constructionsets" # Tiantian
+const_set_list_path = "D:\Elie\PhD\Simulation\Input_Data\Typology\list_constructionsets\partial_list"   # Elie
 
 
 file_list = os.listdir(const_set_list_path)
@@ -207,8 +207,6 @@ U_c.print_detailed_results_BER(apartment_details=True)
 
 # create a csv file in the output folder names "results" and write into the results
 path_folder_building_results = os.path.join(path_folder_simulation, "Results")
-# print(path_folder_simulation)
-# print(path_folder_building_results)
 csv_name = "Results.csv"
 path_csv = os.path.join(path_folder_building_results, csv_name)
 

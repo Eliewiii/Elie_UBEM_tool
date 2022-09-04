@@ -1,6 +1,6 @@
 
 def extract_to_csv(file_path, urban_canopy_obj):
-
+    # define the title of csv file
     with open(file_path, 'w') as csvfile:
         csvfile.write(" , h_cop, c_cop, tot_ber_no_light[kWh/m2], rating[kWh/m2]\n")
 

@@ -207,8 +207,6 @@ U_c.print_detailed_results_BER(apartment_details=True)
 
 # create a csv file in the output folder names "results" and write into the results
 path_folder_building_results = os.path.join(path_folder_simulation, "Results")
-# print(path_folder_simulation)
-# print(path_folder_building_results)
 csv_name = "Results.csv"
 path_csv = os.path.join(path_folder_building_results, csv_name)
 

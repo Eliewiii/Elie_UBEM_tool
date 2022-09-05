@@ -94,4 +94,3 @@ class Mixin:
                             round(apartment_obj.cooling["total_cop"], 3),
                             round(apartment_obj.total_BER_no_light, 3),
                             apartment_obj.rating))
-

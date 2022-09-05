@@ -59,8 +59,8 @@ U_c.load_typologies(path_folder_typology)
 
 ## todo : extract this list from a text file
 list_constructionsets_id = []
-const_set_list_path = "D:\\Pycharm\\Task\\Simulation\\Input_Data\\Constructions_and_Loads\\constructionsets" # Tiantian
-# const_set_list_path = "D:\Elie\PhD\Simulation\Input_Data\Typology\list_constructionsets\partial_list"   # Elie
+# const_set_list_path = "D:\\Pycharm\\Task\\Simulation\\Input_Data\\Constructions_and_Loads\\constructionsets" # Tiantian
+const_set_list_path = "D:\Elie\PhD\Simulation\Input_Data\Typology\list_constructionsets\partial_list"   # Elie
 
 
 file_list = os.listdir(const_set_list_path)

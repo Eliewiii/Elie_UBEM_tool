@@ -121,4 +121,7 @@ class Mixin:
         else:
             self.rating = "A+"
 
+    def generate_csv_in_individual_result_folder(self,path_to_result_folder):
+        """ """
+
 

@@ -21,3 +21,4 @@ def extract_to_csv(file_path, urban_canopy_obj):
                 building_obj.rating,
                 round(building_obj.energy_consumption["total_w_cop"], 3),
                 round(building_obj.energy_consumption["total_BER_no_light"], 3)))
+

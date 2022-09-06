@@ -26,6 +26,17 @@ class Mixin:
             building_obj = self.building_dict[building_id]
             building_obj.extract_results_csv()
 
+
+    def write_csv_results_in_building_folder(self,path_folder_building_simulation):
+        """ """
+        # todo : loop for all the buildings, get the pass to building_??\Results and write the csv
+        # for building_id in self.building_to_simulate:
+        #     building_obj = self.building_dict[building_id]
+        #     path_to_result_folder = join(path_folder_building_simulation, building_obj.name)
+
+
+
+
     # def print_total_results(self):
     #
     #     for building_id in self.building_to_simulate:

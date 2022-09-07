@@ -53,6 +53,10 @@ class Urban_canopy(_context_filtering.Mixin, _EP_simulation.Mixin, _extract_data
         self.df_model_uwg = None
         self.parameters_uwg = None
 
+        ## LCA
+        self.lca_database={} # dictionary with constructionsets as keys and dictionaries contaning all the type of surfaces
+                             # to do the LCA on as values
+
     def __str__(self):
         """ what you see when you print the urban canopy object """
         return (f"The urban canopy, named {self.name}, is composed of {self.num_of_buildings} buildings")

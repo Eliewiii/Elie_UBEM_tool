@@ -28,12 +28,13 @@ class Mixin:
 
 
     def write_csv_results_in_building_folder(self,path_folder_building_simulation):
-        """ """
+        """ determine the path for the results of each building and write the results in each building file """
         # todo : loop for all the buildings, get the pass to building_??\Results and write the csv
-        # for building_id in self.building_to_simulate:
-        #     building_obj = self.building_dict[building_id]
-        #     path_to_result_folder = join(path_folder_building_simulation, building_obj.name)
-
+        for building_id in self.building_to_simulate:
+            building_obj = self.building_dict[building_id]
+            path_to_building_folder = join(path_folder_building_simulation, building_obj.name)
+            path_to_result_folder = join(path_to_building_folder, "Results")
+            building_obj.generate_csv_in_individual_result_folder(path_to_result_folder,building_obj)
 
 
 

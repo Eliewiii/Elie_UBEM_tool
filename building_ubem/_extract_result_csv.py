@@ -121,7 +121,25 @@ class Mixin:
         else:
             self.rating = "A+"
 
-    def generate_csv_in_individual_result_folder(self,path_to_result_folder):
+    def generate_csv_in_individual_result_folder(self,path_to_result_folder,building_obj):
         """ """
 
+        with open(path_to_result_folder, 'w') as csvfile:
+            csvfile.write(" , h_cop, c_cop, tot_ber_no_light[kWh/m2], rating[kWh/m2]\n")
+
+        # define the content of csv file
+        with open(path_to_result_folder, 'a') as csvfile:
+            for apartment_obj in building_obj.apartment_dict.values():
+                if apartment_obj.is_core == False:
+                    csvfile.write("Apartment_{}, {}, {}, {}, {}\n".format(
+                        apartment_obj.identifier,
+                        round(apartment_obj.heating["total_cop"], 3),
+                        round(apartment_obj.cooling["total_cop"], 3),
+                        round(apartment_obj.total_BER_no_light, 3),
+                        apartment_obj.rating))
+            # define the "total data" of csv file
+            csvfile.write("Total, rating={}, tot_cop={}kWh/m2, tot_ber={}kWh/m2 ".format(
+                building_obj.rating,
+                round(building_obj.energy_consumption["total_w_cop"], 3),
+                round(building_obj.energy_consumption["total_BER_no_light"], 3)))
 

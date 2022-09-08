@@ -55,7 +55,7 @@ class Urban_canopy(_context_filtering.Mixin, _EP_simulation.Mixin, _extract_data
 
         ## LCA
         self.lca_database={} # dictionary with constructionsets as keys and dictionaries contaning all the type of surfaces
-                             # to do the LCA on as values
+                             # to do the LCA on as values {"const_1":{"ext_wall":[insulant,concrete],"roof":[layer_ ...
 
     def __str__(self):
         """ what you see when you print the urban canopy object """

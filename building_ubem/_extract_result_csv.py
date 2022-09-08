@@ -7,6 +7,7 @@ from apartment.apartment import Apartment
 
 from honeybee.model import Model
 
+import os
 
 class Mixin:
     """
@@ -124,11 +125,8 @@ class Mixin:
     def generate_csv_in_individual_result_folder(self,path_to_result_folder,building_obj):
         """ """
 
-        with open(path_to_result_folder, 'w') as csvfile:
+        with open(os.path.join(path_to_result_folder,"results.csv"), 'w') as csvfile:
             csvfile.write(" , h_cop, c_cop, tot_ber_no_light[kWh/m2], rating[kWh/m2]\n")
-
-        # define the content of csv file
-        with open(path_to_result_folder, 'a') as csvfile:
             for apartment_obj in building_obj.apartment_dict.values():
                 if apartment_obj.is_core == False:
                     csvfile.write("Apartment_{}, {}, {}, {}, {}\n".format(

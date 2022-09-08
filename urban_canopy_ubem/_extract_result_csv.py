@@ -31,6 +31,7 @@ class Mixin:
         """ determine the path for the results of each building and write the results in each building file """
         # todo : loop for all the buildings, get the pass to building_??\Results and write the csv
         for building_id in self.building_to_simulate:
+            print("in building")
             building_obj = self.building_dict[building_id]
             path_to_building_folder = join(path_folder_building_simulation, building_obj.name)
             path_to_result_folder = join(path_to_building_folder, "Results")

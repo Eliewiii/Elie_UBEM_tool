@@ -5,6 +5,8 @@
 import json
 import os
 
+from copy import deepcopy
+
 
 def constructionset_list_csv_to_json(path_folder_csv,name_csv):
     """ """
@@ -57,24 +59,26 @@ def constructionset_list_csv_to_json_new(path_folder_csv,name_csv):
     for i in range(1, n_row):
         if element_line_const_set[i] != "":
             const_set = element_line_const_set[i]
-            sub_dict_sample[const_set]={}
-        if element_line_surface_type[i] != surface_type:
+            sub_dict_sample[const_set]={"surface_types":{}}
+        elif element_line_surface_type[i] != surface_type:
             surface_type = element_line_surface_type[i]
-            sub_dict_sample[const_set][surface_type] = {}
-        sub_dict_sample[const_set][surface_type][element_line_layer[i]]=None
+            sub_dict_sample[const_set]["surface_types"][surface_type] = {}
+            sub_dict_sample[const_set]["surface_types"][surface_type][element_line_layer[i]]=None
 
     const_set= None
     for line in lines_csv[3:]:  # ignore the first one
         if line!="":
-            sub_dict = dict(sub_dict_sample)
+            sub_dict = deepcopy(sub_dict_sample)
             element_list = line.split(",")
             for i in range(1,n_row):
                 if element_line_const_set[i]!="":
                     const_set=element_line_const_set[i]
-                surface_type=element_line_surface_type[i]
-                layer=element_line_layer[i]
-                sub_dict[const_set][surface_type][layer] = int(element_list[i])
-            dict_to_dump[element_list[0]] = dict(sub_dict)
+                    sub_dict[const_set]["new_const_set"]=element_list[i]
+                else:
+                    surface_type=element_line_surface_type[i]
+                    layer=element_line_layer[i]
+                    sub_dict[const_set]["surface_types"][surface_type][layer] = int(element_list[i])
+            dict_to_dump[element_list[0]] = sub_dict
 
     # write data in json
     with open(os.path.join(path_folder_csv,name_csv+".json"),"w") as out_file:

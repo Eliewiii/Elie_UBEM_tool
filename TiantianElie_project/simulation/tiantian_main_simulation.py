@@ -59,7 +59,7 @@ U_c.load_typologies(path_folder_typology)
 
 ## todo : extract this list from a text file
 list_constructionsets_id = []
-# const_set_list_path = "D:\\Pycharm\\Task\\Simulation\\Input_Data\\Constructions_and_Loads\\constructionsets" # Tiantian
+#const_set_list_path = "D:\\Pycharm\\Task\\Simulation\\Input_Data\\Constructions_and_Loads\\constructionsets" # Tiantian
 const_set_list_path = "D:\Elie\PhD\Simulation\Input_Data\Typology\list_constructionsets\partial_list"   # Elie
 
 
@@ -205,14 +205,14 @@ U_c.extract_building_csv_results(path_folder_building_simulation)
 U_c.print_detailed_results_BER(apartment_details=True)
 
 
-# create a csv file in the output folder names "results" and write into the results
-#path_folder_building_results = os.path.join(path_folder_simulation, "Results")
-#csv_name = "Results.csv"
-#path_csv = os.path.join(path_folder_building_results, csv_name)
+# create a global csv file in the output folder names "results" and write into the results
+path_folder_building_results = os.path.join(path_folder_simulation, "Results")
+csv_name = "Results.csv"
+path_csv = os.path.join(path_folder_building_results, csv_name)
 
-#from TiantianElie_project.simulation.extract_result_csv_tiantian import extract_to_csv
+from TiantianElie_project.simulation.extract_result_csv_tiantian import extract_to_csv
 
-#extract_to_csv(path_csv, U_c)
+extract_to_csv(path_csv, U_c)
 
 
 # %% Generate csv results in each building object

@@ -126,18 +126,19 @@ class Mixin:
         """ """
 
         with open(os.path.join(path_to_result_folder,"results.csv"), 'w') as csvfile:
-            csvfile.write(" , h_cop, c_cop, tot_ber_no_light[kWh/m2], rating[kWh/m2]\n")
+            csvfile.write(" , h_cop[kWh/m2], c_cop[kWh/m2], tot_cop[kWh/m2], tot_ber_no_light[kWh/m2], rating[kWh/m2]\n")
             for apartment_obj in building_obj.apartment_dict.values():
                 if apartment_obj.is_core == False:
-                    csvfile.write("Apartment_{}, {}, {}, {}, {}\n".format(
+                    csvfile.write("Apartment_{}, {}, {}, {}, {}, {}\n".format(
                         apartment_obj.identifier,
                         round(apartment_obj.heating["total_cop"], 3),
                         round(apartment_obj.cooling["total_cop"], 3),
+                        round(apartment_obj.heating["total_cop"]+apartment_obj.cooling["total_cop"], 3),
                         round(apartment_obj.total_BER_no_light, 3),
                         apartment_obj.rating))
             # define the "total data" of csv file
-            csvfile.write("Total, rating={}, tot_cop={}kWh/m2, tot_ber={}kWh/m2 ".format(
-                building_obj.rating,
+            csvfile.write("Total, , , {}, {}, {}".format(
                 round(building_obj.energy_consumption["total_w_cop"], 3),
-                round(building_obj.energy_consumption["total_BER_no_light"], 3)))
+                round(building_obj.energy_consumption["total_BER_no_light"], 3),
+                building_obj.rating))
 

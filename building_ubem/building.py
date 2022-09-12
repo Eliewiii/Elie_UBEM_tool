@@ -129,6 +129,8 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
         self.wall_albedo = 0.2  # ?
         self.roof_albedo = 0.7
         self.roof_veg_fraction = 0
+        # # LCA
+        self.is_reference=None
 
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # #                   Class methods             # # # # # # # # # # # # # # # # # # # # #

@@ -8,11 +8,11 @@ import os
 from copy import deepcopy
 
 
-def constructionset_list_csv_to_json(path_folder_csv,name_csv):
+def constructionset_list_csv_to_json(path_folder_csv, name_csv):
     """ """
     lines_csv = None
     # extract data csv
-    with open(os.path.join(path_folder_csv,name_csv +".csv"), "r") as csv_file:
+    with open(os.path.join(path_folder_csv, name_csv + ".csv"), "r") as csv_file:
         data = csv_file.read()
         lines_csv = data.split("\n")
 
@@ -22,25 +22,25 @@ def constructionset_list_csv_to_json(path_folder_csv,name_csv):
     element_first_line = lines_csv[0].split(",")
     n_row = len(element_first_line)  # number of row
 
-
     for line in lines_csv[1:]:  # ignore the first one
-        if line!="":
+        if line != "":
             sub_dict = {}
             element_list = line.split(",")
-            for i in range(1,n_row):
+            for i in range(1, n_row):
                 print(i)
                 sub_dict[element_first_line[i]] = int(element_list[i])
             dict_to_dump[element_list[0]] = sub_dict
 
     # write data in json
-    with open(os.path.join(path_folder_csv,name_csv+".json"),"w") as out_file:
+    with open(os.path.join(path_folder_csv, name_csv + ".json"), "w") as out_file:
         json.dump(dict_to_dump, out_file, indent=4)
 
-def constructionset_list_csv_to_json_new(path_folder_csv,name_csv):
+
+def constructionset_list_csv_to_json_new(path_folder_csv, name_csv):
     """ """
     lines_csv = None
     # extract data csv
-    with open(os.path.join(path_folder_csv,name_csv +".csv"), "r") as csv_file:
+    with open(os.path.join(path_folder_csv, name_csv + ".csv"), "r") as csv_file:
         data = csv_file.read()
         lines_csv = data.split("\n")
 
@@ -53,43 +53,45 @@ def constructionset_list_csv_to_json_new(path_folder_csv,name_csv):
 
     n_row = len(element_line_const_set)  # number of row
 
-    sub_dict_sample={}
-    const_set= None
-    surface_type=None
-    for i in range(1, n_row):
+    sub_dict_sample = {"construction_sets":{},"is_reference":False}
+    const_set = None
+    surface_type = None
+    for i in range(2, n_row):
         if element_line_const_set[i] != "":
             const_set = element_line_const_set[i]
-            sub_dict_sample[const_set]={"surface_types":{}}
+            sub_dict_sample["construction_sets"][const_set] = {"surface_types": {}}
         elif element_line_surface_type[i] != surface_type:
             surface_type = element_line_surface_type[i]
-            sub_dict_sample[const_set]["surface_types"][surface_type] = {}
-            sub_dict_sample[const_set]["surface_types"][surface_type][element_line_layer[i]]=None
+            sub_dict_sample["construction_sets"][const_set]["surface_types"][surface_type] = {}
+            sub_dict_sample["construction_sets"][const_set]["surface_types"][surface_type][element_line_layer[i]] = None
 
-    const_set= None
+    const_set = None
     for line in lines_csv[3:]:  # ignore the first one
-        if line!="":
+        if line != "":
             sub_dict = deepcopy(sub_dict_sample)
             element_list = line.split(",")
-            for i in range(1,n_row):
-                if element_line_const_set[i]!="":
-                    const_set=element_line_const_set[i]
-                    sub_dict[const_set]["new_const_set"]=element_list[i]
+            # check if this configuration is the reference one 9to compare the result later)
+
+            # extract all the data in the line
+            for i in range(2, n_row):
+                # check if still in the same construction set
+                if element_line_const_set[i] != "":
+                    const_set = element_line_const_set[i]
+                    sub_dict["construction_sets"][const_set]["new_const_set"] = element_list[i]
                 else:
-                    surface_type=element_line_surface_type[i]
-                    layer=element_line_layer[i]
-                    sub_dict[const_set]["surface_types"][surface_type][layer] = int(element_list[i])
+                    surface_type = element_line_surface_type[i]
+                    layer = element_line_layer[i]
+                    sub_dict["construction_sets"][const_set]["surface_types"][surface_type][layer] = int(element_list[i])
+            if element_list[1] == "TRUE":
+                sub_dict["is_reference"] = True
             dict_to_dump[element_list[0]] = sub_dict
 
     # write data in json
-    with open(os.path.join(path_folder_csv,name_csv+".json"),"w") as out_file:
+    with open(os.path.join(path_folder_csv, name_csv + ".json"), "w") as out_file:
         json.dump(dict_to_dump, out_file, indent=4)
 
 
-
-
-
-if __name__=="__main__":
-
+if __name__ == "__main__":
     path_folder_csv = "D:\Elie\PhD\Simulation\Input_Data\Typology\list_constructionsets\\test"
     name_csv = "IS_5280_ReferenceConstSet_A"
 

@@ -210,9 +210,8 @@ path_folder_building_results = os.path.join(path_folder_simulation, "Results")
 csv_name = "Results.csv"
 path_csv = os.path.join(path_folder_building_results, csv_name)
 
-from TiantianElie_project.simulation.extract_result_csv_tiantian import extract_to_csv
 
-extract_to_csv(path_csv, U_c)
+U_c.write_global_csv_results(path_csv)
 
 
 # %% Generate csv results in each building object

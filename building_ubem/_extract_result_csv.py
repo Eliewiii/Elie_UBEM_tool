@@ -96,6 +96,11 @@ class Mixin:
                 self.energy_consumption["total_w_cop"] += apartment_obj.total_w_cop * apartment_obj.area / self.apartment_area
                 self.energy_consumption["total_BER"] += apartment_obj.total_BER * apartment_obj.area / self.apartment_area
                 self.energy_consumption["total_BER_no_light"] += apartment_obj.total_BER_no_light * apartment_obj.area / self.apartment_area
+                self.energy_consumption[
+                    "tot_h_cop"] += apartment_obj.heating["total_cop"]  * apartment_obj.area / self.apartment_area
+                self.energy_consumption[
+                    "tot_c_cop"] += apartment_obj.cooling["total_cop"]  * apartment_obj.area / self.apartment_area
+
 
     def rate_building(self):
 
@@ -122,23 +127,26 @@ class Mixin:
         else:
             self.rating = "A+"
 
-    def generate_csv_in_individual_result_folder(self,path_to_result_folder,building_obj):
+    def generate_csv_in_individual_result_folder(self,path_to_result_folder):
         """ """
 
         with open(os.path.join(path_to_result_folder,"results.csv"), 'w') as csvfile:
-            csvfile.write(" , h_cop[kWh/m2], c_cop[kWh/m2], tot_cop[kWh/m2], tot_ber_no_light[kWh/m2], rating[kWh/m2]\n")
-            for apartment_obj in building_obj.apartment_dict.values():
+            csvfile.write(",Heating (COP) [kWh/m2],Cooling (COP) [kWh/m2],Total (COP) [kWh/m2],Total BER [kWh/m2],Rating\n")
+            for apartment_obj in self.apartment_dict.values():
                 if apartment_obj.is_core == False:
-                    csvfile.write("Apartment_{}, {}, {}, {}, {}, {}\n".format(
+                    csvfile.write("Apartment_{},{},{},{},{},{}\n".format(
                         apartment_obj.identifier,
                         round(apartment_obj.heating["total_cop"], 3),
                         round(apartment_obj.cooling["total_cop"], 3),
-                        round(apartment_obj.heating["total_cop"]+apartment_obj.cooling["total_cop"], 3),
+                        round(apartment_obj.total_w_cop, 3),
                         round(apartment_obj.total_BER_no_light, 3),
                         apartment_obj.rating))
             # define the "total data" of csv file
-            csvfile.write("Total, , , {}, {}, {}".format(
-                round(building_obj.energy_consumption["total_w_cop"], 3),
-                round(building_obj.energy_consumption["total_BER_no_light"], 3),
-                building_obj.rating))
+            csvfile.write("{},{},{},{},{},{}\n".format(
+                self.name,
+                round(self.energy_consumption["tot_h_cop"], 2),
+                round(self.energy_consumption["tot_c_cop"], 2),
+                round(self.energy_consumption["total_w_cop"], 2),
+                round(self.energy_consumption["total_BER_no_light"], 2),
+                self.rating))
 

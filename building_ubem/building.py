@@ -70,7 +70,7 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
         self.urban_canopy = urban_canopy
         # # # # # # # properties # # # # # # #
         self.id = id
-        self.footprint = footprint # will be oriented down as the ground floor "look" down
+        self.footprint = footprint  # will be oriented down as the ground floor "look" down
         self.holes = holes_footprint
         self.name = name
         self.group = group
@@ -86,7 +86,7 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
         self.is_target = False
         self.is_simulated = False
         # # Context filtering
-        self.pv_pd_facet_list=[]
+        self.pv_pd_facet_list = []
         # # Ladybug #
         self.LB_face_footprint = None  # EVENTUALLY ANOTHER VERSION FOR THE FIRST FLOOR IF DIFFERENT
         self.LB_face_centroid = None
@@ -112,7 +112,8 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
         self.path_csv = None
         self.apartment_dict = {}
         self.apartment_area = 0.
-        self.energy_consumption = {"total_w_cop": 0., "total_BER": 0., "total_BER_no_light": 0.}
+        self.energy_consumption = {"total_w_cop": 0., "total_BER": 0., "total_BER_no_light": 0., "tot_h_cop": 0.,
+                                   "tot_c_cop": 0.}
         self.cop_h = None
         self.cop_c = None
         self.climate_zone = "A"
@@ -190,8 +191,6 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
     # # # # # # # # # # # # # # # #              Typology extraction            # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-
-
     def load_characteristic_typo(self):
         """
         Load the constructions, constructions sets, loads etc... of the typology of the building_zon
@@ -201,8 +200,6 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # #              Dragonfly modeling             # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
-
 
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # #               Honeybee modeling             # # # # # # # # # # # # # # # # # # # # #
@@ -331,18 +328,13 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
             else:
                 room.properties.energy.program_type = program_type_by_identifier(self.typology.program_type_core_id)
 
-
-
-    def hb_change_construction_set(self,new_constructionset_id):
+    def hb_change_construction_set(self, new_constructionset_id):
         """
 
         """
         for room in self.HB_model.rooms:
             ## assign construction set
             room.properties.energy.construction_set = construction_set_by_identifier(new_constructionset_id)
-
-
-
 
     def HB_assign_ideal_hvac_system(self, ideal_hvac_system):
         """ Assign an ideal HVAC_system to the conditioned zones"""

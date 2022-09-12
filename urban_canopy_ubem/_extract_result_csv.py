@@ -26,8 +26,22 @@ class Mixin:
             building_obj = self.building_dict[building_id]
             building_obj.extract_results_csv()
 
+    def write_global_csv_results(self, file_path):
+        """ Write a global csv result file in the Simulation/Result folder for all the simulations """
+        with open(file_path, 'w') as csvfile:
+            csvfile.write(
+                "Building,Heating (COP) [kWh/m2],Colling (COP) [kWh/m2],Total (COP) [kWh/m2],Total BER [kWh/m2],Rating\n")
+            for building_id in self.building_to_simulate:
+                building_obj = self.building_dict[building_id]
+                csvfile.write("{},{},{},{},{},{}\n".format(
+                    building_obj.name,
+                    round(building_obj.energy_consumption["tot_h_cop"], 2),
+                    round(building_obj.energy_consumption["tot_c_cop"], 2),
+                    round(building_obj.energy_consumption["total_w_cop"], 2),
+                    round(building_obj.energy_consumption["total_BER_no_light"], 2),
+                    building_obj.rating))
 
-    def write_csv_results_in_building_folder(self,path_folder_building_simulation):
+    def write_csv_results_in_building_folder(self, path_folder_building_simulation):
         """ determine the path for the results of each building and write the results in each building file """
         # todo : loop for all the buildings, get the pass to building_??\Results and write the csv
         for building_id in self.building_to_simulate:
@@ -35,9 +49,7 @@ class Mixin:
             building_obj = self.building_dict[building_id]
             path_to_building_folder = join(path_folder_building_simulation, building_obj.name)
             path_to_result_folder = join(path_to_building_folder, "Results")
-            building_obj.generate_csv_in_individual_result_folder(path_to_result_folder,building_obj)
-
-
+            building_obj.generate_csv_in_individual_result_folder(path_to_result_folder)
 
     # def print_total_results(self):
     #

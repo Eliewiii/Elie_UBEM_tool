@@ -26,12 +26,12 @@ from honeybee.face import Face
 from honeybee.shade import Shade
 
 from building_ubem import _select_context, _attribute_setter, _shp_files, _LBT_obj_methods, \
-    _additional_LBT_obj_for_visualization, _extract_result_csv, _uwg, _generate_sample
+    _additional_LBT_obj_for_visualization, _extract_result_csv, _uwg, _generate_sample,_lca
 
 
 class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin, _LBT_obj_methods.Mixin,
                _additional_LBT_obj_for_visualization.Mixin, _extract_result_csv.Mixin, _uwg.Mixin,
-               _generate_sample.Mixin):
+               _generate_sample.Mixin,_lca.Mixin):
     """
     description ............
 
@@ -131,6 +131,7 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
         self.roof_veg_fraction = 0
         # # LCA
         self.is_reference=None
+        self.carbon_footprint={"mini":0,"maxi":0,"standard":0}
 
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # #                   Class methods             # # # # # # # # # # # # # # # # # # # # #
@@ -337,6 +338,18 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
         for room in self.HB_model.rooms:
             ## assign construction set
             room.properties.energy.construction_set = construction_set_by_identifier(new_constructionset_id)
+
+    def replace_hb_constr_set(self, initial_constr_set_id,new_constr_set_id):
+        """
+
+        """
+        ## Loop over all the rooms in the hb_model
+        for room in self.HB_model.rooms:
+            ## check if the room has the
+            if room.properties.energy.construction_set.identifier == initial_constr_set_id:
+            ## assign construction set
+                room.properties.energy.construction_set = construction_set_by_identifier(new_constructionset_id)
+
 
     def HB_assign_ideal_hvac_system(self, ideal_hvac_system):
         """ Assign an ideal HVAC_system to the conditioned zones"""

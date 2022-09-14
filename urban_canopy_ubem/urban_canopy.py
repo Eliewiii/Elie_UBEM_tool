@@ -8,6 +8,7 @@ import shutil
 from honeybee_energy import run
 from honeybee_energy.config import folders
 from ladybug.futil import write_to_file
+from honeybee_energy.lib.constructionsets import construction_set_by_identifier
 
 from typology import Typology
 from tools._folder_manipulation import make_sub_folders
@@ -54,8 +55,8 @@ class Urban_canopy(_context_filtering.Mixin, _EP_simulation.Mixin, _extract_data
         self.parameters_uwg = None
 
         ## LCA
-        self.lca_database={} # dictionary with constructionsets as keys and dictionaries contaning all the type of surfaces
-                             # to do the LCA on as values {"const_1":{"ext_wall":[insulant,concrete],"roof":[layer_ ...
+        self.lca_database = {}  # dictionary with constructionsets as keys and dictionaries contaning all the type of surfaces
+        # to do the LCA on as values {"const_1":{"ext_wall":[insulant,concrete],"roof":[layer_ ...
 
     def __str__(self):
         """ what you see when you print the urban canopy object """
@@ -104,20 +105,20 @@ class Urban_canopy(_context_filtering.Mixin, _EP_simulation.Mixin, _extract_data
             else:
                 print(("geometry {} in shp file is not a POLYGON").format(building_number_shp))
 
-    def vary_construction_set_from_one_building_gis(self, path, unit,list_constructionsets_id):
+    def vary_construction_set_from_one_building_gis(self, path, unit, list_variation_id):
         """ exctract the data from a shp file and create the associated buildings objects"""
         ## read GIS
         shape_file = gpd.read_file(path)
 
         ## loop to create a building_zon for each foot print in the shp file
-        for i,constructionsets_id in enumerate(list_constructionsets_id):
+        for i, variation_id in enumerate(list_variation_id):
             # for building_number_shp in range(0, 5):  # few buildings
             # for building_number_shp in range(3,8): # few buildings
             footprint = shape_file['geometry'][0]
             if isinstance(footprint,
                           shapely.geometry.polygon.Polygon):  # if the building_zon is made of 1 footprint (isinstance check if the type is correct)
                 self.polygon_to_building(footprint, shape_file, 0, unit)
-                self.building_dict[i].name="Building_{}_{}".format(i,constructionsets_id)
+                self.building_dict[i].name = "Building_{}_{}".format(i, variation_id)
 
             else:
                 print("geometry in shp file is not a POLYGON")
@@ -157,7 +158,7 @@ class Urban_canopy(_context_filtering.Mixin, _EP_simulation.Mixin, _extract_data
         for id in self.building_to_simulate:
             self.building_dict[id].HB_apply_buildings_characteristics()
 
-    def hb_change_construction_set_according_to_name(self,list_constructionsets_id):
+    def hb_change_construction_set_according_to_name(self, list_constructionsets_id):
         """
 
         """
@@ -168,6 +169,60 @@ class Urban_canopy(_context_filtering.Mixin, _EP_simulation.Mixin, _extract_data
                     self.building_dict[id].hb_change_construction_set(constructionsets_id)
                     break
 
+    def change_hb_constr_set_according_to_variation_to_simulate(self, dic_configuration_to_test):
+        """
+        Replace the construction automatically set by the typology by the construction mentioned
+        in the configuration dictionary
+        """
+        #loop over all the buildings
+        for id in self.building_to_simulate:
+            building_obj = self.building_dict[id]
+            # loop over
+            for configuration_id in dic_configuration_to_test.keys():
+                # do the modification if the configuration correspond to the simulated building
+                if configuration_id in building_obj.name:
+                    # check every room in the building
+                    for room in building_obj.HB_model.rooms:
+                        # loop over the construction sets to replace by the new ones
+                        for initial_constr_set_id in dic_configuration_to_test[configuration_id][
+                            "construction_sets"].keys():
+                            new_constr_set_id = dic_configuration_to_test[configuration_id]["construction_sets"][
+                                initial_constr_set_id]  # the new construction set to replace the initial/default one
+                            if room.properties.energy.construction_set.identifier == initial_constr_set_id:
+                                room.properties.energy.construction_set = construction_set_by_identifier(
+                                    new_constr_set_id)
+                                break # if the construction is replaced, no need to check for others in this room
+                    break # no need to check the other buildings if it's the proper configuration already
+
+
+    ### LCA
+
+
+    def compute_lca(self, dic_configuration_to_test,lca_dic):
+        """
+        Replace the construction automatically set by the typology by the construction mentioned
+        in the configuration dictionary
+        """
+        #loop over all the buildings
+        for id in self.building_to_simulate:
+            building_obj = self.building_dict[id]
+            building_obj.compute_lca(dic_configuration_to_test,lca_dic)
+            # loop over
+            for configuration_id in dic_configuration_to_test.keys():
+                # do the modification if the configuration correspond to the simulated building
+                if configuration_id in building_obj.name:
+                    # check every room in the building
+                    for room in building_obj.HB_model.rooms:
+                        # loop over the construction sets to replace by the new ones
+                        for initial_constr_set_id in dic_configuration_to_test[configuration_id][
+                            "construction_sets"].keys():
+                            new_constr_set_id = dic_configuration_to_test[configuration_id]["construction_sets"][
+                                initial_constr_set_id]  # the new construction set to replace the initial/default one
+                            if room.properties.energy.construction_set.identifier == initial_constr_set_id:
+                                room.properties.energy.construction_set = construction_set_by_identifier(
+                                    new_constr_set_id)
+                                break # if the construction is replaced, no need to check for others in this room
+                    break # n
 
     # # # # # # # # # # # # # # # #       force floor typology   # # # # # # # # # # # # # # # # # # # # #
 
@@ -182,6 +237,7 @@ class Urban_canopy(_context_filtering.Mixin, _EP_simulation.Mixin, _extract_data
         for id in self.building_to_simulate:
             if self.building_dict[id].typology == None:
                 self.building_dict[id].typology = self.typology_dict["default"]
+
     # # # # # # # # # # # # # # # #       force floor layout on buildings    # # # # # # # # # # # # # # # # # # # # #
 
     def create_DF_building_according_to_typology(self):
@@ -189,7 +245,7 @@ class Urban_canopy(_context_filtering.Mixin, _EP_simulation.Mixin, _extract_data
 
         for id in self.building_to_simulate:
             building_obj = self.building_dict[id]
-            if building_obj.typology.identifier== "default" :
+            if building_obj.typology.identifier == "default":
                 building_obj.lb_footprint_to_df_building()
             else:
                 building_obj.extract_face_typo()

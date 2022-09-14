@@ -21,7 +21,7 @@ class LcaMatColBySurfType(LcaSurfaceType):
     LCA Material Collection By Surface Type,
     """
 
-    def __init__(self, const_set, surface_type, R, U, number):
+    def __init__(self, const_set, surface_type, layer, R, U, number):
         # todo """
         #  const_set : original construction set of the building that is modified to test alternative sets
         #
@@ -31,9 +31,10 @@ class LcaMatColBySurfType(LcaSurfaceType):
         # other properties
         self.const_set = const_set
         self.surface_type = surface_type
-        number = number
+        self.layer = layer
+        self.number = number
         self.name = const_set + "_" + surface_type + "_" + number
-        self.mat_dict = []  # dictionary with all the materials
+        self.mat_dict = {}  # dictionary with all the materials
         self.compute_missing_property()
         # life duration, set by the user in the code (can change the results as materials have different life time)
         self.life_duration = None
@@ -43,7 +44,7 @@ class LcaMatColBySurfType(LcaSurfaceType):
         self.min_climate_change_overall = None  # minimum climate change for all the life duration for 1 square meter of surface
 
     @classmethod
-    def from_csv_database(cls, path_folder_csv, file_name, const_set, surface_type):
+    def from_csv_database(cls, path_folder_csv, file_name, const_set, surface_type, layer):
         """ Convert a csv file,containing a collection of material into a LcaMatColBySurfType object """
 
         data_csv = None  # initialize the data variable
@@ -54,16 +55,56 @@ class LcaMatColBySurfType(LcaSurfaceType):
 
         # read 2nd line, where there is the default data of the material collection
         data_elements = csv_lines[1].split(",")
-        r_value = float(data_elements[1])
-        u_value = float(data_elements[2])
+        if data_elements[1] != "":
+            r_value = float(data_elements[1])
+        else:
+            r_value = None
+        if data_elements[2] != "":
+            u_value = float(data_elements[2])
+        else:
+            u_value = None
         number = file_name[:-4]  # without the .csv
 
-        collection_obj = cls(const_set=const_set, surface_type=surface_type, R=r_value, U=u_value, number=number)
+        collection_obj = cls(const_set=const_set, surface_type=surface_type, layer=layer, R=r_value, U=u_value,
+                             number=number)
 
         for csv_line in csv_lines[2:]:
             if csv_line != "":
                 lca_mat_obj = LcaMat.from_csv_line(csv_data_line=csv_line, R=r_value, U=u_value)
                 collection_obj.mat_dict[lca_mat_obj.name] = lca_mat_obj
+
+        return (collection_obj)
+
+    @classmethod
+    def extract_lca_database(cls, path_folder_database, life_duration):
+        """ Extract all the lca database and return it as a dictionary """
+        # initialization of the database output dictionary
+        database_dict = {}
+        # list of all the directory in the LCA database folder, equivalent to the list of the initial construction sets
+        # to be replaced
+        constr_set_folder_list = os.listdir(path_folder_database)
+        # loop over all the construction sets
+        for constr_set_id in constr_set_folder_list:
+            database_dict[constr_set_id] = {}
+            # all the surface type that will be modified for the associated construction set
+            surface_type_list = os.listdir(os.path.join(path_folder_database, constr_set_id))
+            # loop over the surface type
+            for surface_type in surface_type_list:
+                database_dict[constr_set_id][surface_type] = {}
+                # all the layers in the surface type that will be modified
+                layer_list = os.listdir(os.path.join(path_folder_database, constr_set_id, surface_type))
+                for layer in layer_list:
+                    database_dict[constr_set_id][surface_type][layer] = {}
+                    # all the alternatives in the layers
+                    alternative_list = os.listdir(
+                        os.path.join(path_folder_database, constr_set_id, surface_type, layer))
+                    for alternative in alternative_list:
+                        material_lib = cls.from_csv_database(
+                            path_folder_csv=os.path.join(path_folder_database, constr_set_id, surface_type, layer),
+                            file_name=alternative, const_set=constr_set_id, surface_type=surface_type, layer=layer)
+                        material_lib.compute_extreme_climate_change(life_duration=life_duration)
+                        database_dict[constr_set_id][surface_type][layer][material_lib.number] = material_lib
+        return (database_dict)
 
     def compute_missing_property(self):
         """ """
@@ -89,7 +130,7 @@ class LcaMatColBySurfType(LcaSurfaceType):
         self.life_duration = life_duration
         # Compute the climate changes over a given period of time
         climate_change_for_all_duration_list = []  # list of climate change to get  the maximum and minimum from
-        for material_obj in self.mat_dict.values(): # loop over the materials
+        for material_obj in self.mat_dict.values():  # loop over the materials
             # number of time we need to install the material to cover all the life duration
             multiplier = ceil(life_duration / material_obj.life_time)
             if material_obj.is_standard == True:  # get the standard value
@@ -142,8 +183,13 @@ class LcaMat(LcaSurfaceType):
         # thermal properies
         if data_elements[1] != "":
             real_r_value = float(data_elements[1])
-        elif data_elements[2] != "":
+        else:
+            real_r_value = None
+        if data_elements[2] != "":
             real_u_value = float(data_elements[2])
+        else:
+            real_u_value = None
+
         # other
         type_mat = data_elements[4]
         life_time = float(data_elements[5])
@@ -163,3 +209,13 @@ class LcaMat(LcaSurfaceType):
             self.climate_change_extrapolated = self.climate_change * self.R_value / self.real_R
         elif self.real_U:
             self.climate_change_extrapolated = self.climate_change * self.real_U / self.U_value
+
+
+if __name__ == "__main__":
+    lib = LcaMatColBySurfType.from_csv_database(
+        "D:\Elie\PhD\Simulation\Input_Data\LCA\LCA_database\LCA_BER_project\\train_40x4_Z_A\\roof\insulant",
+        file_name="0.csv", const_set="zob", surface_type="zob")
+
+    print(lib.mat_dict["IKO enertherm ALU / ALU XL PRO / KRALU / CHAPE 40mm R = 1.80 m2.K/W (v.1.1) "].climate_change)
+    print(lib.mat_dict[
+              "IKO enertherm ALU / ALU XL PRO / KRALU / CHAPE 40mm R = 1.80 m2.K/W (v.1.1) "].climate_change_extrapolated)

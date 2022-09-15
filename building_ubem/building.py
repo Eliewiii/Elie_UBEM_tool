@@ -26,12 +26,12 @@ from honeybee.face import Face
 from honeybee.shade import Shade
 
 from building_ubem import _select_context, _attribute_setter, _shp_files, _LBT_obj_methods, \
-    _additional_LBT_obj_for_visualization, _extract_result_csv, _uwg, _generate_sample,_lca
+    _additional_LBT_obj_for_visualization, _extract_result_csv, _uwg, _generate_sample, _lca
 
 
 class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin, _LBT_obj_methods.Mixin,
                _additional_LBT_obj_for_visualization.Mixin, _extract_result_csv.Mixin, _uwg.Mixin,
-               _generate_sample.Mixin,_lca.Mixin):
+               _generate_sample.Mixin, _lca.Mixin):
     """
     description ............
 
@@ -113,7 +113,8 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
         self.apartment_dict = {}
         self.apartment_area = 0.
         self.energy_consumption = {"total_w_cop": 0., "total_BER": 0., "total_BER_no_light": 0., "tot_h_cop": 0.,
-                                   "tot_c_cop": 0.}
+                                   "tot_c_cop": 0., "total_BER_compared_to_ref": 0, "tot_c_cop_compared_to_ref": 0,
+                                   "total_h_cop_compared_to_ref": 0}
         self.cop_h = None
         self.cop_c = None
         self.climate_zone = "A"
@@ -130,8 +131,12 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
         self.roof_albedo = 0.7
         self.roof_veg_fraction = 0
         # # LCA
-        self.is_reference=None
-        self.carbon_footprint={"mini":0,"maxi":0,"standard":0}
+        self.is_reference = None
+        self.carbon_footprint = {"mini": 0, "maxi": 0, "standard": 0}  # total
+        self.carbon_footprint_kwh_per_m2_eq_per_year= {"mini": 0, "maxi": 0, "standard": 0}
+        self.carbon_footprint_kwh_per_m2_eq_compared_to_ref = {"mini": 0, "maxi": 0, "standard": 0}
+        self.carbon_footprint_kwh_per_m2_eq_per_year_compared_to_ref = {"mini": 0, "maxi": 0, "standard": 0}
+        self.improvement_lca_in_percent = {"mini": 0, "maxi": 0, "standard": 0}
 
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # #                   Class methods             # # # # # # # # # # # # # # # # # # # # #
@@ -339,7 +344,7 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
             ## assign construction set
             room.properties.energy.construction_set = construction_set_by_identifier(new_constructionset_id)
 
-    def replace_hb_constr_set(self, initial_constr_set_id,new_constr_set_id):
+    def replace_hb_constr_set(self, initial_constr_set_id, new_constr_set_id):
         """
 
         """
@@ -347,9 +352,8 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
         for room in self.HB_model.rooms:
             ## check if the room has the
             if room.properties.energy.construction_set.identifier == initial_constr_set_id:
-            ## assign construction set
+                ## assign construction set
                 room.properties.energy.construction_set = construction_set_by_identifier(new_constructionset_id)
-
 
     def HB_assign_ideal_hvac_system(self, ideal_hvac_system):
         """ Assign an ideal HVAC_system to the conditioned zones"""

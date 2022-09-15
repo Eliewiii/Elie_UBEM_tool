@@ -63,9 +63,17 @@ class Mixin:
                                                                         lca_dic[initial_constr_set_id][surface_type][
                                                                             layer][
                                                                             alternative_number].standard_climate_change_overall
-                                    print(room.identifier,surface_type,lca_dic[initial_constr_set_id][surface_type][
-                                                                            layer][
-                                                                            alternative_number].standard_climate_change_overall,area)
+                                    # print(room.identifier,surface_type,lca_dic[initial_constr_set_id][surface_type][
+                                    #                                         layer][
+                                    #                                         alternative_number].standard_climate_change_overall,area)
 
                             break
                 break
+
+    def convert_carbon_footprint_kwh_per_m2_eq_compare_to_ref(self,conversion_rate):
+        """
+
+
+        """
+        reference_building = None
+

@@ -227,12 +227,16 @@ U_c.extract_building_csv_results(path_folder_building_simulation)
 from lca_constuction_material.lca_surface_type import LcaMatColBySurfType
 
 path_lca_database= "D:\Elie\PhD\Simulation\Input_Data\LCA\LCA_database\LCA_BER_project"
+life_time=50
 
-lca_dict = LcaMatColBySurfType.extract_lca_database(path_folder_database=path_lca_database,life_duration=50)
+
+lca_dict = LcaMatColBySurfType.extract_lca_database(path_folder_database=path_lca_database,life_duration=life_time)
 
 U_c.compute_lca(dic_configuration_to_test=configuration_dic,lca_dic=lca_dict)
 
-
+conversion_rate=1/556.5
+U_c.convert_carbon_footprint_kwh_per_m2_eq_compare_to_ref(conversion_rate=conversion_rate,life_time=life_time)
+U_c.compute_consumption_improvement_lca()
 
 
 # create a global csv file in the output folder names "results" and write into the results

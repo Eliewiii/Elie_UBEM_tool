@@ -17,11 +17,11 @@ from tools._save_and_load_objects import load_object_pickle
 # additional methods for the Urban_canopy class
 
 from urban_canopy_ubem import _EP_simulation, _context_filtering, _extract_data, _outputs_for_GH_visualization, \
-    _geometry_and_HB, _extract_result_csv, _uwg, _generate_sample
+    _geometry_and_HB, _extract_result_csv, _uwg, _generate_sample,_lca
 
 
 class Urban_canopy(_context_filtering.Mixin, _EP_simulation.Mixin, _extract_data.Mixin, _geometry_and_HB.Mixin,
-                   _outputs_for_GH_visualization.Mixin, _extract_result_csv.Mixin, _uwg.Mixin, _generate_sample.Mixin):
+                   _outputs_for_GH_visualization.Mixin, _extract_result_csv.Mixin, _uwg.Mixin, _generate_sample.Mixin,_lca.Mixin):
     """
     Urban canopy recreated from a GIS file.
 
@@ -181,6 +181,8 @@ class Urban_canopy(_context_filtering.Mixin, _EP_simulation.Mixin, _extract_data
             for configuration_id in dic_configuration_to_test.keys():
                 # do the modification if the configuration correspond to the simulated building
                 if configuration_id in building_obj.name:
+                    if dic_configuration_to_test[configuration_id]["is_reference"]==True:
+                        building_obj.is_reference=True
                     # check every room in the building
                     for room in building_obj.HB_model.rooms:
                         # loop over the construction sets to replace by the new ones

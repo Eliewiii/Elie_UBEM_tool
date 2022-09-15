@@ -187,7 +187,7 @@ class Urban_canopy(_context_filtering.Mixin, _EP_simulation.Mixin, _extract_data
                         for initial_constr_set_id in dic_configuration_to_test[configuration_id][
                             "construction_sets"].keys():
                             new_constr_set_id = dic_configuration_to_test[configuration_id]["construction_sets"][
-                                initial_constr_set_id]  # the new construction set to replace the initial/default one
+                                initial_constr_set_id]["new_const_set"]  # the new construction set to replace the initial/default one
                             if room.properties.energy.construction_set.identifier == initial_constr_set_id:
                                 room.properties.energy.construction_set = construction_set_by_identifier(
                                     new_constr_set_id)
@@ -207,22 +207,6 @@ class Urban_canopy(_context_filtering.Mixin, _EP_simulation.Mixin, _extract_data
         for id in self.building_to_simulate:
             building_obj = self.building_dict[id]
             building_obj.compute_lca(dic_configuration_to_test,lca_dic)
-            # loop over
-            for configuration_id in dic_configuration_to_test.keys():
-                # do the modification if the configuration correspond to the simulated building
-                if configuration_id in building_obj.name:
-                    # check every room in the building
-                    for room in building_obj.HB_model.rooms:
-                        # loop over the construction sets to replace by the new ones
-                        for initial_constr_set_id in dic_configuration_to_test[configuration_id][
-                            "construction_sets"].keys():
-                            new_constr_set_id = dic_configuration_to_test[configuration_id]["construction_sets"][
-                                initial_constr_set_id]  # the new construction set to replace the initial/default one
-                            if room.properties.energy.construction_set.identifier == initial_constr_set_id:
-                                room.properties.energy.construction_set = construction_set_by_identifier(
-                                    new_constr_set_id)
-                                break # if the construction is replaced, no need to check for others in this room
-                    break # n
 
     # # # # # # # # # # # # # # # #       force floor typology   # # # # # # # # # # # # # # # # # # # # #
 

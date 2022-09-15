@@ -33,7 +33,7 @@ class LcaMatColBySurfType(LcaSurfaceType):
         self.surface_type = surface_type
         self.layer = layer
         self.number = number
-        self.name = const_set + "_" + surface_type + "_" + number
+        self.name = const_set + "_" + surface_type + "_" + str(number)
         self.mat_dict = {}  # dictionary with all the materials
         self.compute_missing_property()
         # life duration, set by the user in the code (can change the results as materials have different life time)
@@ -63,7 +63,7 @@ class LcaMatColBySurfType(LcaSurfaceType):
             u_value = float(data_elements[2])
         else:
             u_value = None
-        number = file_name[:-4]  # without the .csv
+        number = int(file_name[:-4])  # without the .csv
 
         collection_obj = cls(const_set=const_set, surface_type=surface_type, layer=layer, R=r_value, U=u_value,
                              number=number)
@@ -114,7 +114,7 @@ class LcaMatColBySurfType(LcaSurfaceType):
         elif self.R_value:  # priority to R
             self.U_value = 1 / self.R_value  # in the future we'll put exceptions if it's 0
         elif self.U_value:  # priority to R
-            self.R_value = 1 / self.R_value  # in the future we'll put exceptions if it's 0
+            self.R_value = 1 / self.U_value  # in the future we'll put exceptions if it's 0
 
     # todo def __str__(self):
     #     """ what you see when you print the urban canopy object """

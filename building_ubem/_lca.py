@@ -2,7 +2,7 @@
 
 """
 from honeybee.facetype import Wall, RoofCeiling
-from honeybee.boundarycondition import Outdoors
+from honeybee.boundarycondition import Outdoors, Ground
 
 
 class Mixin:
@@ -16,10 +16,6 @@ class Mixin:
         for configuration_id in dic_configuration_to_test.keys():
             # do the modification if the configuration correspond to the simulated building
             if configuration_id in self.name:
-                for room in self.HB_model.rooms:
-                    list_old_construction_sets = list(
-                        dic_configuration_to_test[configuration_id]["construction_sets"].values)
-
                 # check every room in the building
                 for room in self.HB_model.rooms:
                     # loop over the construction sets
@@ -28,17 +24,17 @@ class Mixin:
                         # check what's the contruction set that was replaced
                         if room.properties.energy.construction_set.identifier == \
                                 dic_configuration_to_test[configuration_id][
-                                    "construction_sets"][initial_constr_set_id]["new_constr_set"]:
+                                    "construction_sets"][initial_constr_set_id]["new_const_set"]:
                             # loop over the surface type to replace
                             for surface_type in \
                                     dic_configuration_to_test[configuration_id]["construction_sets"][
                                         initial_constr_set_id][
-                                        "surface_types"].values():
+                                        "surface_types"].keys():
                                 # compute the area for this surface type
                                 area = 0.
                                 for surface in room.faces:
-                                    if surface_type == "roof" and isinstance(surface.type, Wall) and isinstance(
-                                            surface.boundary_condition, Outdoors):
+                                    if surface_type == "roof" and isinstance(surface.type, RoofCeiling) and isinstance(
+                                            surface.boundary_condition, Outdoors) :
                                         area += surface.area - surface.aperture_area
                                     elif surface_type == "ext_wall" and isinstance(surface.type, Wall) and isinstance(
                                             surface.boundary_condition,
@@ -51,7 +47,7 @@ class Mixin:
                                         area += surface.aperture_area
                                 # loop over the layers
                                 for layer in dic_configuration_to_test[configuration_id]["construction_sets"][
-                                    initial_constr_set_id]["surface_types"][surface_type].values():
+                                    initial_constr_set_id]["surface_types"][surface_type].keys():
                                     # get the number of the alternative
                                     alternative_number = \
                                         dic_configuration_to_test[configuration_id]["construction_sets"][
@@ -67,9 +63,9 @@ class Mixin:
                                                                         lca_dic[initial_constr_set_id][surface_type][
                                                                             layer][
                                                                             alternative_number].standard_climate_change_overall
-                                    print(surface_type,lca_dic[initial_constr_set_id][surface_type][
+                                    print(room.identifier,surface_type,lca_dic[initial_constr_set_id][surface_type][
                                                                             layer][
-                                                                            alternative_number].standard_climate_change_overall)
+                                                                            alternative_number].standard_climate_change_overall,area)
 
                             break
                 break

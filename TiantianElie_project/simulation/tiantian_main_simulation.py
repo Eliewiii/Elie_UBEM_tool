@@ -75,7 +75,7 @@ with open(path_txt, 'r') as f:
 ## list_constructionsets_id = ["IS_5280_ReferenceConstSet_A","FR_BER_LCA_A_R0-W1-G0","FR_BER_LCA_A_R0-W2-G0","FR_BER_LCA_A_R1-W0-G0"] # to extract from file
 
 ## inputs f
-path_folder_configuration_to_test = "D:\Elie\PhD\Simulation\Input_Data\LCA\Configuration_to_test\LCA_BER_project"
+path_folder_configuration_to_test = "D:\Elie\PhD\Simulation\Input_Data\LCA\Configuration_to_test\LCA_BER_project_test"
 file_list = os.listdir(path_folder_configuration_to_test)
 for in_file in file_list:
     if in_file.endswith(".csv"):
@@ -224,8 +224,13 @@ U_c.extract_building_csv_results(path_folder_building_simulation)
 
 
 ## LCA
+from lca_constuction_material.lca_surface_type import LcaMatColBySurfType
 
-lca_dict = extract_lca_database(path_lca_database)
+path_lca_database= "D:\Elie\PhD\Simulation\Input_Data\LCA\LCA_database\LCA_BER_project"
+
+lca_dict = LcaMatColBySurfType.extract_lca_database(path_folder_database=path_lca_database,life_duration=50)
+
+U_c.compute_lca(dic_configuration_to_test=configuration_dic,lca_dic=lca_dict)
 
 
 

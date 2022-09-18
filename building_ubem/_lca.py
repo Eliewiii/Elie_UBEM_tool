@@ -59,7 +59,7 @@ class Mixin:
                                     self.carbon_footprint["maxi"] = self.carbon_footprint["maxi"] + area * \
                                                                     lca_dic[initial_constr_set_id][surface_type][layer][
                                                                         alternative_number].max_climate_change_overall
-                                    self.carbon_footprint["standard"] = self.carbon_footprint["maxi"] + area * \
+                                    self.carbon_footprint["standard"] = self.carbon_footprint["standard"] + area * \
                                                                         lca_dic[initial_constr_set_id][surface_type][
                                                                             layer][
                                                                             alternative_number].standard_climate_change_overall

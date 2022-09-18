@@ -58,24 +58,24 @@ U_c.load_typologies(path_folder_typology)
 ## Extract data from GIS files
 
 ## todo : extract this list from a text file
-list_constructionsets_id = []
-#const_set_list_path = "D:\\Pycharm\\Task\\Simulation\\Input_Data\\Constructions_and_Loads\\constructionsets" # Tiantian
-const_set_list_path = "D:\Elie\PhD\Simulation\Input_Data\Typology\list_constructionsets\partial_list"   # Elie
-
-
-file_list = os.listdir(const_set_list_path)
-suffix = '.txt'
-for txt_file in file_list:
-    if txt_file.endswith(suffix):
-        path_txt = os.path.join(const_set_list_path, txt_file)
-        break
-with open(path_txt, 'r') as f:
-    for line in f:
-        list_constructionsets_id.append(line.strip())
+# list_constructionsets_id = []
+# #const_set_list_path = "D:\\Pycharm\\Task\\Simulation\\Input_Data\\Constructions_and_Loads\\constructionsets" # Tiantian
+# const_set_list_path = "D:\Elie\PhD\Simulation\Input_Data\Typology\list_constructionsets\partial_list"   # Elie
+#
+#
+# file_list = os.listdir(const_set_list_path)
+# suffix = '.txt'
+# for txt_file in file_list:
+#     if txt_file.endswith(suffix):
+#         path_txt = os.path.join(const_set_list_path, txt_file)
+#         break
+# with open(path_txt, 'r') as f:
+#     for line in f:
+#         list_constructionsets_id.append(line.strip())
 ## list_constructionsets_id = ["IS_5280_ReferenceConstSet_A","FR_BER_LCA_A_R0-W1-G0","FR_BER_LCA_A_R0-W2-G0","FR_BER_LCA_A_R1-W0-G0"] # to extract from file
 
 ## inputs f
-path_folder_configuration_to_test = "D:\Elie\PhD\Simulation\Input_Data\LCA\Configuration_to_test\LCA_BER_project_test"
+path_folder_configuration_to_test = "D:\Elie\PhD\Simulation\Input_Data\LCA\Configuration_to_test\LCA_BER_project"
 file_list = os.listdir(path_folder_configuration_to_test)
 for in_file in file_list:
     if in_file.endswith(".csv"):
@@ -234,7 +234,7 @@ lca_dict = LcaMatColBySurfType.extract_lca_database(path_folder_database=path_lc
 
 U_c.compute_lca(dic_configuration_to_test=configuration_dic,lca_dic=lca_dict)
 
-conversion_rate=1/556.5
+conversion_rate=1/0.5565
 U_c.convert_carbon_footprint_kwh_per_m2_eq_compare_to_ref(conversion_rate=conversion_rate,life_time=life_time)
 U_c.compute_consumption_improvement_lca()
 
@@ -245,7 +245,7 @@ csv_name = "Results.csv"
 path_csv = os.path.join(path_folder_building_results, csv_name)
 
 
-U_c.write_global_csv_results(path_csv)
+U_c.write_global_csv_results_with_lca(path_csv)
 
 
 # %% Generate csv results in each building object

@@ -33,7 +33,7 @@ class Mixin:
             building_obj.carbon_footprint_kwh_per_m2_eq_per_year["standard"] = building_obj.carbon_footprint[
                                                                                    "standard"] / building_obj.apartment_area * conversion_rate / life_time
             building_obj.carbon_footprint_kwh_per_m2_eq_per_year["mini"] = building_obj.carbon_footprint[
-                                                                               "maxi"] / building_obj.apartment_area * conversion_rate / life_time
+                                                                               "mini"] / building_obj.apartment_area * conversion_rate / life_time
             # conversion in kwh/m2 compared to ref
             building_obj.carbon_footprint_kwh_per_m2_eq_compared_to_ref["maxi"] = lca_max_ref - \
                                                                                   building_obj.carbon_footprint[
@@ -43,7 +43,7 @@ class Mixin:
                                                                                           "standard"] / building_obj.apartment_area * conversion_rate
             building_obj.carbon_footprint_kwh_per_m2_eq_compared_to_ref["mini"] = lca_min_ref - \
                                                                                   building_obj.carbon_footprint[
-                                                                                      "maxi"] / building_obj.apartment_area * conversion_rate
+                                                                                      "mini"] / building_obj.apartment_area * conversion_rate
             # normalize per year
             building_obj.carbon_footprint_kwh_per_m2_eq_per_year_compared_to_ref["maxi"] = \
                 building_obj.carbon_footprint_kwh_per_m2_eq_compared_to_ref["maxi"] / life_time

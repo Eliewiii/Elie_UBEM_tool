@@ -41,28 +41,28 @@ class Mixin:
                     round(building_obj.energy_consumption["total_BER_no_light"], 2),
                     building_obj.rating))
 
-
     def write_global_csv_results_with_lca(self, file_path):
         """ Write a global csv result file in the Simulation/Result folder for all the simulations """
         with open(file_path, 'w') as csvfile:
             csvfile.write(
-                "Building,Heating (COP) [kWh/m2],Colling (COP) [kWh/m2],Total (COP) [kWh/m2],Total BER [kWh/m2],Rating,\n")
+                "Building,Heating (COP) [kWh/m2],Cooling (COP) [kWh/m2],Total (COP) [kWh/m2],Total BER [kWh/m2],Rating,Climate Change min [kWh/m2/year eq],Climate Change standard [kWh/m2/year eq],Climate Change max [kWh/m2/year eq]\n")
             for building_id in self.building_to_simulate:
                 building_obj = self.building_dict[building_id]
-                csvfile.write("{},{},{},{},{},{}\n".format(
+                csvfile.write("{},{},{},{},{},{},{},{},{}\n".format(
                     building_obj.name,
                     round(building_obj.energy_consumption["tot_h_cop"], 2),
                     round(building_obj.energy_consumption["tot_c_cop"], 2),
                     round(building_obj.energy_consumption["total_w_cop"], 2),
                     round(building_obj.energy_consumption["total_BER_no_light"], 2),
-                    building_obj.rating))
-
+                    building_obj.rating,
+                    round(building_obj.carbon_footprint_kwh_per_m2_eq_per_year["mini"], 4),
+                    round(building_obj.carbon_footprint_kwh_per_m2_eq_per_year["standard"], 4),
+                    round(building_obj.carbon_footprint_kwh_per_m2_eq_per_year["maxi"], 4)))
 
     def write_csv_results_in_building_folder(self, path_folder_building_simulation):
         """ determine the path for the results of each building and write the results in each building file """
         # todo : loop for all the buildings, get the pass to building_??\Results and write the csv
         for building_id in self.building_to_simulate:
-            print("in building")
             building_obj = self.building_dict[building_id]
             path_to_building_folder = join(path_folder_building_simulation, building_obj.name)
             path_to_result_folder = join(path_to_building_folder, "Results")

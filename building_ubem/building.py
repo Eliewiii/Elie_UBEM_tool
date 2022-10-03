@@ -86,7 +86,9 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
         self.is_target = False
         self.is_simulated = False
         # # Context filtering
-        self.pv_pd_facet_list = []
+        self.external_face_list_target = None
+        self.external_face_list_context = None
+        self.context_buildings_HB_faces = []
         # # Ladybug #
         self.LB_face_footprint = None  # EVENTUALLY ANOTHER VERSION FOR THE FIRST FLOOR IF DIFFERENT
         self.LB_face_centroid = None
@@ -101,8 +103,7 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
         self.DF_story = None
         self.DF_building = None
         # # View factor # #
-        self.context_buildings_id = []
-        self.context_buildings_HB_faces = []
+
         # # additional characteristics
         self.cores_per_floor = None  # number of cores per floor
         self.use = None  # use of the building_zon, given by the GIS por the typology: ["residential", "residential with 1st floor commercial", "office"]
@@ -127,16 +128,15 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
         self.vintage = "New"
         self.fract_heat_to_canyon = 0.5
         self.shgc = 0.7
-        self.wall_albedo = 0.2  # ?
+        self.wall_albedo = 0.2  #
         self.roof_albedo = 0.7
         self.roof_veg_fraction = 0
         # # LCA
         self.is_reference = None
         self.carbon_footprint = {"mini": 0, "maxi": 0, "standard": 0}  # total
         self.carbon_footprint_kwh_per_m2_eq_per_year= {"mini": 0, "maxi": 0, "standard": 0}
-        self.carbon_footprint_kwh_per_m2_eq_compared_to_ref = {"mini": 0, "maxi": 0, "standard": 0}
-        self.carbon_footprint_kwh_per_m2_eq_per_year_compared_to_ref = {"mini": 0, "maxi": 0, "standard": 0}
-        self.improvement_lca_in_percent = {"mini": 0, "maxi": 0, "standard": 0}
+        self.carbon_footprint_kwh_per_m2_eq_compared_to_ref = {"mini": 0, "maxi": 0}
+        self.carbon_footprint_kwh_per_m2_eq_per_year_compared_to_ref = {"mini": 0, "maxi": 0}
 
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # #                   Class methods             # # # # # # # # # # # # # # # # # # # # #

@@ -70,7 +70,12 @@ class Mixin:
         """
         identify, according to the LWR, with the filtering criteria if we should keep the surfaces
         """
-
+    def prepare_building_face_for_context(self):
+        """
+        Generate the face_list attributes for the buildings to simplify the computation
+        """
+        for not_used, (id, building_obj) in enumerate(self.building_dict.items()):
+            building_obj.prepare_face_for_context_new(is_target=building_obj.is_target)
 
     def filter_context_new(self, vf_criteria):
         """
@@ -94,11 +99,11 @@ class Mixin:
             for id_context in self.building_dict:
                 ## check that it's not executing the code on itself
                 if id_target==id_context :
-                    continue # if it's the same it skip
+                    continue # if it's the same it skips
                 context_building_obj= self.building_dict[id_context]
                 ## identify the buildings that have at least one surface that satidfy the minimum view factor criteria
-                target_building_obj.identify_context_building(context_building_obj)
-            ## from all the buildings identified as context, use the second pas (raytracing) to identify, among all these surfaces
+                target_building_obj.identify_shading_surfaces(context_building_obj,mvfc=vf_criteria,rt_second_pass=False)
+            ## from all the buildings identified as context, use the second pass (raytracing) to identify, among all these surfaces
             ## which one really shade on the building
             target_building_obj.identify_context_surfaces_with_raytracing_second_pass()
 

@@ -88,7 +88,8 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
         # # Context filtering
         self.external_face_list_target = None
         self.external_face_list_context = None
-        self.context_buildings_HB_faces = []
+        self.context_buildings_id_list = []
+        self.context_shading_HB_faces = []
         # # Ladybug #
         self.LB_face_footprint = None  # EVENTUALLY ANOTHER VERSION FOR THE FIRST FLOOR IF DIFFERENT
         self.LB_face_centroid = None

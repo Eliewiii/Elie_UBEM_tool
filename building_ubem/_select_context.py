@@ -3,6 +3,7 @@ Additional methods for the Building class.
 Deals with the context selection of the context.
 """
 import copy
+import time
 
 from math import sqrt, atan, pi, log
 
@@ -70,30 +71,47 @@ class Mixin:
                 surface, is a dictionary with the following properties {"hb_face_obj", "area", "centroid":(Point3D),
                  "lower_corner_point3d":{"left","right"},"height"}
             mvfc [float]: value for the minimum view factor criteria. Check the shading_context_first_pass function
-               for the detailed explanation.
+               for the detailed explanation. default value 0.01
             first_pass [boolean]: True if we want to use the first pass, False if not.
             second_pass [boolean]: True if we want to use the second pass, False if not.
         """
         surface_to_test = copy.deepcopy(pre_processed_surface_list)
 
+        ## Initialization
+        first_pass_duration = 0
+        second_pass_duration = 0
+        kept_surfaces_dict_list=[]
+
         ## first pass
-        if mvfc_first_pass:
-            for surface in context_building_obj.
+        if first_pass:
+            first_pass_duration = time.time()
+            kept_surfaces_dict_list = self.shading_context_first_pass(surface_to_test,mvfc)
+            first_pass_duration = time.time() - first_pass_duration
+            ## second pass
+            if second_pass:
+                second_pass_duration = time.time()
+                kept_surfaces_dict_list = self.shading_context_second_pass(kept_surfaces_dict_list)
+                second_pass_duration = time.time() - second_pass_duration
 
-            context_surface_first_pass = []
-        if rt_second_pass:
-            if mvfc_first_pass
-                for surface in context_surface_first_pass
+            first_pass_duration = time.time() - first_pass_duration
 
-        ## second pass
-        elif mvfc_first_pass:
-            self.context_shading_HB_faces =
 
-        return (first_pass_duration, second_pass_diration, shading_surface_list)
+        ## second pass only
+        elif second_pass:
+            second_pass_duration = time.time()
+            kept_surfaces_dict_list = self.shading_context_second_pass(surface_to_test)
+            second_pass_duration = time.time() - second_pass_duration
 
-    def shading_context_first_pass(self, pre_processed_surface_list, mvfc=0.01, ):
+        surface_dict_to_hb_faces(kept_surfaces_dict_list)
+
+        self.context_shading_HB_faces=kept_surfaces_dict_list
+
+
+        return (kept_surfaces_dict_list,first_pass_duration, second_pass_duration)
+
+    def shading_context_first_pass(self, pre_processed_surface_list, mvfc):
         """
-        First pass of the selection of shading the surfaces from the context.
+        First pass of the selection of the shading surfaces from the context.
         Use the minimum view factor criterion (mvfc).
         An upper bound of the view factor between each couple of target and context surfaces is computed. If this value
         is higher than the mvfc, the surface is kept as it has potential to shade significantly on the target building.
@@ -104,14 +122,42 @@ class Mixin:
                  "lower_corner_point3d":{"left","right"},"height"}
             mvfc [float]: value for the minimum view factor criteria.
         """
-        for test_face in pre_processed_surface_list:
-            for target_face in self.external_face_list_target:
-                if max_VF(centroid_1=target_face["centroid"], area_1=["centroid"], centroid_2=test_face["centroid"],
-                          area_2=test_face["area"]) >= mvfc:
-                    # self.building_dict[target_id].context_buildings_HB_faces.append(test_face[0])
-                    break
+        kept_surfaces = []  # surfaces to keep after the first pass
+        for test_face in pre_processed_surface_list:  # loop over all the context surfaces
+            for target_face in self.external_face_list_target:  # loop over all the surfaces of the target building
+                if max_VF(centroid_1=target_face["centroid"], area_1=target_face["area"],
+                          centroid_2=test_face["centroid"], area_2=test_face["area"]) >= mvfc:  # mvf criterion
+                    kept_surfaces.append(test_face) # if criteria valid, add the surface to the kept surface
+                    break # if a surface is context for one of the target surface, it is kept and thus stop the loop
 
-    def shading_context_second_pass(self, mvfc=0.01, ):
+        return kept_surfaces
+
+    def shading_context_second_pass(self, pre_processed_surface_list):
+        """
+        + Second pass of the selection of the shading surfaces from the context.
+        + Use raytracing to identify the obstructions among the context surfaces.
+        + The context surfaces to test are generally pre-filtered by the first pass.
+        + Rays are sent from the left, right and middle of each target building facade to the left, right and middle of
+          target building facade.
+        + The z coordinate of the receiver/context building vertices is the height of the context building.
+        + The z coordinate of the sender/target building vertices is the minimum between the height of the target and
+          the context building
+        Args:
+            pre_processed_surface_list [list]: list containing all the surfaces to test, usually pre filtered
+                by the first pass. Each element, representing a surface, is a dictionary with the following properties
+                 {"hb_face_obj", "area", "centroid":(Point3D), "lower_corner_point3d":{"left","right"},"height"}
+
+        """
+
+        kept_surfaces = []  # surfaces to keep after the first pass
+        for test_face in pre_processed_surface_list:  # loop over all the context surfaces
+            for target_face in self.external_face_list_context:  # loop over all the surfaces of the target building
+                # we use the _list_context as the surfaces are sorted from bigger to smaller and it is faster
+                if is_obstructed(emitter=target_face,receiver=test_face,context=pre_processed_surface_list) == False:
+                    kept_surfaces.append(test_face) # if criteria valid, add the surface to the kept surface
+                    break # if a surface is context for one of the target surface, it is kept and thus stop the loop
+
+        return kept_surfaces
 
     def identify_if_context_building(self, context_building_obj):
         """
@@ -201,3 +247,79 @@ def max_VF(centroid_1, area_1, centroid_2, area_2):
     s = u * (x * atan(x / u) - y * atan(y / u))
     t = v * (x * atan(x / v) - y * atan(y / v))
     return 1 / (pi * w_1 ** 2) * (log(p / q) + s - t)
+
+def surface_dict_to_hb_faces(surface_dict_list):
+    """ convert the list of dictionary surfaces to hb faces"""
+    hb_surface_list=[] # if no surface return empty list
+    if surface_dict_list != []:
+        for surface_dict in surface_dict_list:
+            hb_surface_list.append(surface_dict["hb_face_obj"]) # take the hb face from the dict
+    return hb_surface_list
+
+def is_obstructed(emitter,receiver,context):
+    """
+    Check if the surfaces
+    """
+    ## preprocess the vectors to check
+    ray_list=[]
+    ray_0 = None
+    ray_1 = None
+    ray_2 = None
+    ray_3 = None
+    ray_4 = None
+    ray_5 = None
+    ray_6 = None
+
+
+    ## loop over the context
+    for ray in ray_list:
+        obstructed = False
+        for context_surface in context:
+            obstructed=function()
+            if obstructed==True:
+                break
+        if obstructed==False:
+            return False
+    # if all the ray were obstructed at least once, receiver context surface should not be included in the computation
+    return True
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

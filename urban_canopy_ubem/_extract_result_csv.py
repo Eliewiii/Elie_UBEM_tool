@@ -4,7 +4,9 @@ Deals with the result extraction, here csv files
 """
 from os.path import join
 from building_ubem.building import Building
-
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 
 class Mixin:
 
@@ -59,14 +61,50 @@ class Mixin:
                     round(building_obj.carbon_footprint_kwh_per_m2_eq_per_year["standard"], 4),
                     round(building_obj.carbon_footprint_kwh_per_m2_eq_per_year["maxi"], 4)))
 
-    def write_csv_results_in_building_folder(self, path_folder_building_simulation):
+    def write_csv_results_in_building_folder(self, path_folder_building_results, path_folder_building_simulation):
         """ determine the path for the results of each building and write the results in each building file """
         # todo : loop for all the buildings, get the pass to building_??\Results and write the csv
+
+        ## create some variable needed for plotting
+        fig, ax = plt.subplots()
+        width = 0.3
+        bar_location = -0.1
+        model = []               # A list in the form of ["Building_1", "Building_2",...]
+        x_position_bar = []      # A list used to record the location of the center of bar for each building in the graph
+
         for building_id in self.building_to_simulate:
             building_obj = self.building_dict[building_id]
             path_to_building_folder = join(path_folder_building_simulation, building_obj.name)
             path_to_result_folder = join(path_to_building_folder, "Results")
             building_obj.generate_csv_in_individual_result_folder(path_to_result_folder)
+
+            # output the result graph
+            model.append(building_obj.name)
+            bar_location += 1.1
+            x_position_bar.append(bar_location)
+            heating_bar = ax.bar(bar_location-width, building_obj.energy_consumption["tot_h_cop_compared_to_ref"],
+                                 width, color="red", label="heating", zorder=10)
+            cooling_bar = ax.bar(bar_location-width, building_obj.energy_consumption["tot_c_cop_compared_to_ref"],
+                                 width, color="blue", bottom=building_obj.energy_consumption["tot_h_cop_compared_to_ref"],
+                                 label="cooling", zorder=10)
+            carbon_ftp_bar = ax.bar(bar_location, building_obj.carbon_footprint_kwh_per_m2_eq_per_year_compared_to_ref["mini"]-
+                                    building_obj.carbon_footprint_kwh_per_m2_eq_per_year_compared_to_ref["maxi"],
+                                    width, color="green",
+                                    bottom=building_obj.carbon_footprint_kwh_per_m2_eq_per_year_compared_to_ref["maxi"],
+                                    label="carbon footprint", zorder=10)
+            tot_impact_bar = ax.bar(bar_location+width, building_obj.carbon_footprint_kwh_per_m2_eq_per_year_compared_to_ref["mini"]-
+                                    building_obj.carbon_footprint_kwh_per_m2_eq_per_year_compared_to_ref["maxi"],
+                                    width, color="green",
+                                    bottom=building_obj.energy_consumption["total_BER_compared_to_ref"],
+                                    label="total environmental impact", zorder=10)
+            if bar_location == 1:
+                ax.legend()
+        ax.set_xticks(x_position_bar, labels=model)
+        ax.set_ylabel("Environmental impact in KWh/m2 compared to reference")
+
+        fig.tight_layout()
+        plt.savefig(join(path_folder_building_results, "graph.png"))
+        plt.show()
 
     # def print_total_results(self):
     #

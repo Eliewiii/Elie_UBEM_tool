@@ -75,7 +75,8 @@ U_c.load_typologies(path_folder_typology)
 ## list_constructionsets_id = ["IS_5280_ReferenceConstSet_A","FR_BER_LCA_A_R0-W1-G0","FR_BER_LCA_A_R0-W2-G0","FR_BER_LCA_A_R1-W0-G0"] # to extract from file
 
 ## inputs f
-path_folder_configuration_to_test = "D:\Elie\PhD\Simulation\Input_Data\LCA\Configuration_to_test\LCA_BER_project"
+#path_folder_configuration_to_test = "D:\Elie\PhD\Simulation\Input_Data\LCA\Configuration_to_test\LCA_BER_project"  ##Elie
+path_folder_configuration_to_test = "D:\Pycharm\Task\Simulation\Input_Data\LCA\Configuration_to_test\LCA_BER_project_test_sample" ##Tiantian
 file_list = os.listdir(path_folder_configuration_to_test)
 for in_file in file_list:
     if in_file.endswith(".csv"):
@@ -226,7 +227,8 @@ U_c.extract_building_csv_results(path_folder_building_simulation)
 ## LCA
 from lca_constuction_material.lca_surface_type import LcaMatColBySurfType
 
-path_lca_database= "D:\Elie\PhD\Simulation\Input_Data\LCA\LCA_database\LCA_BER_project"
+#path_lca_database = "D:\Elie\PhD\Simulation\Input_Data\LCA\LCA_database\LCA_BER_project"  ##Elie
+path_lca_database = "D:\Pycharm\Task\Simulation\Input_Data\LCA\LCA_database\LCA_BER_project"  ##Tiantian
 life_time=50
 
 
@@ -249,7 +251,7 @@ U_c.write_global_csv_results_with_lca(path_csv)
 
 
 # %% Generate csv results in each building object
-U_c.write_csv_results_in_building_folder(path_folder_building_simulation)
+U_c.write_csv_results_in_building_folder(path_folder_building_results, path_folder_building_simulation)
 
 
 # %% test
@@ -257,7 +259,6 @@ U_c.write_csv_results_in_building_folder(path_folder_building_simulation)
 
 # print(U_c.building_dict[0].HB_model.rooms[0].identifier)
 # print(U_c.building_dict[0].HB_model.rooms[0].properties.energy.infiltration) #test infiltration
-
 
 
 

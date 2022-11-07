@@ -6,7 +6,6 @@ Deals with the context filtering
 from math import sqrt, atan, pi, log
 
 
-
 class Mixin:
 
     def filter_context(self, vf_criteria):
@@ -70,6 +69,7 @@ class Mixin:
         """
         identify, according to the LWR, with the filtering criteria if we should keep the surfaces
         """
+
     def prepare_building_face_for_context(self):
         """
         Generate the face_list attributes for the buildings to simplify the computation
@@ -94,15 +94,20 @@ class Mixin:
 
         ## Loop over all the target buildings
         for id_target in self.building_to_simulate:
-            target_building_obj=self.building_dict[id_target]
+            target_building_obj = self.building_dict[id_target]
+            pre_processed_surface_list = []
             ## loop over all the buildings, that can potentially be context
             for id_context in self.building_dict:
                 ## check that it's not executing the code on itself
-                if id_target==id_context :
-                    continue # if it's the same it skips
-                context_building_obj= self.building_dict[id_context]
+                if id_target == id_context:
+                    continue  # if it's the same it skips
+                context_building_obj = self.building_dict[id_context]
+                for surface_dict in context_building_obj.external_face_list_context:
+                    pre_processed_surface_list.append(surface_dict)
                 ## identify the buildings that have at least one surface that satidfy the minimum view factor criteria
-                target_building_obj.identify_shading_surfaces(context_building_obj,mvfc=vf_criteria,rt_second_pass=False)
+            target_building_obj.shading_context_surfaces_selection(
+                pre_processed_surface_list=pre_processed_surface_list, mvfc=vf_criteria, first_pass=True,
+                second_pass=True)
             ## from all the buildings identified as context, use the second pass (raytracing) to identify, among all these surfaces
             ## which one really shade on the building
             target_building_obj.identify_context_surfaces_with_raytracing_second_pass()
@@ -131,8 +136,6 @@ class Mixin:
             ## second check, check every surfaces in the selected context buildings
 
         ## prepare the simulated buildings that are not targets
-
-
 
 
 def is_context_building(target_building_face_list, test_context_building_face_list, VF_criteria):

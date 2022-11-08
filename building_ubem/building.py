@@ -78,6 +78,7 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
         self.typology = typo
         self.num_floor = None
         self.height = None
+        # todo : add the elevation, especially to the buuilding envelop
         self.elevation = elevation
         self.dimension = dimension
         self.shp_id = building_id_shp  # id in the shp file, can be useful to see which is the building_zon if a problem is spotted

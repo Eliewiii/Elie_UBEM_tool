@@ -290,8 +290,8 @@ def is_obstructed(emitter, receiver, context):
         return False
 
 
-# if all the ray were obstructed at least once, receiver context surface should not be included in the computation
-return True
+    # if all the ray were obstructed at least once, receiver context surface should not be included in the computation
+    return True
 
 
 def pre_processed_surface_list_to_hb_face_list(pre_processed_surface_list):

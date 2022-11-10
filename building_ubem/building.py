@@ -117,8 +117,8 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
         self.apartment_dict = {}
         self.apartment_area = 0.
         self.energy_consumption = {"total_w_cop": 0., "total_BER": 0., "total_BER_no_light": 0., "tot_h_cop": 0.,
-                                   "tot_c_cop": 0., "total_BER_compared_to_ref": 0, "tot_c_cop_compared_to_ref": 0,
-                                   "total_h_cop_compared_to_ref": 0}
+                                   "tot_c_cop": 0., "tot_BER_compared_to_ref": 0, "tot_c_cop_compared_to_ref": 0,
+                                   "tot_h_cop_compared_to_ref": 0}
         self.cop_h = None
         self.cop_c = None
         self.climate_zone = "A"

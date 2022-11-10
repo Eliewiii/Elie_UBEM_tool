@@ -95,7 +95,7 @@ class Mixin:
             tot_impact_bar = ax.bar(bar_location+width, building_obj.carbon_footprint_kwh_per_m2_eq_per_year_compared_to_ref["mini"]-
                                     building_obj.carbon_footprint_kwh_per_m2_eq_per_year_compared_to_ref["maxi"],
                                     width, color="green",
-                                    bottom=building_obj.energy_consumption["total_BER_compared_to_ref"],
+                                    bottom=building_obj.energy_consumption["tot_BER_compared_to_ref"],
                                     label="total environmental impact", zorder=10)
             if bar_location == 1:
                 ax.legend()

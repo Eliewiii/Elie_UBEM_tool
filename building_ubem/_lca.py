@@ -4,7 +4,6 @@
 from honeybee.facetype import Wall, RoofCeiling
 from honeybee.boundarycondition import Outdoors, Ground
 from os.path import join
-from building_ubem.building import Building
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd

@@ -4,7 +4,7 @@ import sys
 import logging
 
 from tools._folder_manipulation import create_folder_output, move_input_files_to_output_folder
-from tools._save_and_load_objects import save_object_pickle,load_object_pickle
+from tools._save_and_load_objects import save_object_pickle, load_object_pickle
 
 # %% Load inputs
 
@@ -75,6 +75,10 @@ U_c.create_building_LB_geometry_footprint()
 ## Create HB room envelop with GIS footprint
 U_c.create_building_HB_room_envelop()
 
+
+save_object_pickle(os.path.join(path_folder_simulation, "Urban_canopy", "uc_obj.p"), U_c)
+U_c = load_object_pickle(os.path.join(path_folder_simulation, "Urban_canopy", "uc_obj.p"))
+
 # %% Context filter algorithm
 
 # filter context and identify the buildings to simulate
@@ -125,72 +129,65 @@ U_c.HB_building_window_generation_floor_area_ratio()
 
 # add shades
 U_c.add_context_surfaces_to_HB_model()
-# assign constructions, loads etc...
-U_c.apply_buildings_characteristics()
-# Add infiltration in volume per hour
-U_c.add_infiltration_air_exchange(air_exchange_rate=1.)
 
-# add blinds
-
-# add thermal mass
-U_c.add_thermal_mass_int_wall()
-
-# log #
-logging.info("Building modeled")
+# # assign constructions, loads etc...
+# U_c.apply_buildings_characteristics()
+# # Add infiltration in volume per hour
+# U_c.add_infiltration_air_exchange(air_exchange_rate=1.)
 #
-
-
-# %% test
-
-# print(U_c.building_dict[0].HB_model.rooms[0].properties.energy.program_type)
-# print(U_c.building_dict[0].HB_model.rooms[0].properties.energy.internal_masses[0].construction)
-
-# %% Clean/create simulation folder
-
-U_c.create_simulation_folder_buildings(path_folder_building_simulation)
-
-# %% Generate json to plot context
-# All the buildings that are target buildings
-U_c.context_to_hbjson(path_folder_context_hbjson)
-U_c.context_surfaces_to_hbjson(path_folder_building_simulation)
-# U_c.GIS_context_individual_to_hbjson(path_folder_building_simulation)
-
-# %% Extract simulation parameters
-## Merge simulation parameters files
-U_c.load_simulation_parameter(path_folder_simulation_parameter, path_simulation_parameter)
-## Add design days
-U_c.add_design_days_to_simulation_parameters(path_simulation_parameter, path_file_epw)
-
-# %% Generate HB models
-U_c.model_to_HBjson(path_folder_building_simulation)
-
-# %% Save urban_canopy object in a pickle file
-save_object_pickle(os.path.join(path_folder_simulation, "Urban_canopy", "uc_obj.p"), U_c)
+# # add blinds
 #
-# U_c.generate_local_epw_with_uwg(path_epw="D:\Elie\PhD\Simulation\Input_Data\EPW\IS_5280_A_Haifa.epw",
-#                                     path_folder_epw_uwg="D:\Elie\PhD\\test")
-
-
-# %% Generate IDF and simulate the building
-U_c.simulate_idf(path_folder_building_simulation, path_simulation_parameter, path_file_epw, path_energyplus_exe)
-# U_c.simulate_idf(path_folder_building_simulation, path_simulation_parameter, "D:\Elie\PhD\\test\\random_neighborhood_uwg.epw", path_energyplus_exe)
-
-
-
-# %% Extract and print results
-
-U_c.extract_building_csv_results(path_folder_building_simulation)
-
-U_c.print_detailed_results_BER(apartment_details=True)
-
-# %% test
-
-save_object_pickle(os.path.join(path_folder_simulation, "Urban_canopy", "uc_obj_2.p"), U_c)
-
-
-# U_c_2 = load_object_pickle(os.path.join(path_folder_simulation, "Urban_canopy", "uc_obj.p"))
-# print(U_c_2.building_dict[0].height)
-
-
-# print(U_c.building_dict[0].HB_model.rooms[0].identifier)
-# print(U_c.building_dict[0].HB_model.rooms[0].properties.energy.infiltration) #test infiltration
+# # add thermal mass
+# U_c.add_thermal_mass_int_wall()
+#
+# # log #
+# logging.info("Building modeled")
+# #
+#
+#
+# # %% test
+#
+# # print(U_c.building_dict[0].HB_model.rooms[0].properties.energy.program_type)
+# # print(U_c.building_dict[0].HB_model.rooms[0].properties.energy.internal_masses[0].construction)
+#
+# # %% Clean/create simulation folder
+#
+# U_c.create_simulation_folder_buildings(path_folder_building_simulation)
+#
+# # %% Generate json to plot context
+# # All the buildings that are target buildings
+# U_c.context_to_hbjson(path_folder_context_hbjson)
+# U_c.context_surfaces_to_hbjson(path_folder_building_simulation)
+# # U_c.GIS_context_individual_to_hbjson(path_folder_building_simulation)
+#
+# # %% Extract simulation parameters
+# ## Merge simulation parameters files
+# U_c.load_simulation_parameter(path_folder_simulation_parameter, path_simulation_parameter)
+# ## Add design days
+# U_c.add_design_days_to_simulation_parameters(path_simulation_parameter, path_file_epw)
+#
+# # %% Generate HB models
+# U_c.model_to_HBjson(path_folder_building_simulation)
+#
+# # %% Save urban_canopy object in a pickle file
+# save_object_pickle(os.path.join(path_folder_simulation, "Urban_canopy", "uc_obj.p"), U_c)
+# #
+# # U_c.generate_local_epw_with_uwg(path_epw="D:\Elie\PhD\Simulation\Input_Data\EPW\IS_5280_A_Haifa.epw",
+# #                                     path_folder_epw_uwg="D:\Elie\PhD\\test")
+#
+#
+# # %% Generate IDF and simulate the building
+# U_c.simulate_idf(path_folder_building_simulation, path_simulation_parameter, path_file_epw, path_energyplus_exe)
+# # U_c.simulate_idf(path_folder_building_simulation, path_simulation_parameter, "D:\Elie\PhD\\test\\random_neighborhood_uwg.epw", path_energyplus_exe)
+#
+#
+# # %% Extract and print results
+#
+# U_c.extract_building_csv_results(path_folder_building_simulation)
+# U_c.print_detailed_results_BER(apartment_details=True)
+#
+# # %% test
+#
+#
+# # print(U_c.building_dict[0].HB_model.rooms[0].identifier)
+# # print(U_c.building_dict[0].HB_model.rooms[0].properties.energy.infiltration) #test infiltration

@@ -4,7 +4,7 @@ import sys
 import logging
 
 from tools._folder_manipulation import create_folder_output, move_input_files_to_output_folder
-from tools._save_and_load_objects import save_object_pickle,load_object_pickle
+from tools._save_and_load_objects import save_object_pickle
 
 # %% Load inputs
 
@@ -56,7 +56,45 @@ U_c.load_typologies(path_folder_typology)
 # %% Extract GIS
 
 ## Extract data from GIS files
-U_c.extract_gis_2D(path_file_gis, unit_gis)
+
+## todo : extract this list from a text file
+# list_constructionsets_id = []
+# #const_set_list_path = "D:\\Pycharm\\Task\\Simulation\\Input_Data\\Constructions_and_Loads\\constructionsets" # Tiantian
+# const_set_list_path = "D:\Elie\PhD\Simulation\Input_Data\Typology\list_constructionsets\partial_list"   # Elie
+#
+#
+# file_list = os.listdir(const_set_list_path)
+# suffix = '.txt'
+# for txt_file in file_list:
+#     if txt_file.endswith(suffix):
+#         path_txt = os.path.join(const_set_list_path, txt_file)
+#         break
+# with open(path_txt, 'r') as f:
+#     for line in f:
+#         list_constructionsets_id.append(line.strip())
+## list_constructionsets_id = ["IS_5280_ReferenceConstSet_A","FR_BER_LCA_A_R0-W1-G0","FR_BER_LCA_A_R0-W2-G0","FR_BER_LCA_A_R1-W0-G0"] # to extract from file
+
+## inputs f
+# path_folder_configuration_to_test = "D:\Elie\PhD\Simulation\Input_Data\LCA\Configuration_to_test\LCA_BER_project"  # Elie
+path_folder_configuration_to_test = "D:\Elie\PhD\Simulation\Input_Data\LCA\Configuration_to_test\LCA_BER_project_test"  # Elie test
+# path_folder_configuration_to_test = "D:\Pycharm\Task\Simulation\Input_Data\LCA\Configuration_to_test\LCA_BER_project_test_sample" # Tiantian
+file_list = os.listdir(path_folder_configuration_to_test)
+for in_file in file_list:
+    if in_file.endswith(".csv"):
+        name_csv_configuration_to_test = in_file[:-4]
+        break
+
+from lca_constuction_material.list_configuration_to_test import configuation_to_test_csv_to_json
+
+configuration_dic = configuation_to_test_csv_to_json(path_folder_configuration_to_test,name_csv_configuration_to_test)
+
+#list with all the name of each configuration
+list_name_configuation_to_test = list(configuration_dic.keys())
+
+
+
+U_c.vary_construction_set_from_one_building_gis(path_file_gis, unit_gis,
+                                                list_variation_id=list_name_configuation_to_test)
 
 # log #
 logging.info("GIS extracted")
@@ -79,16 +117,14 @@ U_c.create_building_HB_room_envelop()
 
 # filter context and identify the buildings to simulate
 
-U_c.filter_context(0.1)
-
 # %% test
 
 # print(len(U_c.building_dict[0].context_buildings_id))
 
 # %% Force Typology
 
-U_c.building_dict[0].typology = U_c.typology_dict["train_40x4_Z_A"]
-U_c.force_default_typology()
+U_c.force_typology("train_40x4_Z_A")
+# U_c.force_default_typology()
 
 # %% Force Typology
 
@@ -120,8 +156,6 @@ U_c.assign_ideal_hvac_system(climate_zone="A", hvac_paramater_set="team_design_b
 # create windows
 U_c.HB_building_window_generation_floor_area_ratio()
 
-# U_c.building_dict[45].HB_model_force_rotation(80)  ################  TO MODIFY
-
 
 # add shades
 U_c.add_context_surfaces_to_HB_model()
@@ -135,10 +169,22 @@ U_c.add_infiltration_air_exchange(air_exchange_rate=1.)
 # add thermal mass
 U_c.add_thermal_mass_int_wall()
 
+# change the constructionsets
+U_c.change_hb_constr_set_according_to_variation_to_simulate(dic_configuration_to_test=configuration_dic)
+# U_c.hb_change_construction_set_according_to_name(list_constructionsets_id=list_constructionsets_id)
+
+
+
 # log #
 logging.info("Building modeled")
 #
 
+# save_object_pickle(os.path.join("D:\Elie\PhD\Simulation\Input_Data\Sample_objects\Tiantian\Sample_building_LCA_project",
+#                                 "Building_LCA_z_A.p"),
+#                    U_c.building_dict[0])
+# save_object_pickle(os.path.join("D:\Elie\PhD\Simulation\Input_Data\Sample_objects\Tiantian\Sample_building_LCA_project",
+#                                 "Uc_LCA_z_A.p"),
+#                    U_c)
 
 # %% test
 
@@ -151,8 +197,7 @@ U_c.create_simulation_folder_buildings(path_folder_building_simulation)
 
 # %% Generate json to plot context
 # All the buildings that are target buildings
-U_c.context_to_hbjson(path_folder_context_hbjson)
-U_c.context_surfaces_to_hbjson(path_folder_building_simulation)
+
 # U_c.GIS_context_individual_to_hbjson(path_folder_building_simulation)
 
 # %% Extract simulation parameters
@@ -165,8 +210,7 @@ U_c.add_design_days_to_simulation_parameters(path_simulation_parameter, path_fil
 U_c.model_to_HBjson(path_folder_building_simulation)
 
 # %% Save urban_canopy object in a pickle file
-save_object_pickle(os.path.join(path_folder_simulation, "Urban_canopy", "uc_obj.p"), U_c)
-#
+
 # U_c.generate_local_epw_with_uwg(path_epw="D:\Elie\PhD\Simulation\Input_Data\EPW\IS_5280_A_Haifa.epw",
 #                                     path_folder_epw_uwg="D:\Elie\PhD\\test")
 
@@ -175,22 +219,61 @@ save_object_pickle(os.path.join(path_folder_simulation, "Urban_canopy", "uc_obj.
 U_c.simulate_idf(path_folder_building_simulation, path_simulation_parameter, path_file_epw, path_energyplus_exe)
 # U_c.simulate_idf(path_folder_building_simulation, path_simulation_parameter, "D:\Elie\PhD\\test\\random_neighborhood_uwg.epw", path_energyplus_exe)
 
-
-
 # %% Extract and print results
 
 U_c.extract_building_csv_results(path_folder_building_simulation)
+# U_c.print_detailed_results_BER(apartment_details=True)
 
-U_c.print_detailed_results_BER(apartment_details=True)
+
+## LCA
+from lca_constuction_material.lca_surface_type import LcaMatColBySurfType
+
+path_lca_database = "D:\Elie\PhD\Simulation\Input_Data\LCA\LCA_database\LCA_BER_project"  ##Elie
+# path_lca_database = "D:\Pycharm\Task\Simulation\Input_Data\LCA\LCA_database\LCA_BER_project"  ##Tiantian
+life_time=50
+
+
+lca_dict = LcaMatColBySurfType.extract_lca_database(path_folder_database=path_lca_database,life_duration=life_time)
+
+U_c.compute_lca(dic_configuration_to_test=configuration_dic,lca_dic=lca_dict)
+
+conversion_rate=1/0.5565
+U_c.convert_carbon_footprint_kwh_per_m2_eq_compare_to_ref(conversion_rate=conversion_rate,life_time=life_time)
+U_c.compute_consumption_improvement_lca()
+
+
+# create a global csv file in the output folder names "results" and write into the results
+path_folder_building_results = os.path.join(path_folder_simulation, "Results")
+csv_name = "Results.csv"
+path_csv = os.path.join(path_folder_building_results, csv_name)
+
+
+U_c.write_global_csv_results_with_lca(path_csv)
+
+
+# %% Generate csv results in each building object
+U_c.write_csv_results_in_building_folder(path_folder_building_results, path_folder_building_simulation)
+
 
 # %% test
-
-save_object_pickle(os.path.join(path_folder_simulation, "Urban_canopy", "uc_obj_2.p"), U_c)
-
-
-# U_c_2 = load_object_pickle(os.path.join(path_folder_simulation, "Urban_canopy", "uc_obj.p"))
-# print(U_c_2.building_dict[0].height)
 
 
 # print(U_c.building_dict[0].HB_model.rooms[0].identifier)
 # print(U_c.building_dict[0].HB_model.rooms[0].properties.energy.infiltration) #test infiltration
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

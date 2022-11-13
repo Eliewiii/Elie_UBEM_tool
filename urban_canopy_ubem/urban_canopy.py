@@ -48,8 +48,6 @@ class Urban_canopy(_context_filtering.Mixin, _EP_simulation.Mixin, _extract_data
         self.typology_dict = {}
         self.simulation_parameters = None  # Simulation parameters, extracted from json files
         self.simulation_parameters_idf_str = None
-        self.hvac_system = None
-
         ## UWG
         self.df_model_uwg = None
         self.parameters_uwg = None

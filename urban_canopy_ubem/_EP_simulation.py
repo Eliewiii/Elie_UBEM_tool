@@ -125,7 +125,7 @@ class Mixin:
                                                   heating_availability=schedule_heating,
                                                   cooling_availability=schedule_cooling)
 
-        self.hvac_system = ideal_air_system_obj
+        return(ideal_air_system_obj)
 
     ### Not sure this function in useful
     # def simulation_parameters_for_idf(self, idf):

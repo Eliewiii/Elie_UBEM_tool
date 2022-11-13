@@ -77,9 +77,9 @@ class Mixin:
         """
         Assign an ideal hvac system for every apartment types rooms, turning them into conditioned zones for all buildings.
         """
-        self.configure_ideal_hvac_system(climate_zone, hvac_paramater_set)
+        ideal_air_system_obj=self.configure_ideal_hvac_system(climate_zone, hvac_paramater_set)
         for id in self.building_to_simulate:
-            self.building_dict[id].HB_assign_ideal_hvac_system(ideal_hvac_system=self.hvac_system)
+            self.building_dict[id].HB_assign_ideal_hvac_system(ideal_air_system_obj)
 
     def add_infiltration_air_exchange(self, air_exchange_rate):
         """

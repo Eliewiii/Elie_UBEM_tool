@@ -1,7 +1,9 @@
 # %% Load general libraries
+import copy
 import os.path
 import sys
 import logging
+import copy
 
 from tools._folder_manipulation import create_folder_output, move_input_files_to_output_folder
 from tools._save_and_load_objects import save_object_pickle,load_object_pickle
@@ -171,6 +173,19 @@ save_object_pickle(os.path.join(path_folder_simulation, "Urban_canopy", "uc_obj.
 #                                     path_folder_epw_uwg="D:\Elie\PhD\\test")
 
 
+# U_c.building_dict[0].urban_canopy = None
+
+U_c.building_dict[0].HB_model =None # None
+
+
+
+U_c.hvac_system=None
+
+
+U_c_2=copy.deepcopy(U_c)
+# save_object_pickle(os.path.join(path_folder_simulation, "Urban_canopy", "uc_obj_2.p"), U_c)
+
+
 # %% Generate IDF and simulate the building
 U_c.simulate_idf(path_folder_building_simulation, path_simulation_parameter, path_file_epw, path_energyplus_exe)
 # U_c.simulate_idf(path_folder_building_simulation, path_simulation_parameter, "D:\Elie\PhD\\test\\random_neighborhood_uwg.epw", path_energyplus_exe)
@@ -185,7 +200,6 @@ U_c.print_detailed_results_BER(apartment_details=True)
 
 # %% test
 
-save_object_pickle(os.path.join(path_folder_simulation, "Urban_canopy", "uc_obj_2.p"), U_c)
 
 
 # U_c_2 = load_object_pickle(os.path.join(path_folder_simulation, "Urban_canopy", "uc_obj.p"))

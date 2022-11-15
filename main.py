@@ -6,7 +6,7 @@ import logging
 import copy
 
 from tools._folder_manipulation import create_folder_output, move_input_files_to_output_folder
-from tools._save_and_load_objects import save_object_pickle,load_object_pickle
+from tools._save_and_load_objects import save_urban_canopy_object_pickle,load_object_pickle
 
 # %% Load inputs
 
@@ -167,7 +167,6 @@ U_c.add_design_days_to_simulation_parameters(path_simulation_parameter, path_fil
 U_c.model_to_HBjson(path_folder_building_simulation)
 
 # %% Save urban_canopy object in a pickle file
-save_object_pickle(os.path.join(path_folder_simulation, "Urban_canopy", "uc_obj.p"), U_c)
 #
 # U_c.generate_local_epw_with_uwg(path_epw="D:\Elie\PhD\Simulation\Input_Data\EPW\IS_5280_A_Haifa.epw",
 #                                     path_folder_epw_uwg="D:\Elie\PhD\\test")
@@ -175,14 +174,7 @@ save_object_pickle(os.path.join(path_folder_simulation, "Urban_canopy", "uc_obj.
 
 # U_c.building_dict[0].urban_canopy = None
 
-U_c.building_dict[0].HB_model =None # None
 
-
-
-U_c.hvac_system=None
-
-
-U_c_2=copy.deepcopy(U_c)
 # save_object_pickle(os.path.join(path_folder_simulation, "Urban_canopy", "uc_obj_2.p"), U_c)
 
 
@@ -195,6 +187,21 @@ U_c.simulate_idf(path_folder_building_simulation, path_simulation_parameter, pat
 # %% Extract and print results
 
 U_c.extract_building_csv_results(path_folder_building_simulation)
+
+
+# U_c.building_dict[0].HB_model =None # None
+
+# U_c.building_dict[0].apartment_dict =None # None
+
+
+# U_c_2=copy.deepcopy(U_c)
+
+
+save_urban_canopy_object_pickle(os.path.join(path_folder_simulation, "Urban_canopy", "uc_obj.p"), U_c)
+
+
+
+# U_c_2=copy.deepcopy(U_c)
 
 U_c.print_detailed_results_BER(apartment_details=True)
 

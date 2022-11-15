@@ -116,6 +116,7 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
         # # Result extraction
         self.path_csv = None
         self.apartment_dict = {}
+        self.apartment_json = {}
         self.apartment_area = 0.
         self.energy_consumption = {"total_w_cop": 0., "total_BER": 0., "total_BER_no_light": 0., "tot_h_cop": 0.,
                                    "tot_c_cop": 0., "tot_BER_compared_to_ref": 0, "tot_c_cop_compared_to_ref": 0,

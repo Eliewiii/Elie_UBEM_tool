@@ -7,6 +7,7 @@ from datetime import datetime
 from os.path import join
 
 from honeybee.model import Model
+from honeybee.room import  Room
 
 def save_object_pickle(file_path, obj):
     """ Save an object in a pickle file (mostly for bebugging urban canopy and building object)"""
@@ -36,6 +37,11 @@ def save_urban_canopy_object_pickle(file_path, urban_canopy_obj):
         building_obj = urban_canopy_obj.building_dict[id]
         building_obj.HB_model_dict= Model.to_dict(building_obj.HB_model)
         building_obj.HB_model=None
+
+        for key in building_obj.apartment_dict.keys():
+            building_obj.apartment_dict[key].hb_room_dict = Room.to_dict(building_obj.apartment_dict[key].hb_room_obj)
+            building_obj.apartment_dict[key].hb_room_obj=None
+
     with open(file_path, "wb") as pickle_file:
         pickle.dump(urban_canopy_obj,pickle_file)
 
@@ -44,14 +50,28 @@ def save_urban_canopy_object_pickle(file_path, urban_canopy_obj):
         building_obj.HB_model = Model.from_dict(building_obj.HB_model_dict)
         building_obj.HB_model_dict = None
 
+        for key in building_obj.apartment_dict.keys():
+            building_obj.apartment_dict[key].hb_room_obj = Room.from_dict(building_obj.apartment_dict[key].hb_room_dict)
+            building_obj.apartment_dict[key].hb_room_dict=None
 
-def load_urban_canopy_object_pickle(file_path, urban_canopy_obj):
+
+def load_urban_canopy_object_pickle(file_path):
     """ """
 
-    obj = None
+    urban_canopy_obj = None
     with open(file_path, "rb") as pickle_file:
-        obj = pickle.load(pickle_file)
-    return obj
+        urban_canopy_obj = pickle.load(pickle_file)
+
+    for id in urban_canopy_obj.building_to_simulate:
+        building_obj = urban_canopy_obj.building_dict[id]
+        building_obj.HB_model = Model.from_dict(building_obj.HB_model_dict)
+        building_obj.HB_model_dict = None
+
+        for key in building_obj.apartment_dict.keys():
+            building_obj.apartment_dict[key].hb_room_obj = Room.from_dict(building_obj.apartment_dict[key].hb_room_dict)
+            building_obj.apartment_dict[key].hb_room_dict=None
+
+    return urban_canopy_obj
 
 
 

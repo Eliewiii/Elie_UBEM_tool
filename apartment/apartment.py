@@ -14,11 +14,12 @@ apartment_types = ["ground", "over_open_space", "over_unheated", "under_unheated
 
 class Apartment:
 
-    def __init__(self, identifier, hb_room_obj, floor_number, apartment_number, building_obj):
-        self.building_obj = building_obj
+    def __init__(self, identifier, hb_room_obj, floor_number, apartment_number):
+        # self.building_obj = building_obj
         ##
         self.identifier = identifier
         self.hb_room_obj = hb_room_obj
+        self.hb_room_dict = None
         self.floor_number = floor_number
         self.apartment_number = apartment_number
         ##
@@ -39,24 +40,22 @@ class Apartment:
         self.area = None                # floor area
 
     @classmethod
-    def apartment_from_hb_room(cls, hb_room_obj, building_obj):
+    def apartment_from_hb_room(cls, hb_room_obj):
         """
         """
         identifier = hb_room_obj.identifier
         floor_number = int(identifier.split("_")[0][3:])
         apartment_number = int(identifier.split("_")[2])
         return (Apartment(identifier=identifier, hb_room_obj=hb_room_obj, floor_number=floor_number,
-                          apartment_number=apartment_number,
-                          building_obj=building_obj))
+                          apartment_number=apartment_number))
 
     @classmethod
-    def apartment_from_id(cls, identifier, building_obj):
+    def apartment_from_id(cls, identifier):
         """
         """
         floor_number = int(identifier.split("_")[0][3:])
         apartment_number = int(identifier.split("_")[2])
-        return (Apartment(identifier=identifier, floor_number=floor_number, apartment_number=apartment_number,
-                          building_obj=building_obj))
+        return (Apartment(identifier=identifier, floor_number=floor_number, apartment_number=apartment_number))
 
     # def calculate_total_consumption(self):
     #
@@ -66,7 +65,7 @@ class Apartment:
         """ get the floor area of the apartment  """
         self.area = self.hb_room_obj.floor_area
 
-    def convert_to_kWh_per_sqrm_and_sum_consumption(self):
+    def convert_to_kWh_per_sqrm_and_sum_consumption(self, cop_h=3.,cop_c=3):
         """ Convert the energy consumption in KwH/m2 """
         # get floor area
         self.get_floor_area()
@@ -82,8 +81,6 @@ class Apartment:
         self.equipment["total"] = sum(self.equipment["data"])
         self.total = self.heating["total"] + self.cooling["total"] + self.lighting["total"] + self.equipment["total"]
         # with COP
-        cop_h = self.building_obj.cop_h
-        cop_c = self.building_obj.cop_c
         self.heating["total_cop"] = sum(self.heating["data"]) / cop_h
         self.cooling["total_cop"] = sum(self.cooling["data"]) / cop_c
         self.total_w_cop = self.heating["total_cop"] + self.cooling["total_cop"] + self.lighting["total"] + \

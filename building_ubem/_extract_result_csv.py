@@ -31,7 +31,7 @@ class Mixin:
     def generate_apartment_obj(self):
         """ Generate apartment objects that will be used for the result extraction and the Building Energy Rating """
         for room_obj in self.HB_model.rooms:
-            apartment_obj = Apartment.apartment_from_hb_room(hb_room_obj=room_obj, building_obj=self)
+            apartment_obj = Apartment.apartment_from_hb_room(hb_room_obj=room_obj)
             self.apartment_dict[apartment_obj.identifier] = apartment_obj
 
 
@@ -68,7 +68,7 @@ class Mixin:
         # convert in kW.h/m2
         for apartment_obj in self.apartment_dict.values():
             if apartment_obj.is_core == False:
-                apartment_obj.convert_to_kWh_per_sqrm_and_sum_consumption()
+                apartment_obj.convert_to_kWh_per_sqrm_and_sum_consumption(cop_h=self.cop_h,cop_c=self.cop_c)
 
     def check_apartment_position(self):
         """

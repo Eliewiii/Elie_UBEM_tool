@@ -27,7 +27,7 @@ path_folder_tiantian = "D:\\Pycharm\\Task\\Simulation"
 path_LBT_tiantian = "C:\\Users\\hp\\AppData\\Roaming\\ladybug_tools\\standards"
 # # Tiantian ACER
 tiantian_acer = '22637'
-path_folder_tiantian_acer = "D:\\Pycharm\\Task\\Simulation"
+path_folder_tiantian_acer = "D:\\Pycharm\\PyCharm 2022.2.3\\Task\\Simulation"
 path_LBT_tiantian_acer = "C:\\Users\\22637\\AppData\\Roaming\\ladybug_tools\\standards"
 
 
@@ -36,15 +36,23 @@ user = getuser()
 if user == elie:
     path_LBT_user_defined = path_LBT_elie
     path_folder = path_folder_elie
+    path_energyplus_exe = "C:\EnergyPlusV22-1-0\energyplus.exe"
+
 elif user == abraham:
     path_LBT_user_defined = path_LBT_abraham
     path_folder = path_folder_abraham
+    path_energyplus_exe = "C:\EnergyPlusV22-1-0\energyplus.exe"
+
 elif user == tiantian:
     path_LBT_user_defined = path_LBT_tiantian
     path_folder = path_folder_tiantian
+    path_energyplus_exe = "C:\EnergyPlusV22-1-0\energyplus.exe"
+
 elif user == tiantian_acer:
     path_LBT_user_defined = path_LBT_tiantian_acer
     path_folder = path_folder_tiantian_acer
+    path_energyplus_exe = "C:\EnergyPlusV22-2-0\energyplus.exe"
+
 else:
     print("The user is not defined")
 
@@ -66,7 +74,6 @@ path_simulation_parameter = os.path.join(path_folder_simulation_parameter, "simu
 ## folder outputs
 path_folder_output = os.path.join(path_folder, "Program_output", )
 ## EnergyPlus
-path_energyplus_exe = "C:\EnergyPlusV22-1-0\energyplus.exe"
 
 ## name of the simulation
 now = datetime.now()

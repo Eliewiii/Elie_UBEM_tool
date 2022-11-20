@@ -6,6 +6,7 @@ Deals generate files (mostly .hbjson files) for visualization in Rhino with Gras
 import os
 
 from honeybee.model import Model
+from ladybug_geometry.geometry3d.pointvector import Vector3D
 
 
 class Mixin:
@@ -14,6 +15,12 @@ class Mixin:
         """ create a honeybee room with extruded footprints of buildings, mostly for plotting purposes """
         for i, id in enumerate(self.building_dict):
             self.building_dict[id].LB_face_to_HB_room_envelop()
+
+    def correct_envelop_elevation(self):
+        """ correct the elevation of the building envelop (not to put it at z=0) """
+        for i, id in enumerate(self.building_dict):
+            moving_vector = Vector3D(0., 0., self.building_dict[id].elevation)
+            self.building_dict[id].HB_room_envelop.move(moving_vector)
 
     def context_to_hbjson(self, path_folder_context_hbjson):
         """

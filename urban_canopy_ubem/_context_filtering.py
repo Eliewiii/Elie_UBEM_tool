@@ -70,14 +70,15 @@ class Mixin:
         identify, according to the LWR, with the filtering criteria if we should keep the surfaces
         """
 
-    def prepare_building_face_for_context(self):
+    def prepare_building_face_for_context_new(self):
         """
         Generate the face_list attributes for the buildings to simplify the computation
         """
         for not_used, (id, building_obj) in enumerate(self.building_dict.items()):
             building_obj.prepare_face_for_context_new(is_target=building_obj.is_target)
 
-    def filter_context_new(self, vf_criteria):
+    def filter_context_new(self, mvfc=0.01, first_pass=True,
+                           second_pass=True):
         """
         1- identify the buildings that are close to the target buildings and that should be simulated as well
         2- identify the buildings that are close to the simulated context buildings and that should be part
@@ -85,13 +86,14 @@ class Mixin:
         3- Select the context surfaces
         """
 
-        # ## prepare target building_zon surfaces
         # for id in self.target_buildings:
         #     target_buildings_face_list.append([id, self.building_dict[id].prepare_face_for_context(reverse=False)])
         # ## prepare all building_zon surfaces
         # for not_used, (id, building_obj) in enumerate(self.building_dict.items()):
         #     all_building_face_list.append([id, building_obj.prepare_face_for_context(reverse=True)])
 
+        # ## prepare target building_zon surfaces
+        self.prepare_building_face_for_context_new()
         ## Loop over all the target buildings
         for id_target in self.building_to_simulate:
             target_building_obj = self.building_dict[id_target]
@@ -104,38 +106,19 @@ class Mixin:
                 context_building_obj = self.building_dict[id_context]
                 for surface_dict in context_building_obj.external_face_list_context:
                     pre_processed_surface_list.append(surface_dict)
-                ## identify the buildings that have at least one surface that satidfy the minimum view factor criteria
-            target_building_obj.shading_context_surfaces_selection(
-                pre_processed_surface_list=pre_processed_surface_list, mvfc=vf_criteria, first_pass=True,
-                second_pass=True)
-            ## from all the buildings identified as context, use the second pass (raytracing) to identify, among all these surfaces
-            ## which one really shade on the building
-            target_building_obj.identify_context_surfaces_with_raytracing_second_pass()
+                ## select the relevant context surfaces with the first and second pass criteria
+            kept_surface_first_pass, kept_surface_second_pass, first_pass_duration, second_pass_duration = target_building_obj.shading_context_surfaces_selection(
+                    pre_processed_surface_list=pre_processed_surface_list, mvfc=mvfc, first_pass=True,
+                    second_pass=True)
 
-        for target_building_face_list in target_buildings_face_list:
-            context_building_face_list_kept = []  # list with the id of the context buildings for this building_zon
-            ## first check, just identify the buildings if one surface fits the requirement
-            for test_context_building_face_list in all_building_face_list:
-                # check if the buildings are not the same
-                if target_building_face_list[0] != test_context_building_face_list[0]:
-                    if is_context_building(target_building_face_list[1], test_context_building_face_list[1],
-                                           vf_criteria):
-                        context_building_face_list_kept.append(test_context_building_face_list)
-                        self.building_dict[target_building_face_list[0]].context_buildings_id.append(
-                            test_context_building_face_list[0])
-                        # self.building_dict[test_context_building_face_list[0]].is_simulated=True
-                    else:
-                        None
-                else:
-                    None
-            for test_context_building_face_list in context_building_face_list_kept:
-                self.filter_context_surfaces(target_building_face_list[1], test_context_building_face_list[1],
-                                             target_id=target_building_face_list[0],
-                                             vf_criteria=vf_criteria)
-
-            ## second check, check every surfaces in the selected context buildings
-
-        ## prepare the simulated buildings that are not targets
+    def correct_context_elevation(self):
+        """
+        correct the elevation of the context compared to the the target buildings (as the buildings should be simulated
+        with a 0 meter elevation)
+        #todo
+        """
+        for building_id in self.building_to_simulate:
+            self.building_dict[building_id].correct_context_elevation()
 
 
 def is_context_building(target_building_face_list, test_context_building_face_list, VF_criteria):

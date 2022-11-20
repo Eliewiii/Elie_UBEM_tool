@@ -1,10 +1,12 @@
 # %% Load general libraries
+import copy
 import os.path
 import sys
 import logging
+import copy
 
 from tools._folder_manipulation import create_folder_output, move_input_files_to_output_folder
-from tools._save_and_load_objects import save_object_pickle, load_object_pickle
+from tools._save_and_load_objects import save_urban_canopy_object_pickle,load_object_pickle
 
 # %% Load inputs
 
@@ -12,7 +14,7 @@ from loads._paths import path_folder_typology, path_folder_construction_and_load
     path_folder_simulation_parameter, path_simulation_parameter, path_energyplus_exe, \
     path_folder_simulation, path_folder_context_hbjson, path_folder_building_simulation, path_logger, \
     path_LBT_user_defined, path_input_file
-from loads._paths import unit_gis, target_buildings
+from loads._paths import unit_gis, target_buildings,VF_criterion_shading
 
 # create the simulation folder and move the inputs to the output folder
 create_folder_output(path_folder_simulation=path_folder_simulation)
@@ -74,16 +76,16 @@ U_c.select_target_building(target_buildings)
 U_c.create_building_LB_geometry_footprint()
 ## Create HB room envelop with GIS footprint
 U_c.create_building_HB_room_envelop()
-
-
-save_object_pickle(os.path.join(path_folder_simulation, "Urban_canopy", "uc_obj.p"), U_c)
-U_c = load_object_pickle(os.path.join(path_folder_simulation, "Urban_canopy", "uc_obj.p"))
+U_c.correct_envelop_elevation()
 
 # %% Context filter algorithm
 
 # filter context and identify the buildings to simulate
 
-U_c.filter_context(0.1)
+# U_c.filter_context_new(VF_criterion_shading)
+U_c.filter_context_new(0.03)
+
+U_c.correct_context_elevation()  # todo
 
 # %% test
 
@@ -91,7 +93,6 @@ U_c.filter_context(0.1)
 
 # %% Force Typology
 
-U_c.building_dict[0].typology = U_c.typology_dict["train_40x4_Z_A"]
 U_c.force_default_typology()
 
 # %% Force Typology
@@ -108,6 +109,7 @@ U_c.generate_HB_model()
 U_c.HB_solve_adjacencies()
 
 # %% DF + HB modeling using GIS data + typology
+
 
 ## Force rotation on building
 # need to guess it and rotate it at the beginning
@@ -129,65 +131,72 @@ U_c.HB_building_window_generation_floor_area_ratio()
 
 # add shades
 U_c.add_context_surfaces_to_HB_model()
+# assign constructions, loads etc...
+U_c.apply_buildings_characteristics()
+# Add infiltration in volume per hour
+U_c.add_infiltration_air_exchange(air_exchange_rate=1.)
 
-# # assign constructions, loads etc...
-# U_c.apply_buildings_characteristics()
-# # Add infiltration in volume per hour
-# U_c.add_infiltration_air_exchange(air_exchange_rate=1.)
+# add blinds
+
+# add thermal mass
+U_c.add_thermal_mass_int_wall()
+
+# log #
+logging.info("Building modeled")
 #
-# # add blinds
-#
-# # add thermal mass
-# U_c.add_thermal_mass_int_wall()
-#
-# # log #
-# logging.info("Building modeled")
-# #
-#
-#
-# # %% test
-#
-# # print(U_c.building_dict[0].HB_model.rooms[0].properties.energy.program_type)
-# # print(U_c.building_dict[0].HB_model.rooms[0].properties.energy.internal_masses[0].construction)
-#
-# # %% Clean/create simulation folder
-#
-# U_c.create_simulation_folder_buildings(path_folder_building_simulation)
-#
-# # %% Generate json to plot context
-# # All the buildings that are target buildings
-# U_c.context_to_hbjson(path_folder_context_hbjson)
-# U_c.context_surfaces_to_hbjson(path_folder_building_simulation)
-# # U_c.GIS_context_individual_to_hbjson(path_folder_building_simulation)
-#
-# # %% Extract simulation parameters
-# ## Merge simulation parameters files
-# U_c.load_simulation_parameter(path_folder_simulation_parameter, path_simulation_parameter)
-# ## Add design days
-# U_c.add_design_days_to_simulation_parameters(path_simulation_parameter, path_file_epw)
-#
-# # %% Generate HB models
-# U_c.model_to_HBjson(path_folder_building_simulation)
-#
-# # %% Save urban_canopy object in a pickle file
-# save_object_pickle(os.path.join(path_folder_simulation, "Urban_canopy", "uc_obj.p"), U_c)
-# #
-# # U_c.generate_local_epw_with_uwg(path_epw="D:\Elie\PhD\Simulation\Input_Data\EPW\IS_5280_A_Haifa.epw",
-# #                                     path_folder_epw_uwg="D:\Elie\PhD\\test")
-#
-#
+
+
+# %% test
+
+# print(U_c.building_dict[0].HB_model.rooms[0].properties.energy.program_type)
+# print(U_c.building_dict[0].HB_model.rooms[0].properties.energy.internal_masses[0].construction)
+
+# %% Clean/create simulation folder
+
+U_c.create_simulation_folder_buildings(path_folder_building_simulation)
+
+# %% Generate json to plot context
+# All the buildings that are target buildings
+U_c.context_to_hbjson(path_folder_context_hbjson)
+U_c.context_surfaces_to_hbjson(path_folder_building_simulation)
+# U_c.GIS_context_individual_to_hbjson(path_folder_building_simulation)
+
+# %% Extract simulation parameters
+## Merge simulation parameters files
+U_c.load_simulation_parameter(path_folder_simulation_parameter, path_simulation_parameter)
+## Add design days
+U_c.add_design_days_to_simulation_parameters(path_simulation_parameter, path_file_epw)
+
+# # # # test # # # #
+print(U_c.building_dict[2].HB_model.rooms)
+
+
+
+# %% Generate HB models
+U_c.model_to_HBjson(path_folder_building_simulation)
+
+
+
 # # %% Generate IDF and simulate the building
 # U_c.simulate_idf(path_folder_building_simulation, path_simulation_parameter, path_file_epw, path_energyplus_exe)
 # # U_c.simulate_idf(path_folder_building_simulation, path_simulation_parameter, "D:\Elie\PhD\\test\\random_neighborhood_uwg.epw", path_energyplus_exe)
 #
 #
+#
 # # %% Extract and print results
 #
 # U_c.extract_building_csv_results(path_folder_building_simulation)
+#
+# save_urban_canopy_object_pickle(os.path.join(path_folder_simulation, "Urban_canopy", "uc_obj.p"), U_c)
+#
+#
+
+# U_c_2=copy.deepcopy(U_c)
+
 # U_c.print_detailed_results_BER(apartment_details=True)
-#
-# # %% test
-#
-#
-# # print(U_c.building_dict[0].HB_model.rooms[0].identifier)
-# # print(U_c.building_dict[0].HB_model.rooms[0].properties.energy.infiltration) #test infiltration
+
+# %% test
+
+
+# print(U_c.building_dict[0].HB_model.rooms[0].identifier)
+# print(U_c.building_dict[0].HB_model.rooms[0].properties.energy.infiltration) #test infiltration

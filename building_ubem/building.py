@@ -91,7 +91,8 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
         self.external_face_list_context = None
         self.context_buildings_id_list = []
         self.context_shading_HB_faces = []
-        self.context_buildings_HB_faces=[] # todo : delete it later, useless
+        self.context_hb_kept_first_pass = []
+        self.context_buildings_HB_faces = [] # todo : delete it later, useless
         # # Ladybug #
         self.LB_face_footprint = None  # EVENTUALLY ANOTHER VERSION FOR THE FIRST FLOOR IF DIFFERENT
         self.LB_face_centroid = None
@@ -358,7 +359,7 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
             ## check if the room has the
             if room.properties.energy.construction_set.identifier == initial_constr_set_id:
                 ## assign construction set
-                room.properties.energy.construction_set = construction_set_by_identifier(new_constructionset_id)
+                room.properties.energy.construction_set = construction_set_by_identifier(new_constr_set_id)
 
     def HB_assign_ideal_hvac_system(self, ideal_hvac_system):
         """ Assign an ideal HVAC_system to the conditioned zones"""
@@ -399,16 +400,22 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
         Convert HB_face context surface to HBjson file
         """
         surface_list = []
-        for i, surface in enumerate(self.context_buildings_HB_faces):
+        for i, surface in enumerate(self.context_shading_HB_faces):
             surface_list.append(Face(("context_surface_{}_building_{}").format(i, self.id), surface.geometry))
         model = Model(identifier=("context_building_{}").format(self.id), orphaned_faces=surface_list)
         model.to_hbjson(name=("context_building_{}").format(self.id), folder=path)
+        if self.context_hb_kept_first_pass!= []:
+            surface_list = []
+            for i, surface in enumerate(self.context_hb_kept_first_pass):
+                surface_list.append(Face(("context_surface_{}_building_{}").format(i, self.id), surface.geometry))
+            model = Model(identifier=("context_first_pass_building_{}").format(self.id), orphaned_faces=surface_list)
+            model.to_hbjson(name=("first_passcontext_building_{}").format(self.id), folder=path)
 
     def add_context_surfaces_to_HB_model(self):
         """
         Convert HB_face context surface to HBjson file
         """
-        for i, surface in enumerate(self.context_buildings_HB_faces):
+        for i, surface in enumerate(self.context_shading_HB_faces):
             shade_obj = Shade(identifier=("shade_{}_building_{}").format(i, self.id), geometry=surface.geometry,
                               is_detached=True)
             self.HB_model.add_shade(shade_obj)

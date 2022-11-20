@@ -104,7 +104,7 @@ class Mixin:
         ## need to move these list somewhere else, where they can be edited, but for now they stay there
         age_possibilities = ["age", "date"]
         typology_possibilities = ["typo", "typology", "type", "Typology"]
-        # height_possibilities = ["height","Height"]
+        elevation_possibilities = ["minheight"]
         height_possibilities = ["height", "Height", "govasimple"]
         number_floor_possibilities = ["number_floor", "nb_floor", "mskomot"]
         name_possibilities = ["name", "full_name_"]
@@ -146,6 +146,16 @@ class Mixin:
                 None
             else:
                 self.height = float(shp_file[property_name][building_id_shp])
+                break
+        ## elevation ##
+        for property_name in elevation_possibilities:
+            try:
+                shp_file[property_name]
+                float(shp_file[property_name][building_id_shp])
+            except:
+                None
+            else:
+                self.elevation = float(shp_file[property_name][building_id_shp])
                 break
         ## number of floor ##
         for property_name in number_floor_possibilities:

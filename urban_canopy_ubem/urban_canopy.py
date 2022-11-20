@@ -343,8 +343,8 @@ class Urban_canopy(_context_filtering.Mixin, _EP_simulation.Mixin, _extract_data
         for building_id in self.building_to_simulate:
             path_dir_building = os.path.join(path_folder_building_simulation, self.building_dict[building_id].name)
             ## Convert HB model to hbjson file ##
-            for room in self.building_dict[building_id].HB_model.rooms:
-                room.remove_colinear_vertices_envelope(0.1)
+            # for room in self.building_dict[building_id].HB_model.rooms:
+                # room.remove_colinear_vertices_envelope(0.1)
             self.building_dict[building_id].HB_model.to_hbjson("in", os.path.join(path_dir_building, "HBjson_model"))
             # run.measure_compatible_model_json(path_dir_building + "//model_json//in.hbjson")
 

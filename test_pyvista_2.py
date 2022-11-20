@@ -112,9 +112,23 @@ mesh_4 =pv.PolyData(points, face)
 
 mesh = mesh_1+mesh_2+mesh_3+mesh_4
 
+points = np.array(
+    [
+        [0., 0., 0.],
+        [0., 0.01, 0.],
+        [0., 0, 1],
+        [0., 0.01, 1]
+
+    ],
+)
+ray = [4,0,2,3,1]
+
+mesh_5 = pv.PolyData(points, ray)
+
+mesh_5.plot(show_edges=True)
 # print (mesh)
 
-print(mesh.ray_trace(np.array([0., 0., -0.0000000001]),np.array([0.1, 0.1, 1.1]),first_point=False,plot=True))
+print(mesh.ray_trace(np.array([0., 0., 0.0000000001]),np.array([0.1, 0.1, 0.2]),first_point=False,plot=True))
 
 print(mesh_3.ray_trace(np.array([0., 0., -1.]),np.array([0.1, 0.1, 1.1]),first_point=False,plot=True))
 

@@ -188,15 +188,6 @@ U_c.simulate_idf(path_folder_building_simulation, path_simulation_parameter, pat
 
 U_c.extract_building_csv_results(path_folder_building_simulation)
 
-
-# U_c.building_dict[0].HB_model =None # None
-
-# U_c.building_dict[0].apartment_dict =None # None
-
-
-# U_c_2=copy.deepcopy(U_c)
-
-
 save_urban_canopy_object_pickle(os.path.join(path_folder_simulation, "Urban_canopy", "uc_obj.p"), U_c)
 
 
@@ -206,11 +197,6 @@ save_urban_canopy_object_pickle(os.path.join(path_folder_simulation, "Urban_cano
 U_c.print_detailed_results_BER(apartment_details=True)
 
 # %% test
-
-
-
-# U_c_2 = load_object_pickle(os.path.join(path_folder_simulation, "Urban_canopy", "uc_obj.p"))
-# print(U_c_2.building_dict[0].height)
 
 
 # print(U_c.building_dict[0].HB_model.rooms[0].identifier)

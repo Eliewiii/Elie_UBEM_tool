@@ -25,6 +25,10 @@ path_LBT_abraham = None
 tiantian = 'hp'
 path_folder_tiantian = "D:\\Pycharm\\Task\\Simulation"
 path_LBT_tiantian = "C:\\Users\\hp\\AppData\\Roaming\\ladybug_tools\\standards"
+# # Tiantian ACER
+tiantian_acer = '22637'
+path_folder_tiantian_acer = "D:\\Pycharm\\Task\\Simulation"
+path_LBT_tiantian_acer = "C:\\Users\\22637\\AppData\\Roaming\\ladybug_tools\\standards"
 
 
 user = getuser()
@@ -38,6 +42,9 @@ elif user == abraham:
 elif user == tiantian:
     path_LBT_user_defined = path_LBT_tiantian
     path_folder = path_folder_tiantian
+elif user == tiantian_acer:
+    path_LBT_user_defined = path_LBT_tiantian_acer
+    path_folder = path_folder_tiantian_acer
 else:
     print("The user is not defined")
 

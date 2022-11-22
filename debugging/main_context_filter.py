@@ -22,7 +22,7 @@ move_input_files_to_output_folder(path_folder_simulation, path_EP_parameter_par=
                                   path_sim_input_par=path_input_file,
                                   path_epw_par=None, path_gis_par=None)
 # logging.basicConfig(filename=path_logger, format='%(asctime)s %(levelname)s %(message)s', filemode='w')
-logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s",
+logging.basicConfig(level=logging.WARNING, format="%(asctime)s [%(levelname)s] %(message)s",
                     handlers=[logging.FileHandler(path_logger), logging.StreamHandler(sys.stdout)])
 # log #
 logging.info("Input data extracted and simulation folder created")
@@ -83,7 +83,7 @@ U_c.correct_envelop_elevation()
 # filter context and identify the buildings to simulate
 
 # U_c.filter_context_new(VF_criterion_shading)
-U_c.filter_context_new(0.03)
+U_c.filter_context_new(0.01)
 
 U_c.correct_context_elevation()  # todo
 
@@ -168,7 +168,7 @@ U_c.load_simulation_parameter(path_folder_simulation_parameter, path_simulation_
 U_c.add_design_days_to_simulation_parameters(path_simulation_parameter, path_file_epw)
 
 # # # # test # # # #
-print(U_c.building_dict[2].HB_model.rooms)
+# print(U_c.building_dict[2].HB_model.rooms)
 
 
 

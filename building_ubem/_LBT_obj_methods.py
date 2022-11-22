@@ -2,6 +2,8 @@
 Additional methods for the Building class.
 Deals with LBT obj attributes of the Building objects
 """
+import logging
+
 from ladybug_geometry.geometry3d import Point3D, Face3D, Vector3D
 from honeybee.room import Room
 from honeybee import boundarycondition
@@ -58,14 +60,14 @@ class Mixin:
         max_iteration = 30
         converged = False
         for i in range(max_iteration):
-            print("it {}".format(i),footprint_area,target_core_area)
+            # print("it {}".format(i),footprint_area,target_core_area)
             perimeter_offset = (perimeter_offset_boundary_up + perimeter_offset_boundary_down) / 2.
 
             df_building = dragonfly.building.Building.from_footprint(identifier="Building_" + str(self.id),
                                                                      footprint=[self.LB_face_footprint],
                                                                      floor_to_floor_heights=[3.],
                                                                      perimeter_offset=perimeter_offset)
-            print("it {}".format(i))
+            # print("it {}".format(i))
             if len(df_building.unique_stories[0].room_2ds) >= nb_rooms_per_stories:
                 nb_cores=len(df_building.unique_stories[0].room_2ds)-nb_rooms_per_stories+1
                 core_area = sum([df_building.unique_stories[0].room_2ds[-i-1].floor_area for i in range(nb_cores)])
@@ -77,7 +79,7 @@ class Mixin:
                     converged= True
                     break
             else:
-                print("wrong number of room")
+                # print("wrong number of room")
                 perimeter_offset_boundary_up = perimeter_offset
 
         if converged:
@@ -96,6 +98,7 @@ class Mixin:
 
 
         else:
+            logging.warning(f" building_{self.id} : the automatic subdivision in rooms and cores failed")
             self.DF_building = dragonfly.building.Building.from_footprint(identifier="Building_" + str(self.id),
                                                                           footprint=[self.LB_face_footprint],
                                                                           floor_to_floor_heights=floor_to_floor_heights)

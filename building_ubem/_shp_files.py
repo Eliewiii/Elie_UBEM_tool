@@ -182,19 +182,19 @@ class Mixin:
 
     def check_property(self):
         """ check if there is enough information about the building_zon to create a model"""
-        if self.height == None and self.num_floor == None:
+        if self.height == None and (self.num_floor == None or self.num_floor < 1) :
             self.height = 9.
             self.num_floor = 3
             self.floor_height = 3.
-        elif self.height == None and type(self.num_floor) == int:  # assume 3m floor height
+        elif self.height == None and type(self.num_floor) == int and self.num_floor > 0:  # assume 3m floor height
             self.height = 3. * self.num_floor
             self.floor_height = 3.
-        elif self.num_floor == None and (type(self.height) == int or type(self.height) == float):
+        elif (self.num_floor == None or self.num_floor < 1) and (type(self.height) == int or type(self.height) == float):
             # assume approximately 3m floor height
             self.num_floor = self.height // 3.
             self.floor_height = self.height / 3.
-        elif (type(self.height) == int or type(self.height) == float) and type(
-                self.num_floor) == int:  # both height and number of floor
+        elif (type(self.height) == int or type(self.height) == float) and (type(
+                self.num_floor) == int and self.num_floor > 0):  # both height and number of floor
             if 4. <= self.height / float(self.num_floor) <= 2.5:  # then ok
                 self.floor_height = self.height / float(self.num_floor)
             else:  # prioritize the number of floor

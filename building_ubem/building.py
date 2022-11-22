@@ -92,7 +92,9 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
         self.context_buildings_id_list = []
         self.context_shading_HB_faces = []
         self.context_hb_kept_first_pass = []
+        self.all_context_hb_faces = []
         self.context_buildings_HB_faces = [] # todo : delete it later, useless
+
         # # Ladybug #
         self.LB_face_footprint = None  # EVENTUALLY ANOTHER VERSION FOR THE FIRST FLOOR IF DIFFERENT
         self.LB_face_centroid = None
@@ -409,7 +411,13 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
             for i, surface in enumerate(self.context_hb_kept_first_pass):
                 surface_list.append(Face(("context_surface_{}_building_{}").format(i, self.id), surface.geometry))
             model = Model(identifier=("context_first_pass_building_{}").format(self.id), orphaned_faces=surface_list)
-            model.to_hbjson(name=("first_passcontext_building_{}").format(self.id), folder=path)
+            model.to_hbjson(name=("first_pass_context_building_{}").format(self.id), folder=path)
+        if self.all_context_hb_faces!= []:
+            surface_list = []
+            for i, surface in enumerate(self.all_context_hb_faces):
+                surface_list.append(Face(("context_surface_{}_building_{}").format(i, self.id), surface.geometry))
+            model = Model(identifier=("all_context_building_{}").format(self.id), orphaned_faces=surface_list)
+            model.to_hbjson(name=("all_context_building_{}").format(self.id), folder=path)
 
     def add_context_surfaces_to_HB_model(self):
         """

@@ -14,19 +14,21 @@ class Mixin:
         """ Convert a Polygon to a Building object """
 
         point_list_footprints = polygon_to_points(footprint)  # convert the POLYGON into a list of points
-        # if check_point_proximity(point_list_footprints):
-        id_building = self.num_of_buildings  # id of the building_zon for the urban canopy object
-        # create a building_zon object (automatically added to the urban_canopy_44)
-        Building.from_shp_2D(id_building, point_list_footprints, self, shape_file, building_number_shp, unit)
+        # point_tuples_to_list(point_list_footprints) # todo
+        if check_point_proximity(scale_unit(point_tuples_to_list(deepcopy(point_list_footprints)),unit)):
+            id_building = self.num_of_buildings  # id of the building_zon for the urban canopy object
+            # create a building_zon object (automatically added to the urban_canopy_44)
+            Building.from_shp_2D(id_building, point_list_footprints, self, shape_file, building_number_shp, unit)
 
     def multipolygon_to_building(self, footprint, shape_file, building_number_shp, unit):
         """ Convert a MultiPolygon to a Building object """
         for polygon in footprint.geoms:
             point_list_footprints = polygon_to_points(polygon)
-            # if check_point_proximity(footprint):
-            id_building = self.num_of_buildings  # id of the building_zon for the urban canopy object
-            # create a building_zon object (automatically added to the urban_canopy_44)
-            Building.from_shp_2D(id_building, point_list_footprints, self, shape_file, building_number_shp, unit)
+            # point_tuples_to_list(point_list_footprints)
+            if check_point_proximity(scale_unit(point_tuples_to_list(deepcopy(point_list_footprints)),unit)): # todo
+                id_building = self.num_of_buildings  # id of the building_zon for the urban canopy object
+                # create a building_zon object (automatically added to the urban_canopy_44)
+                Building.from_shp_2D(id_building, point_list_footprints, self, shape_file, building_number_shp, unit)
 
 
 def polygon_to_points(polygon_obj):
@@ -78,27 +80,23 @@ def check_point_proximity(point_list_footprints):
                 points[-1]) < tol:  # check also with the first and last points in the footprint
         points.pop(-1)
 
-    # ## holes
-    # interior_holes=[]
-    # try:
-    #     polygon_obj.interiors
-    # except:
-    #     None
-    # else:
-    #     for hole in polygon_obj.interiors:
-    #         if hole.__geo_interface__['coordinates'] != None:
-    #             interior_holes.append(hole.__geo_interface__['coordinates'])
-    #             number_of_points = len(hole)
-    #             i = 0
-    #             while i <= number_of_points - 1:
-    #                 if distance(hole[i], hole[i + 1]) < tol:
-    #                     hole.pop(i + 1)
-    #                 else:
-    #                     i += 1
-    #                 if i >= len(hole) - 1:
-    #                     break
-    #             if distance(hole[0], hole[-1]) < tol:
-    #                 hole.pop(-1)
+    ## holes
+    if point_list_footprints[1] != None:
+        for hole in point_list_footprints[1]:  # same thing as above with the holes
+            number_of_points = len(hole)
+            i = 0
+            while i <= number_of_points - 1:
+                if distance(hole[i], hole[i + 1]) < tol:
+                    hole.pop(i + 1)
+                else:
+                    i += 1
+                if i >= len(hole) - 1:
+                    break
+            if distance(hole[0], hole[-1]) < tol:
+                hole.pop(-1)
+            if len (hole)<3:
+                return false
+
     if len(points)<3:
         return False
     else:
@@ -116,19 +114,18 @@ def distance(pt_1, pt_2):
 
 def point_tuples_to_list(point_list_footprints):
     """ Convert the points from tuples (originally in GIS file) to list for more convenience """
-    point_list_footprints=deepcopy(point_list_footprints)
     ## footprints ##
     new_point_list_footprint = []
-    for point in self.footprint:
+    for point in point_list_footprints[0]:
         new_point_list_footprint.append(list(point))
-    self.footprint = new_point_list_footprint
+    point_list_footprints[0] = new_point_list_footprint
     ## reverse the orientation, for the normal of the surface o face down = ground floor
-    self.footprint.reverse()
+    point_list_footprints[0].reverse()
 
     ## holes ##
     new_list_hole = []
-    if self.holes != []:
-        for hole in self.holes:
+    if point_list_footprints[1] != []:
+        for hole in point_list_footprints[1]:
             list_point = []
             if len(hole) == 1:
                 hole = hole[0]
@@ -137,7 +134,29 @@ def point_tuples_to_list(point_list_footprints):
             list_point.reverse()
             new_list_hole.append(list_point)
         ## reverse the orientation, for the normal of the surface o face down = ground floor
-        self.holes = new_list_hole
+        point_list_footprints[1] = new_list_hole
 
-    if self.holes == [None]:
-        self.holes = []
+    if point_list_footprints[1] == [None]:
+        point_list_footprints[1] = []
+    return point_list_footprints
+
+def scale_unit(point_list_footprints, unit):
+    """ Apply a conversion factor if the GIS file is in degree """
+
+    if unit == "deg":
+        factor = 111139  # conversion factor, but might be a bit different, it depends on the altitude, but the
+        # deformation induced would be small if it' not on a very high mountain
+        for point in point_list_footprints[0]:
+            point[0] = point[0] * factor
+            point[1] = point[1] * factor
+
+        for hole in point_list_footprints[1]:
+            for point in hole:
+                point[0] = point[0] * factor
+                point[1] = point[1] * factor
+    elif unit == "m":
+        factor = 1
+    else:
+        factor = 1
+
+    return point_list_footprints

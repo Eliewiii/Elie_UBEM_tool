@@ -69,6 +69,7 @@ logging.info("GIS extracted")
 
 ## Define buildings to simulate
 U_c.select_target_building(target_buildings)
+# print(U_c.building_dict)
 
 # %% Generate building envelop
 
@@ -87,6 +88,7 @@ U_c.filter_context_new(0.01)
 
 U_c.correct_context_elevation()  # todo
 
+logging.warning("context filtered")
 # %% test
 
 # print(len(U_c.building_dict[0].context_buildings_id))
@@ -94,6 +96,8 @@ U_c.correct_context_elevation()  # todo
 # %% Force Typology
 
 U_c.force_default_typology()
+logging.warning("typology applied")
+
 
 # %% Force Typology
 
@@ -142,7 +146,7 @@ U_c.add_infiltration_air_exchange(air_exchange_rate=1.)
 U_c.add_thermal_mass_int_wall()
 
 # log #
-logging.info("Building modeled")
+logging.warning("Building modeled")
 #
 
 

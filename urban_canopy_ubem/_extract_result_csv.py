@@ -67,10 +67,16 @@ class Mixin:
         heat_bar = []
         for building_id in self.building_to_simulate:
             building_obj = self.building_dict[building_id]
+
+            ### to test the data temporary
             heat_bar.append(building_obj.energy_consumption["tot_h_cop_compared_to_ref"])
+            ###
+
             path_to_building_folder = join(path_folder_building_simulation, building_obj.name)
             path_to_result_folder = join(path_to_building_folder, "Results")
             building_obj.generate_csv_in_individual_result_folder(path_to_result_folder)
+
+        ## temprary
         return heat_bar
 
     def generate_graph_result(self, path_folder_building_results):

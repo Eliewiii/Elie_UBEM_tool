@@ -254,9 +254,11 @@ U_c.write_global_csv_results_with_lca(path_csv)
 
 
 # %% Generate csv results in each building object
-U_c.write_csv_results_in_building_folder(path_folder_building_results, path_folder_building_simulation)
+tot_h_cop_compared_to_ref = U_c.write_csv_results_in_building_folder(path_folder_building_simulation)
+print(tot_h_cop_compared_to_ref)  #Test heating data
 
-
+# generate the graph
+#U_c.generate_graph_result(path_folder_building_results)
 # %% test
 
 

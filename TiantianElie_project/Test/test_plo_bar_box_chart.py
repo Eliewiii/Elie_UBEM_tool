@@ -1,7 +1,13 @@
+import matplotlib.pyplot as plt
 
 # Variables initialization
-
-energy_consumption={"tot_h_cop_compared_to_ref":2.,
+heating = {"Building_1": 20, "Building_2": 30, "Building_3": 40, "Building_4": 50}
+cooling = {"Building_1": 10, "Building_2": 20, "Building_3": 30, "Building_4": 40}
+tot_ber = {"Building_1": 30, "Building_2": 50, "Building_3": 70, "Building_4": 90}
+carbon_max = {"Building_1": -5, "Building_2": -10, "Building_3": -15, "Building_4": -20}
+carbon_min = {"Building_1": 30, "Building_2": 40, "Building_3": 50, "Building_4": 60}
+model = ["Building_1", "Building_2", "Building_3", "Building_4"]
+#energy_consumption={"tot_h_cop_compared_to_ref":2.,
 
 
 def generate_graph_result():
@@ -12,29 +18,26 @@ def generate_graph_result():
     width = 0.3
     bar_location = -0.1
     # model = []  # A list in the form of ["Building_1", "Building_2",...]
-    x_position_bar = []  # A list used to record the location of the center of bar for each building in the graph
+    x_position_bar = []   # A list used to record the location of the center of bar for each building in the graph
 
     # building_id
-
+    for i in range(4):
         bar_location += 1.1
         x_position_bar.append(bar_location)
-        heating_bar = ax.bar(bar_location - width, energy_consumption["tot_h_cop_compared_to_ref"],
+        heating_bar = ax.bar(bar_location - width, heating["Building_"+str(i+1)],
                              width, color="red", label="heating", zorder=10)
-        cooling_bar = ax.bar(bar_location - width, building_obj.energy_consumption["tot_c_cop_compared_to_ref"],
+        cooling_bar = ax.bar(bar_location - width, cooling["Building_"+str(i+1)],
                              width, color="blue",
-                             bottom=building_obj.energy_consumption["tot_h_cop_compared_to_ref"],
+                             bottom=heating["Building_"+str(i+1)],
                              label="cooling", zorder=10)
-        carbon_ftp_bar = ax.bar(bar_location,
-                                building_obj.carbon_footprint_kwh_per_m2_eq_per_year_compared_to_ref["mini"] -
-                                building_obj.carbon_footprint_kwh_per_m2_eq_per_year_compared_to_ref["maxi"],
+        carbon_ftp_bar = ax.bar(bar_location, carbon_min["Building_"+str(i+1)]-carbon_max["Building_"+str(i+1)],
                                 width, color="green",
-                                bottom=building_obj.carbon_footprint_kwh_per_m2_eq_per_year_compared_to_ref["maxi"],
-                                label="carbon footprint", zorder=10)
+                                bottom=carbon_max["Building_"+str(i+1)],
+                                label="carbon_ftp", zorder=10)
         tot_impact_bar = ax.bar(bar_location + width,
-                                building_obj.carbon_footprint_kwh_per_m2_eq_per_year_compared_to_ref["mini"] -
-                                building_obj.carbon_footprint_kwh_per_m2_eq_per_year_compared_to_ref["maxi"],
-                                width, color="green",
-                                bottom=building_obj.energy_consumption["tot_BER_compared_to_ref"],
+                                carbon_min["Building_"+str(i+1)]-carbon_max["Building_"+str(i+1)],
+                                width, color="orange",
+                                bottom=tot_ber["Building_"+str(i+1)]+carbon_max["Building_"+str(i+1)],
                                 label="total environmental impact", zorder=10)
         if bar_location == 1:
             ax.legend()
@@ -42,7 +45,7 @@ def generate_graph_result():
     ax.set_ylabel("Environmental impact in KWh/m2 compared to reference")
 
     fig.tight_layout()
-    plt.savefig(join(path_folder_building_results, "graph.png"))
+    plt.savefig("D:\\Pycharm\\graph.png")
     plt.show()
 
 # Execute the function

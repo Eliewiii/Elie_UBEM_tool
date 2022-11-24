@@ -94,7 +94,7 @@ class Mixin:
         for apartment_obj in self.apartment_dict.values():
             if apartment_obj.is_core == False:
                 self.energy_consumption["total_w_cop"] += apartment_obj.total_w_cop * apartment_obj.area / self.apartment_area
-                self.energy_consumption["total_BER"] += apartment_obj.total_BER * apartment_obj.area / self.apartment_area
+                self.energy_consumption["total_BER_light"] += apartment_obj.total_BER_light * apartment_obj.area / self.apartment_area
                 self.energy_consumption["total_BER_no_light"] += apartment_obj.total_BER_no_light * apartment_obj.area / self.apartment_area
                 self.energy_consumption[
                     "tot_h_cop"] += apartment_obj.heating["total_cop"]  * apartment_obj.area / self.apartment_area

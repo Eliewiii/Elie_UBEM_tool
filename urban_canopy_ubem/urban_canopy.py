@@ -4,6 +4,7 @@ import os
 import geopandas as gpd
 import shapely
 import shutil
+import matplotlib.pyplot as plt
 
 from honeybee_energy import run
 from honeybee_energy.config import folders
@@ -107,6 +108,8 @@ class Urban_canopy(_context_filtering.Mixin, _EP_simulation.Mixin, _extract_data
         """ exctract the data from a shp file and create the associated buildings objects"""
         ## read GIS
         shape_file = gpd.read_file(path)
+        # shape_file.plot()
+        # plt.show()
 
         ## loop to create a building_zon for each foot print in the shp file
         for i, variation_id in enumerate(list_variation_id):

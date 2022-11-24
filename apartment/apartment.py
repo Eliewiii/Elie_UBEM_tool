@@ -4,7 +4,7 @@ Only used (for now) for building energy rating and result extraction
 """
 
 BER_reference_values = {"A": {"top": 40.6, "middle": 38.58, "bottom": 28.558},
-                        "B": {"top": 46.54, "middle": 38.87, "bottom": 30.66},
+                        "B": {"top": 46.54, "middle": 38.87, "bottom": 30.66},# to update in the future
                         "C": {"top": 46.54, "middle": 38.87, "bottom": 30.66},  # to update in the future
                         "D": {"top": 46.54, "middle": 38.87, "bottom": 30.66}}  # to update in the future
 
@@ -18,10 +18,11 @@ class Apartment:
         # self.building_obj = building_obj
         ##
         self.identifier = identifier
-        self.hb_room_obj = hb_room_obj
-        self.hb_room_dict = None
-        self.floor_number = floor_number
-        self.apartment_number = apartment_number
+        self.hb_room_obj = hb_room_obj  # the HB_room object it belongs to
+        self.hb_room_dict = None        # the HB_room dictionary (to switch between dict
+                                        # and object to be able to "pickle" it)
+        self.floor_number = floor_number  # the number of the floor the apartment is in
+        self.apartment_number = apartment_number  # the number of apartment in the floor
         ##
         self.heating = {}  # dictionary with "data", the list of al the values (daily/monthly/yearly?)
         self.cooling = {}
@@ -30,7 +31,7 @@ class Apartment:
         ## BER
         self.total = None               # heating, cooling, equipment and lighting
         self.total_w_cop = None         # heating, cooling, equipment and lighting considering the COP
-        self.total_BER = None           # heating, cooling and lighting considering the COP
+        self.total_BER_light = None           # heating, cooling and lighting considering the COP
         self.total_BER_no_light = None  # only heating and cooling considering the COP
         self.position = None            # if top floor, middle floor or groundfloor
         self.is_core = self.is_core(identifier)
@@ -42,6 +43,7 @@ class Apartment:
     @classmethod
     def apartment_from_hb_room(cls, hb_room_obj):
         """
+        Create the apartment object from a hb_room obj
         """
         identifier = hb_room_obj.identifier
         floor_number = int(identifier.split("_")[0][3:])
@@ -49,17 +51,6 @@ class Apartment:
         return (Apartment(identifier=identifier, hb_room_obj=hb_room_obj, floor_number=floor_number,
                           apartment_number=apartment_number))
 
-    @classmethod
-    def apartment_from_id(cls, identifier):
-        """
-        """
-        floor_number = int(identifier.split("_")[0][3:])
-        apartment_number = int(identifier.split("_")[2])
-        return (Apartment(identifier=identifier, floor_number=floor_number, apartment_number=apartment_number))
-
-    # def calculate_total_consumption(self):
-    #
-    #     self.heating["total"] = sum(self.heating["data"])
 
     def get_floor_area(self):
         """ get the floor area of the apartment  """
@@ -86,7 +77,7 @@ class Apartment:
         self.total_w_cop = self.heating["total_cop"] + self.cooling["total_cop"] + self.lighting["total"] + \
                            self.equipment["total"]
         # BER
-        self.total_BER = self.heating["total_cop"] + self.cooling["total_cop"] + self.lighting["total"]
+        self.total_BER_light = self.heating["total_cop"] + self.cooling["total_cop"] + self.lighting["total"]
         self.total_BER_no_light = self.heating["total_cop"] + self.cooling["total_cop"]
 
     def rate_apartment(self, climate_zone_building):

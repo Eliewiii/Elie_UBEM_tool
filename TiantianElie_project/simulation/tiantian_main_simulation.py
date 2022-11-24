@@ -76,9 +76,9 @@ U_c.load_typologies(path_folder_typology)
 
 ## inputs f
 # path_folder_configuration_to_test = "D:\Elie\PhD\Simulation\Input_Data\LCA\Configuration_to_test\LCA_BER_project"  # Elie
-# path_folder_configuration_to_test = "D:\Elie\PhD\Simulation\Input_Data\LCA\Configuration_to_test\LCA_BER_project_test"  # Elie test
+path_folder_configuration_to_test = "D:\Elie\PhD\Simulation\Input_Data\LCA\Configuration_to_test\LCA_BER_project_test"  # Elie test
 # path_folder_configuration_to_test = "D:\Pycharm\Task\Simulation\Input_Data\LCA\Configuration_to_test\LCA_BER_project_test" # Tiantian test
-path_folder_configuration_to_test = "D:\Pycharm\PyCharm 2022.2.3\Task\Simulation\Input_Data\LCA\Configuration_to_test\LCA_BER_project_test"  #Tiantian new laptop test
+# path_folder_configuration_to_test = "D:\Pycharm\PyCharm 2022.2.3\Task\Simulation\Input_Data\LCA\Configuration_to_test\LCA_BER_project_test"  #Tiantian new laptop test
 file_list = os.listdir(path_folder_configuration_to_test)
 for in_file in file_list:
     if in_file.endswith(".csv"):
@@ -229,11 +229,12 @@ U_c.extract_building_csv_results(path_folder_building_simulation)
 ## LCA
 from lca_constuction_material.lca_surface_type import LcaMatColBySurfType
 
-# path_lca_database = "D:\Elie\PhD\Simulation\Input_Data\LCA\LCA_database\LCA_BER_project"  ##Elie
+path_lca_database = "D:\Elie\PhD\Simulation\Input_Data\LCA\LCA_database\LCA_BER_project"  ##Elie
 # path_lca_database = "D:\Pycharm\Task\Simulation\Input_Data\LCA\LCA_database\LCA_BER_project"  ##Tiantian
-path_lca_database = "D:\Pycharm\PyCharm 2022.2.3\Task\Simulation\Input_Data\LCA\LCA_database\LCA_BER_project"  ##Tiantian new
-life_time=50
+# path_lca_database = "D:\Pycharm\PyCharm 2022.2.3\Task\Simulation\Input_Data\LCA\LCA_database\LCA_BER_project"  ##Tiantian new
 
+# Life time
+life_time=50
 
 lca_dict = LcaMatColBySurfType.extract_lca_database(path_folder_database=path_lca_database,life_duration=life_time)
 

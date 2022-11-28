@@ -78,6 +78,8 @@ U_c.create_building_LB_geometry_footprint()
 ## Create HB room envelop with GIS footprint
 U_c.create_building_HB_room_envelop()
 U_c.correct_envelop_elevation()
+U_c.generate_oriented_bounding_box()
+U_c.correct_bounding_box_elevation()
 
 # %% Context filter algorithm
 

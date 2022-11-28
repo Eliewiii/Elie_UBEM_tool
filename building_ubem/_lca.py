@@ -74,13 +74,6 @@ class Mixin:
                             break
                 break
 
-    def convert_carbon_footprint_kwh_per_m2_eq_compare_to_ref(self,conversion_rate):
-        """
-
-
-        """
-        reference_building = None
-
 
     # def generate_graph_result(self, path_folder_building_simulation):
     #     """

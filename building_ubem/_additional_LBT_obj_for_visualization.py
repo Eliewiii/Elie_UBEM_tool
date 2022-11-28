@@ -23,6 +23,16 @@ class Mixin:
         identifier = "building_{}".format(self.id)
         self.HB_room_envelop = Room.from_polyface3d(identifier, extruded_face)
 
+    def bounding_rectangle_to_bounding_box(self):
+        """ Extrude the     """
+        bounding_box = Polyface3D.from_offset_face(self.LB_face_footprint, self.height)
+        identifier = "building_{}".format(self.id)
+        self.HB_room_envelop = Room.from_polyface3d(identifier, bounding_box)
+
+def extrude_lb_face_to_hb_room(lb_face_footprint, height, identifier):
+    """ Extrude the     """
+    extrusion = Polyface3D.from_offset_face(lb_face_footprint,height)
+    return Room.from_polyface3d(identifier, extrusion)
 
 def bounding_rectangle(geometries, axis_angle=0):
     """Get the oriented bounding rectangle around 2D or 3D geometry according to the axis_angle.
@@ -56,20 +66,20 @@ def bounding_rectangle(geometries, axis_angle=0):
                                              # face3D will solve the issue automaically
 
 
-def lb_oriented_bounding_box(lb_geometry, n_step=360):
+def lb_oriented_bounding_box(lb_geometry_list, n_step=360):
     """ Get the Face3D oriented bounding rectangle/box of a Face3D geometry"""
 
     bounding_box_area_list = []
     angle = 0
     step = 2 * pi / 360
     for i in range(n_step):
-        length, width = bounding_rectangle_extents(lb_geometry, axis_angle=angle)
+        length, width = bounding_rectangle_extents(lb_geometry_list, axis_angle=angle)
         bounding_box_area_list.append(length * width)
         angle += step
 
     angle = step * bounding_box_area_list.index(min(bounding_box_area_list))
 
-    oriented_bounding_box = bounding_rectangle(lb_geometry, axis_angle=angle)
+    oriented_bounding_box = bounding_rectangle(lb_geometry_list, axis_angle=angle)
 
     return oriented_bounding_box, angle
 
@@ -78,5 +88,5 @@ if __name__ == "__main__":
     pts = [Point3D(0, -1, 0), Point3D(1, 0, 0), Point3D(0, 1, 0), Point3D(-1, 0, 0)]
     face = Face3D(pts)
     # print(face)
-    oriented_bounding_box, angle = oriented_bounding_box([face])
+    oriented_bounding_box, angle = lb_oriented_bounding_box([face])
     print(oriented_bounding_box.vertices, angle)

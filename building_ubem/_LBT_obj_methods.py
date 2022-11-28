@@ -184,7 +184,6 @@ class Mixin:
         """
         Add air infiltration exchange with a rate in volume per hour
         :param air_exchange_rate: float : air flow exchange rate with the exterior due to infiltration [vol/h]
-        :return:
         """
 
         for room in self.HB_model.rooms:  # loop on all rooms
@@ -216,12 +215,16 @@ class Mixin:
         The default value for self.int_wall_ratio is 1.5
         """
         for room in self.HB_model.rooms:
+            # add internal mass only in conditioned zones
             if room.properties.energy.is_conditioned:
                 int_mass_area = room.floor_area * self.int_mass_ratio
+                # find the construction
                 construction_internal_wall = opaque_construction_by_identifier(
                     self.typology.construction_int_wall_int_mass)
+                # create the internal mass
                 mass = InternalMass(identifier="int_mass" + room.identifier, construction=construction_internal_wall,
                                     area=int_mass_area)
+                # assign the internal mass
                 room.properties.energy.add_internal_mass(mass)
 
 def surface_txt_to_LB_surfaces(path_file):

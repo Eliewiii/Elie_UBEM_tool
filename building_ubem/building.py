@@ -104,6 +104,7 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
         self.LB_extruded_building = None
         # # Honeybee # #
         self.HB_room_envelop = None
+        self.hb_oriented_bounding_box = None
         self.HB_model = None
         self.HB_model_dict =None
         # # DragonFly # #

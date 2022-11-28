@@ -2,17 +2,15 @@
 Apartment class, representing a thermal zone.
 Only used (for now) for building energy rating and result extraction
 """
+from apartment import _ber
 
-BER_reference_values = {"A": {"top": 40.6, "middle": 38.58, "bottom": 28.558},
-                        "B": {"top": 46.54, "middle": 38.87, "bottom": 30.66},# to update in the future
-                        "C": {"top": 46.54, "middle": 38.87, "bottom": 30.66},  # to update in the future
-                        "D": {"top": 46.54, "middle": 38.87, "bottom": 30.66}}  # to update in the future
+
 
 apartment_types = ["ground", "over_open_space", "over_unheated", "under_unheated", "between_unheated", "unheated",
                    "middle", "top"]
 
 
-class Apartment:
+class Apartment(_ber.Mixin):
 
     def __init__(self, identifier, hb_room_obj, floor_number, apartment_number):
         # self.building_obj = building_obj
@@ -56,15 +54,15 @@ class Apartment:
         """ get the floor area of the apartment  """
         self.area = self.hb_room_obj.floor_area
 
-    def convert_to_kWh_per_sqrm_and_sum_consumption(self, cop_h=3.,cop_c=3):
+    def convert_to_kWh_per_sqrm_and_sum_consumption(self, cop_h=3.,cop_c=3.):
         """ Convert the energy consumption in KwH/m2 """
         # get floor area
         self.get_floor_area()
-        # conversion
-        self.heating["data"] = [value / self.area / 3600 / 1000 for value in self.heating["data"]]
-        self.cooling["data"] = [value / self.area / 3600 / 1000 for value in self.cooling["data"]]
-        self.lighting["data"] = [value / self.area / 3600 / 1000 for value in self.lighting["data"]]
-        self.equipment["data"] = [value / self.area / 3600 / 1000 for value in self.equipment["data"]]
+        # conversion from joules to kWh/m2
+        self.heating["data"] = [value / self.area / 3600. / 1000. for value in self.heating["data"]]
+        self.cooling["data"] = [value / self.area / 3600. / 1000. for value in self.cooling["data"]]
+        self.lighting["data"] = [value / self.area / 3600. / 1000. for value in self.lighting["data"]]
+        self.equipment["data"] = [value / self.area / 3600. / 1000. for value in self.equipment["data"]]
         # compute total consumption
         self.heating["total"] = sum(self.heating["data"])
         self.cooling["total"] = sum(self.cooling["data"])
@@ -80,32 +78,7 @@ class Apartment:
         self.total_BER_light = self.heating["total_cop"] + self.cooling["total_cop"] + self.lighting["total"]
         self.total_BER_no_light = self.heating["total_cop"] + self.cooling["total_cop"]
 
-    def rate_apartment(self, climate_zone_building):
 
-        ec_ref = BER_reference_values[climate_zone_building][self.position]  # energy consumption of the reference
-        ip = (ec_ref - self.total_BER_no_light) / ec_ref * 100  # improvement percentage compare to the reference
-
-        if ip < 0:
-            self.rating = "F"
-            self.grade_value = -1
-        elif ip < 10:
-            self.rating = "E"
-            self.grade_value = 0
-        elif ip < 20:
-            self.rating = "D"
-            self.grade_value = 1
-        elif ip < 25:
-            self.rating = "C"
-            self.grade_value = 2
-        elif ip < 30:
-            self.rating = "B"
-            self.grade_value = 3
-        elif ip < 35:
-            self.rating = "A"
-            self.grade_value = 4
-        else:
-            self.rating = "A+"
-            self.grade_value = 5
 
     @staticmethod
     def is_core(apartment_identifier):

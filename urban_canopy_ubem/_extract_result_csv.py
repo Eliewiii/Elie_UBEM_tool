@@ -37,8 +37,8 @@ class Mixin:
                 building_obj = self.building_dict[building_id]
                 csvfile.write("{},{},{},{},{},{}\n".format(
                     building_obj.name,
-                    round(building_obj.energy_consumption["tot_h_cop"], 2),
-                    round(building_obj.energy_consumption["tot_c_cop"], 2),
+                    round(building_obj.energy_consumption["total_h_cop"], 2),
+                    round(building_obj.energy_consumption["total_c_cop"], 2),
                     round(building_obj.energy_consumption["total_w_cop"], 2),
                     round(building_obj.energy_consumption["total_BER_no_light"], 2),
                     building_obj.rating))
@@ -52,8 +52,8 @@ class Mixin:
                 building_obj = self.building_dict[building_id]
                 csvfile.write("{},{},{},{},{},{},{},{},{}\n".format(
                     building_obj.name,
-                    round(building_obj.energy_consumption["tot_h_cop"], 2),
-                    round(building_obj.energy_consumption["tot_c_cop"], 2),
+                    round(building_obj.energy_consumption["total_h_cop"], 2),
+                    round(building_obj.energy_consumption["total_c_cop"], 2),
                     round(building_obj.energy_consumption["total_w_cop"], 2),
                     round(building_obj.energy_consumption["total_BER_no_light"], 2),
                     building_obj.rating,
@@ -69,8 +69,7 @@ class Mixin:
             building_obj = self.building_dict[building_id]
 
             ### to test the data temporary
-            heat_bar.append(building_obj.energy_consumption["tot_h_cop_compared_to_ref"])
-            ###
+            heat_bar.append(building_obj.energy_consumption["total_h_cop_compared_to_ref"])
 
             path_to_building_folder = join(path_folder_building_simulation, building_obj.name)
             path_to_result_folder = join(path_to_building_folder, "Results")
@@ -94,11 +93,11 @@ class Mixin:
             model.append(building_obj.name)
             bar_location += 1.1
             x_position_bar.append(bar_location)
-            heating_bar = ax.bar(bar_location - width, building_obj.energy_consumption["tot_h_cop_compared_to_ref"],
+            heating_bar = ax.bar(bar_location - width, building_obj.energy_consumption["total_h_cop_compared_to_ref"],
                                  width, color="red", label="heating", zorder=10)
-            cooling_bar = ax.bar(bar_location - width, building_obj.energy_consumption["tot_c_cop_compared_to_ref"],
+            cooling_bar = ax.bar(bar_location - width, building_obj.energy_consumption["total_c_cop_compared_to_ref"],
                                  width, color="blue",
-                                 bottom=building_obj.energy_consumption["tot_h_cop_compared_to_ref"],
+                                 bottom=building_obj.energy_consumption["total_h_cop_compared_to_ref"],
                                  label="cooling", zorder=10)
             carbon_ftp_bar = ax.bar(bar_location,
                                     building_obj.carbon_footprint_kwh_per_m2_eq_per_year_compared_to_ref["mini"] -
@@ -110,7 +109,7 @@ class Mixin:
                                     building_obj.carbon_footprint_kwh_per_m2_eq_per_year_compared_to_ref["mini"] -
                                     building_obj.carbon_footprint_kwh_per_m2_eq_per_year_compared_to_ref["maxi"],
                                     width, color="orange",
-                                    bottom=building_obj.energy_consumption["tot_BER_compared_to_ref"] +
+                                    bottom=building_obj.energy_consumption["total_BER_compared_to_ref"] +
                                     building_obj.carbon_footprint_kwh_per_m2_eq_per_year_compared_to_ref["maxi"],
                                     label="total environmental impact", zorder=10)
             if bar_location == 1:

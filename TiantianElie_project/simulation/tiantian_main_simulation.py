@@ -242,8 +242,7 @@ U_c.compute_lca(dic_configuration_to_test=configuration_dic,lca_dic=lca_dict)
 
 conversion_rate=1/0.5565
 U_c.convert_carbon_footprint_kwh_per_m2_eq_compare_to_ref(conversion_rate=conversion_rate,life_time=life_time)
-U_c.compute_consumption_improvement_lca()
-
+U_c.compute_consumption_compared_to_ref()
 
 # create a global csv file in the output folder names "results" and write into the results
 path_folder_building_results = os.path.join(path_folder_simulation, "Results")
@@ -253,10 +252,8 @@ path_csv = os.path.join(path_folder_building_results, csv_name)
 
 U_c.write_global_csv_results_with_lca(path_csv)
 
-
 # %% Generate csv results in each building object
 tot_h_cop_compared_to_ref = U_c.write_csv_results_in_building_folder(path_folder_building_simulation)
-
 ###Test heating data temprary
 print(tot_h_cop_compared_to_ref)
 ###

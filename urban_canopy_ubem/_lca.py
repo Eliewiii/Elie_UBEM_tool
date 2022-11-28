@@ -51,8 +51,8 @@ class Mixin:
             if building_obj.is_reference:
                 reference_building = building_obj
                 break
-        tot_h_cop_ref = reference_building.energy_consumption["tot_h_cop"]
-        tot_c_cop_ref = reference_building.energy_consumption["tot_c_cop"]
+        tot_h_cop_ref = reference_building.energy_consumption["total_h_cop"]
+        tot_c_cop_ref = reference_building.energy_consumption["total_c_cop"]
         tot_ber_ref = reference_building.energy_consumption["total_BER_no_light"]
 
         for id in self.building_to_simulate:
@@ -63,30 +63,30 @@ class Mixin:
                                                                                "total_BER_no_light"]
             building_obj.energy_consumption["total_h_cop_compared_to_ref"] = tot_h_cop_ref - \
                                                                              building_obj.energy_consumption[
-                                                                                 "tot_h_cop"]
+                                                                                 "total_h_cop"]
             building_obj.energy_consumption["total_c_cop_compared_to_ref"] = tot_c_cop_ref - \
                                                                              building_obj.energy_consumption[
-                                                                                 "tot_c_cop"]
+                                                                                 "total_c_cop"]
 
-    def compute_consumption_improvement_lca(self):
-        """
-        Compute the overall improvement in terms of both LCA and energy consumption compared to the reference
-        """
-        reference_building = None
-        for id in self.building_to_simulate:
-            building_obj = self.building_dict[id]
-            if building_obj.is_reference:
-                reference_building = building_obj
-                break
-        tot_ber_ref = reference_building.energy_consumption["total_BER_no_light"]
-        lca_ref_max= reference_building.carbon_footprint_kwh_per_m2_eq_per_year["maxi"]
-        lca_ref_standard = reference_building.carbon_footprint_kwh_per_m2_eq_per_year["standard"]
-        lca_ref_min = reference_building.carbon_footprint_kwh_per_m2_eq_per_year["mini"]
-
-        for id in self.building_to_simulate:
-            building_obj = self.building_dict[id]
-            if building_obj.is_reference==False:
-                building_obj.improvement_lca_in_percent["maxi"]= 1-(building_obj.energy_consumption["total_BER_no_light"] + building_obj.carbon_footprint_kwh_per_m2_eq_per_year["mini"])/(tot_ber_ref+lca_ref_max)
-                building_obj.improvement_lca_in_percent["standard"]= 1-(building_obj.energy_consumption["total_BER_no_light"] + building_obj.carbon_footprint_kwh_per_m2_eq_per_year["standard"])/(tot_ber_ref+lca_ref_standard)
-                building_obj.improvement_lca_in_percent["mini"]= 1-(building_obj.energy_consumption["total_BER_no_light"] + building_obj.carbon_footprint_kwh_per_m2_eq_per_year["maxi"])/(tot_ber_ref+lca_ref_mini)
-
+    # def compute_consumption_improvement_lca(self):
+    #     """
+    #     Compute the overall improvement in terms of both LCA and energy consumption compared to the reference
+    #     """
+    #     reference_building = None
+    #     for id in self.building_to_simulate:
+    #         building_obj = self.building_dict[id]
+    #         if building_obj.is_reference:
+    #             reference_building = building_obj
+    #             break
+    #     tot_ber_ref = reference_building.energy_consumption["total_BER_no_light"]
+    #     lca_ref_max= reference_building.carbon_footprint_kwh_per_m2_eq_per_year["maxi"]
+    #     lca_ref_standard = reference_building.carbon_footprint_kwh_per_m2_eq_per_year["standard"]
+    #     lca_ref_min = reference_building.carbon_footprint_kwh_per_m2_eq_per_year["mini"]
+    #
+    #     for id in self.building_to_simulate:
+    #         building_obj = self.building_dict[id]
+    #         if building_obj.is_reference==False:
+    #             building_obj.improvement_lca_in_percent["maxi"]= 1-(building_obj.energy_consumption["total_BER_no_light"] + building_obj.carbon_footprint_kwh_per_m2_eq_per_year["mini"])/(tot_ber_ref+lca_ref_max)
+    #             building_obj.improvement_lca_in_percent["standard"]= 1-(building_obj.energy_consumption["total_BER_no_light"] + building_obj.carbon_footprint_kwh_per_m2_eq_per_year["standard"])/(tot_ber_ref+lca_ref_standard)
+    #             building_obj.improvement_lca_in_percent["mini"]= 1-(building_obj.energy_consumption["total_BER_no_light"] + building_obj.carbon_footprint_kwh_per_m2_eq_per_year["maxi"])/(tot_ber_ref+lca_ref_mini)
+    #

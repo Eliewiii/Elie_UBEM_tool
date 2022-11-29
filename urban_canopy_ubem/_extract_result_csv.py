@@ -64,19 +64,19 @@ class Mixin:
     def write_csv_results_in_building_folder(self, path_folder_building_simulation):
         """ determine the path for the results of each building and write the results in each building file """
         # todo : loop for all the buildings, get the pass to building_??\Results and write the csv
-        heat_bar = []
+        ###heat_bar = []
         for building_id in self.building_to_simulate:
             building_obj = self.building_dict[building_id]
 
-            ### to test the data temporary
-            heat_bar.append(building_obj.energy_consumption["total_h_cop_compared_to_ref"])
+            ### to test the data in temporary
+            ###heat_bar.append(building_obj.energy_consumption["total_h_cop_compared_to_ref"])
 
             path_to_building_folder = join(path_folder_building_simulation, building_obj.name)
             path_to_result_folder = join(path_to_building_folder, "Results")
             building_obj.generate_csv_in_individual_result_folder(path_to_result_folder)
 
-        ## temprary
-        return heat_bar
+        ## in temprary only for test
+        ###return heat_bar
 
     def generate_graph_result(self, path_folder_building_results):
         """

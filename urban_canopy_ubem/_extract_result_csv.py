@@ -116,7 +116,7 @@ class Mixin:
                 ax.legend()
         ax.set_xticks(x_position_bar, labels=model)
         ax.set_ylabel("Environmental impact in KWh/m2 compared to reference")
-
+        plt.setp(ax.get_xticklabels(), rotation=30, horizontalalignment='right')
         fig.tight_layout()
         plt.savefig(join(path_folder_building_results, "graph.png"))
         plt.show()

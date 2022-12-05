@@ -76,9 +76,9 @@ U_c.load_typologies(path_folder_typology)
 
 ## inputs f
 # path_folder_configuration_to_test = "D:\Elie\PhD\Simulation\Input_Data\LCA\Configuration_to_test\LCA_BER_project"  # Elie
-# path_folder_configuration_to_test = "D:\Elie\PhD\Simulation\Input_Data\LCA\Configuration_to_test\LCA_BER_project_test"  # Elie test
+path_folder_configuration_to_test = "D:\Elie\PhD\Simulation\Input_Data\LCA\Configuration_to_test\LCA_BER_project_test"  # Elie test
 # path_folder_configuration_to_test = "D:\Pycharm\Task\Simulation\Input_Data\LCA\Configuration_to_test\LCA_BER_project_test" # Tiantian test
-path_folder_configuration_to_test = "D:\Pycharm\PyCharm 2022.2.3\Task\Simulation\Input_Data\LCA\Configuration_to_test\LCA_BER_project_test"  #Tiantian new laptop test
+# path_folder_configuration_to_test = "D:\Pycharm\PyCharm 2022.2.3\Task\Simulation\Input_Data\LCA\Configuration_to_test\LCA_BER_project_test"  #Tiantian new laptop test
 file_list = os.listdir(path_folder_configuration_to_test)
 for in_file in file_list:
     if in_file.endswith(".csv"):
@@ -111,8 +111,8 @@ U_c.select_target_building(target_buildings)
 
 ## Create Ladybug geometries with GIS footprint
 U_c.create_building_LB_geometry_footprint()
-## Create HB room envelop with GIS footprint
-U_c.create_building_HB_room_envelop()
+# ## Create HB room envelop with GIS footprint
+# U_c.create_building_HB_room_envelop()
 
 # %% Context filter algorithm
 

@@ -16,18 +16,10 @@ from ladybug_geometry.geometry3d import Vector3D, Point3D, Face3D
 
 from ladybug_geometry.bounding import bounding_domain_x, bounding_domain_y, bounding_rectangle_extents, _orient_geometry
 
-from _additional_LBT_obj_for_visualization import extrude_lb_face_to_hb_room
+from  building_ubem._additional_LBT_obj_for_visualization import extrude_lb_face_to_hb_room
 
 class Mixin:
 
-    def generate_oriented_bounding_box(self):
-        """  """
-        # Identify the oriented bounding rectangle
-        bounding_box, angle = lb_oriented_bounding_box(self.LB_face_footprint)
-        # extrude the rectangle to obtain the oriented bounding box
-        extrude_lb_face_to_hb_room
-        # assign the bounding box
-        self.hb_oriented_bounding_box = bounding_box
 
     def prepare_bounding_box_face_list(self, is_target=False):
         """

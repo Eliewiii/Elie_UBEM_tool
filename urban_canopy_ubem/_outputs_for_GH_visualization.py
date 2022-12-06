@@ -19,8 +19,12 @@ class Mixin:
     def correct_envelop_elevation(self):
         """ correct the elevation of the building envelop (not to put it at z=0) """
         for i, id in enumerate(self.building_dict):
-            moving_vector = Vector3D(0., 0., self.building_dict[id].elevation)
-            self.building_dict[id].HB_room_envelop.move(moving_vector)
+            self.building_dict[id].correct_envelop_elevation()
+
+    def correct_envelop_elevation(self):
+        """ correct the elevation of the building envelop (not to put it at z=0) """
+        for i, id in enumerate(self.building_dict):
+            self.building_dict[id].correct_bounding_box_elevation()
 
     def context_to_hbjson(self, path_folder_context_hbjson):
         """

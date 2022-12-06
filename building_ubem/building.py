@@ -26,7 +26,7 @@ from honeybee.face import Face
 from honeybee.shade import Shade
 
 from building_ubem import _select_context, _attribute_setter, _shp_files, _LBT_obj_methods, \
-    _additional_LBT_obj_for_visualization, _extract_result_csv, _uwg, _generate_sample, _lca, _ber
+    _footprin_and_envelop_manipulation, _extract_result_csv, _uwg, _generate_sample, _lca, _ber
 
 
 class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin, _LBT_obj_methods.Mixin,
@@ -87,6 +87,7 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
         self.is_target = False
         self.is_simulated = False
         # # Context filtering
+        self.bounding_box_face_list = None
         self.external_face_list_target = None
         self.external_face_list_context = None
         self.context_buildings_id_list = []

@@ -77,6 +77,53 @@ class Mixin:
         for not_used, (id, building_obj) in enumerate(self.building_dict.items()):
             building_obj.prepare_face_for_context_new(is_target=building_obj.is_target)
 
+    def prepare_bounding_box_faces_for_context(self):
+        """
+        Generate the face_list for the bounding box of the buildings to simplify the computation
+        """
+        for not_used, (id, building_obj) in enumerate(self.building_dict.items()):
+            building_obj.prepare_bounding_box_face_list()
+
+    def generate_pre_processed_bb_building_surface_dic(self):
+        """
+            Generate the dictionary containing the face dictionary of the bounding box
+            and the envelop faces of the buildings
+        """
+        pre_processed_bb_building_surface_dict={}
+        for not_used, (id, building_obj) in enumerate(self.building_dict.items()):
+            pre_processed_bb_building_surface_dict[id]={
+                                               "bounding_box_faces": building_obj.bounding_box_face_list,
+                                               "envelop_faces": building_obj.external_face_list_context
+                                              }
+        return pre_processed_bb_building_surface_dict
+
+
+    def filter_context_bounding_box(self, mvfc=0.01, first_pass=True,
+                           second_pass=True):
+        """
+
+        """
+
+        # for id in self.target_buildings:
+        #     target_buildings_face_list.append([id, self.building_dict[id].prepare_face_for_context(reverse=False)])
+        # ## prepare all building_zon surfaces
+        # for not_used, (id, building_obj) in enumerate(self.building_dict.items()):
+        #     all_building_face_list.append([id, building_obj.prepare_face_for_context(reverse=True)])
+
+        # ## prepare target building_zon surfaces
+        self.prepare_building_face_for_context_new()
+        self.prepare_bounding_box_faces_for_context()
+
+        pre_processed_bb_building_dict = self.generate_pre_processed_bb_surface_list
+
+        ## Loop over all the target buildings
+        for id_target in self.building_to_simulate:
+            target_building_obj = self.building_dict[id_target]
+                ## select the relevant context surfaces with the first and second pass criteria
+            kept_surface_first_pass, kept_surface_second_pass, first_pass_duration, second_pass_duration = target_building_obj.shading_context_bb_surfaces_selection(
+                    pre_processed_bb_building_surface_dict=pre_processed_bb_building_dict, mvfc=mvfc, first_pass=first_pass,
+                    second_pass=second_pass)
+
     def filter_context_new(self, mvfc=0.01, first_pass=True,
                            second_pass=True):
         """
@@ -108,8 +155,8 @@ class Mixin:
                     pre_processed_surface_list.append(surface_dict)
                 ## select the relevant context surfaces with the first and second pass criteria
             kept_surface_first_pass, kept_surface_second_pass, first_pass_duration, second_pass_duration = target_building_obj.shading_context_surfaces_selection(
-                    pre_processed_surface_list=pre_processed_surface_list, mvfc=mvfc, first_pass=True,
-                    second_pass=True)
+                    pre_processed_surface_list=pre_processed_surface_list, mvfc=mvfc, first_pass=first_pass,
+                    second_pass=second_pass)
 
     def correct_context_elevation(self):
         """

@@ -16,12 +16,12 @@ from ladybug_geometry.geometry3d import Vector3D, Point3D, Face3D
 
 from ladybug_geometry.bounding import bounding_domain_x, bounding_domain_y, bounding_rectangle_extents, _orient_geometry
 
-from  building_ubem._additional_LBT_obj_for_visualization import extrude_lb_face_to_hb_room
+from building_ubem._footprin_and_envelop_manipulation import extrude_lb_face_to_hb_room
+
 
 class Mixin:
 
-
-    def prepare_bounding_box_face_list(self, is_target=False):
+    def prepare_bounding_box_face_list(self):
         """
         Returns a a list that will be used for the context selection.
         return a list as followed:
@@ -34,23 +34,11 @@ class Mixin:
         z_vertices = [Vector3D(0, 0, 1), Vector3D(0, 0, -1)]  # vertical vertices
         for face in self.HB_room_envelop.faces:
             if face.normal not in z_vertices:  # do not keep the roof and ground
-                lower_corners = [point3d_to_numpy_array(face.geometry.lower_left_corner),
-                                 point3d_to_numpy_array(face.geometry.lower_right_corner)]
-                lower_corners = adjust_lower_corners(pt_left=lower_corners[0],pt_right=lower_corners[1])
                 face_list.append(
-                    {"hb_face_obj": face, "area": face.geometry.area, "centroid_point3d": face.geometry.centroid,
-                     "height": self.height, "elevation":self.elevation})
-            if is_target:
-                face_list.sort(key=lambda x: x["area"],
-                               reverse=False)  # sort the list according to the 2nd element = the area
-                # from smaller to bigger for context building
-                self.external_face_list_target = list(face_list)
-
-            face_list.sort(key=lambda x: x["area"],
-                           reverse=True)  # sort the list according to the 2nd element = the area
-            # from bigger to smaller for context building
-            self.external_face_list_context = deepcopy(face_list)
-
+                    {"hb_face_obj": face, "area": face.geometry.area, "centroid_point3d": face.geometry.centroid})
+            # sort the list according to the 2nd element = the area, from bigger to smaller for context building
+            face_list.sort(key=lambda x: x["area"], reverse=True)
+            self.bounding_box_face_list = deepcopy(face_list)
 
     def prepare_face_for_context(self, reverse=False):
         """
@@ -85,12 +73,12 @@ class Mixin:
             if face.normal not in z_vertices:  # do not keep the roof and ground
                 lower_corners = [point3d_to_numpy_array(face.geometry.lower_left_corner),
                                  point3d_to_numpy_array(face.geometry.lower_right_corner)]
-                lower_corners = adjust_lower_corners(pt_left=lower_corners[0],pt_right=lower_corners[1])
+                lower_corners = adjust_lower_corners(pt_left=lower_corners[0], pt_right=lower_corners[1])
                 face_list.append(
                     {"hb_face_obj": face, "area": face.geometry.area, "centroid_point3d": face.geometry.centroid,
                      "lower_corner_points": {"left": lower_corners[0], "right": lower_corners[1],
                                              "center": (lower_corners[0] + lower_corners[1]) / 2.},
-                     "height": self.height, "elevation":self.elevation})
+                     "height": self.height, "elevation": self.elevation})
             if is_target:
                 face_list.sort(key=lambda x: x["area"],
                                reverse=False)  # sort the list according to the 2nd element = the area
@@ -102,8 +90,99 @@ class Mixin:
             # from bigger to smaller for context building
             self.external_face_list_context = deepcopy(face_list)
 
+    def shading_context_bb_surfaces_selection(self, pre_processed_bb_building_surface_dict, mvfc=0.01, first_pass=True,
+                                              second_pass=True, keep_all_context=True, keep_first_pass=True):
+        """
+        Select the surfaces from all the context that shade noticeably on the building.
+        The filtering has 2 passes:
+        - the minimum view factor criterion
+        - obstruction detection with LCA
+        It can go through only one or none of the passes if needed
+
+        Args:
+            pre_processed_surface_list [list]: list containing all the surfaces to test. Each element, representing a
+                surface, is a dictionary with the following properties {"hb_face_obj", "area", "centroid":(Point3D),
+                 "lower_corner_point3d":{"left","right"},"height"}
+            mvfc [float]: value for the minimum view factor criteria. Check the shading_context_first_pass function
+               for the detailed explanation. default value 0.01
+            first_pass [boolean]: True if we want to use the first pass, False if not.
+            second_pass [boolean]: True if we want to use the second pass, False if not.
+        """
+        logging.warning(f" building_{self.id} : start context filering")
+        building_surfaces_dict_to_test = copy.deepcopy(pre_processed_bb_building_surface_dict)
+
+        ## Initialization
+        first_pass_duration = 0
+        second_pass_duration = 0
+        kept_surfaces_dict_list = []
+
+        kept_building_first_pass = []
+        kept_surface_first_pass = []
+        kept_surface_second_pass = []
+
+        ## first pass
+        if first_pass:
+            first_pass_duration = time.time()
+            kept_building_first_pass = self.shading_context_bb_first_pass(building_surfaces_dict_to_test, mvfc)
+            first_pass_duration = time.time() - first_pass_duration
+            logging.warning(f" building_{self.id} :  first pass duration :{round(first_pass_duration, 4)}s")
+            # conversion into surface dict list
+            kept_surfaces_dict_list = context_building_to_surface_kept(building_surfaces_dict_to_test,
+                                                                       kept_building_first_pass)
+            # conversion into HB surface list for EnergyPlus and plotting purposes
+            kept_surface_first_pass = surface_dict_to_hb_faces(kept_surfaces_dict_list)
+            if keep_first_pass:
+                self.context_hb_kept_first_pass = list(kept_surface_first_pass) # no deepcopy ! otherwise cannot
+                # remove the surfaces from the second pass, the objects are not the same anymore
+            # Save the context surfaces that were not kept by the first pass, to represent the rest of the context in Rhino
+            if keep_all_context:
+                all_context_surface_dict_list = context_building_to_surface_kept(building_surfaces_dict_to_test,
+                                                                                 "all")
+                all_context_hb_faces = surface_dict_to_hb_faces(all_context_surface_dict_list)
+                # keep only the surfaces not kept by the first pass (so that they don't overlap)
+                for face in all_context_hb_faces:
+                    if face not in kept_surface_first_pass:
+                        self.all_context_hb_faces.append(face)
+                self.all_context_hb_faces = deepcopy(self.all_context_hb_faces)
+
+            ## second pass
+            if second_pass:
+                second_pass_duration = time.time()
+                kept_surfaces_dict_list = self.shading_context_second_pass(kept_surfaces_dict_list)
+                second_pass_duration = time.time() - second_pass_duration
+                logging.warning(f" building_{self.id} :  second pass duration :{round(second_pass_duration, 4)}s")
+
+                kept_surface_second_pass = surface_dict_to_hb_faces(kept_surfaces_dict_list)
+                # remove the surface kept in the second pass from the first pass
+                if keep_first_pass:
+                    for face in kept_surface_first_pass:
+                        if face in kept_surface_second_pass:
+                            self.context_hb_kept_first_pass.remove(face)
+        ## second pass only
+        elif second_pass:
+            # convert the dictionary of building to a list of surfaces for the second pass only
+            all_context_surface_dict_list = context_building_to_surface_kept(building_surfaces_dict_to_test,
+                                                                             "all")
+            second_pass_duration = time.time()
+            kept_surfaces_dict_list = self.shading_context_second_pass(all_context_surface_dict_list)
+            second_pass_duration = time.time() - second_pass_duration
+            logging.warning(f" building_{self.id} :  second pass duration :{round(second_pass_duration, 4)}s")
+            kept_surface_second_pass = surface_dict_to_hb_faces(kept_surfaces_dict_list)
+            if keep_all_context:
+                all_context_hb_faces = surface_dict_to_hb_faces(all_context_surface_dict_list)
+                for face in all_context_hb_faces:
+                    if face not in kept_surface_second_pass:
+                        self.all_context_hb_faces.append(face)
+                self.all_context_hb_faces = deepcopy(self.all_context_hb_faces)
+
+        hb_context_faces = surface_dict_to_hb_faces(kept_surfaces_dict_list)
+
+        self.context_shading_HB_faces = deepcopy(hb_context_faces)
+
+        return (kept_surface_first_pass, kept_surface_second_pass, first_pass_duration, second_pass_duration)
+
     def shading_context_surfaces_selection(self, pre_processed_surface_list, mvfc=0.01, first_pass=True,
-                                           second_pass=True,keep_all_context=True,keep_first_pass=True):
+                                           second_pass=True, keep_all_context=True, keep_first_pass=True):
         """
         Select the surfaces from all the context that shade noticeably on the building.
         The filtering has 2 passes:
@@ -128,7 +207,7 @@ class Mixin:
         second_pass_duration = 0
         kept_surfaces_dict_list = []
 
-        kept_surface_first_pass=[]
+        kept_surface_first_pass = []
         kept_surface_second_pass = []
 
         ## first pass
@@ -136,7 +215,7 @@ class Mixin:
             first_pass_duration = time.time()
             kept_surfaces_dict_list = self.shading_context_first_pass(surface_to_test, mvfc)
             first_pass_duration = time.time() - first_pass_duration
-            logging.warning(f" building_{self.id} :  first pass duration :{round(first_pass_duration,4)}s")
+            logging.warning(f" building_{self.id} :  first pass duration :{round(first_pass_duration, 4)}s")
             kept_surface_first_pass = surface_dict_to_hb_faces(kept_surfaces_dict_list)
             if keep_first_pass:
                 self.context_hb_kept_first_pass = list(kept_surface_first_pass)
@@ -174,7 +253,7 @@ class Mixin:
 
         self.context_shading_HB_faces = deepcopy(hb_context_faces)
 
-        return (kept_surface_first_pass, kept_surface_second_pass , first_pass_duration, second_pass_duration)
+        return (kept_surface_first_pass, kept_surface_second_pass, first_pass_duration, second_pass_duration)
 
     def shading_context_first_pass(self, pre_processed_surface_list, mvfc):
         """
@@ -198,6 +277,34 @@ class Mixin:
                     break  # if a surface is context for one of the target surface, it is kept and thus stop the loop
 
         return kept_surfaces
+
+    def shading_context_bb_first_pass(self, pre_processed_bb_building_surface_dict, mvfc):
+        """
+        First pass of the selection of the shading surfaces from the context.
+        Use the minimum view factor criterion (mvfc).
+        An upper bound of the view factor between each couple of target and context surfaces is computed. If this value
+        is higher than the mvfc, the surface is kept as it has potential to shade significantly on the target building.
+        If it is lower, the context surface is not keep for the second pass (and thus the energy simulation)
+        Args:
+            pre_processed_surface_list [list]: list containing all the surfaces to test. Each element, representing a
+                surface, is a dictionary with the following properties {"hb_face_obj", "area", "centroid":(Point3D),
+                 "lower_corner_point3d":{"left","right"},"height"}
+            mvfc [float]: value for the minimum view factor criteria.
+        """
+        kept_building = []  # surfaces to keep after the first pass
+        for building_id in list(pre_processed_bb_building_surface_dict.keys()):
+            is_context = False
+            for test_face in pre_processed_bb_building_surface_dict[building_id]["bounding_box_faces"]:  # loop over all the context surfaces
+                for target_face in self.external_face_list_target:  # loop over all the surfaces of the target building
+                    if max_VF(centroid_1=target_face["centroid_point3d"], area_1=target_face["area"],
+                              centroid_2=test_face["centroid_point3d"], area_2=test_face["area"]) >= mvfc:  # mvf criterion
+                        kept_building.append(building_id)  # if criteria valid, add the surface to the kept surface
+                        is_context = True # if the mvfc is verified, the building is kept
+                        break  # if a surface is context for one of the target surface, it is kept and thus stop the loop
+                if is_context == True:
+                    # if the building is kept, no need to test the other surfaces
+                    break
+        return kept_building
 
     def shading_context_second_pass(self, pre_processed_surface_list):
         """
@@ -232,10 +339,11 @@ class Mixin:
             # print("surface checked")
         return kept_surfaces
 
+
     def correct_context_elevation(self):
         """ """
         for surface in self.context_hb_kept_first_pass:
-            surface.move(Vector3D(0,0,-self.elevation))
+            surface.move(Vector3D(0, 0, -self.elevation))
 
         for surface in self.context_shading_HB_faces:
             surface.move(Vector3D(0, 0, -self.elevation))
@@ -243,55 +351,6 @@ class Mixin:
         for surface in self.all_context_hb_faces:
             surface.move(Vector3D(0, 0, -self.elevation))
 
-
-def lb_oriented_bounding_box(lb_geometry_list, n_step=360):
-    """ Get the Face3D oriented bounding rectangle/box of a Face3D geometry """
-
-    bounding_box_area_list = []
-    angle = 0
-    step = 2 * pi / 360
-    for i in range(n_step):
-        length, width = bounding_rectangle_extents(lb_geometry_list, axis_angle=angle)
-        bounding_box_area_list.append(length * width)
-        angle += step
-
-    angle = step * bounding_box_area_list.index(min(bounding_box_area_list))
-
-    oriented_bounding_box = bounding_rectangle(lb_geometry_list, axis_angle=angle)
-
-    return oriented_bounding_box, angle
-
-def bounding_rectangle(geometries, axis_angle=0):
-    """
-        Get the oriented bounding rectangle around 2D or 3D geometry according to the axis_angle.
-
-        Args:
-            geometries: An array of 2D or 3D geometry objects. Note that all objects
-                must have a min and max property.
-            axis_angle: The counter-clockwise rotation angle in radians in the XY plane
-                to represent the orientation of the bounding rectangle extents. (Default: 0).
-
-        Returns:
-            A Face3D type rectangle representing the oriented bounding box.
-    """
-    if axis_angle != 0:  # rotate geometry to the bounding box
-        cpt = geometries[0].vertices[0]
-        geometries = _orient_geometry(geometries, axis_angle, cpt)
-    xx = bounding_domain_x(geometries)
-    yy = bounding_domain_y(geometries)
-    pt_1 = Point3D(xx[0], yy[0])
-    pt_2 = Point3D(xx[0], yy[1])
-    pt_3 = Point3D(xx[1], yy[1])
-    pt_4 = Point3D(xx[1], yy[0])
-    if axis_angle != 0:  # rotate the points back
-        cpt = Point3D(cpt.x, cpt.y, 0.)  # cast Point3D to Point2D
-        pt_1 = pt_1.rotate_xy(axis_angle, cpt)
-        pt_2 = pt_2.rotate_xy(axis_angle, cpt)
-        pt_3 = pt_3.rotate_xy(axis_angle, cpt)
-        pt_4 = pt_4.rotate_xy(axis_angle, cpt)
-
-    return Face3D([pt_1, pt_2, pt_3, pt_4])  # The rectangle doesn't need to be counterclock, the transformation into
-                                             # face3D will solve the issue automaically
 
 def distance_lb_geometry_point3d(pt_1, pt_2):
     """ Distance between 2 LB geometry Point3D """
@@ -333,6 +392,26 @@ def surface_dict_to_hb_faces(surface_dict_list):
     return hb_surface_list
 
 
+def context_building_to_surface_kept(pre_processed_building_surfaces_dict_to_test, building_to_keep):
+    """ """
+    # Initialization
+    surface_dict_list = []
+    # If we want all the surfaces
+    if building_to_keep == "all":
+        for id in list(pre_processed_building_surfaces_dict_to_test.keys()):
+            surface_list = pre_processed_building_surfaces_dict_to_test[id]["envelope_faces"]
+            for surface in surface_list:
+                surface_dict_list.append(surface)
+    # keep only the surfaces in the kept building
+    else:
+        for id in building_to_keep:
+            surface_list = pre_processed_building_surfaces_dict_to_test[id]["envelope_faces"]
+            for surface in surface_list:
+                surface_dict_list.append(surface)
+
+    return surface_dict_list
+
+
 def is_obstructed(emitter, receiver, context):
     """
         Check if the surfaces
@@ -351,7 +430,6 @@ def is_obstructed(emitter, receiver, context):
         # pv_emitter = hb_face_to_pv_polydata(emitter["hb_face_obj"])
         # context_2=context.copy()
         # context_2=context_2+ray_3D+pv_emitter
-
 
         points, ind = context.ray_trace(origin=ray[0], end_point=ray[1], first_point=False, plot=False)
 
@@ -393,13 +471,12 @@ def hb_face_list_to_pv_polydata(hb_face_list):
     """ Convert the context hb face to a polydata Pyvista mesh  """
 
     # Initialize mesh
-    if hb_face_list!=[]:
-        mesh=hb_face_to_pv_polydata(hb_face_list[0])
+    if hb_face_list != []:
+        mesh = hb_face_to_pv_polydata(hb_face_list[0])
         for hb_face in hb_face_list[1:]:
-            mesh = mesh+hb_face_to_pv_polydata(hb_face)
+            mesh = mesh + hb_face_to_pv_polydata(hb_face)
 
     # mesh = sum(mesh_list)  # merge all the sub_meshes/hb faces/facades of all the context building
-
 
     return mesh
 
@@ -480,22 +557,18 @@ def excluding_surfaces_from_ray(start, end):
 
     return new_start, new_end
 
-def adjust_lower_corners(pt_left,pt_right):
+
+def adjust_lower_corners(pt_left, pt_right):
     """
         move slightly the vertices to launch the rays from so that surfaces on corner will be detected as well
         pt_1 [Point3D]: point left
         pt_2 [Point3D]: point right
     """
     vector = pt_left - pt_right
-    unit_vector= vector/np.linalg.norm(vector)
-    new_point_left =  pt_left - unit_vector*0.1
-    new_point_right = pt_right + unit_vector*0.1
-    return ([new_point_left,new_point_right])
-
-
-
-
-
+    unit_vector = vector / np.linalg.norm(vector)
+    new_point_left = pt_left - unit_vector * 0.1
+    new_point_right = pt_right + unit_vector * 0.1
+    return ([new_point_left, new_point_right])
 
 
 def point3d_to_numpy_array(pt_3d):

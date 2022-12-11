@@ -14,14 +14,19 @@ class Mixin:
     def create_building_HB_room_envelop(self):
         """ create a honeybee room with extruded footprints of buildings, mostly for plotting purposes """
         for i, id in enumerate(self.building_dict):
-            self.building_dict[id].LB_face_to_HB_room_envelop()
+            self.building_dict[id].LB_footprint_to_HB_room_envelop()
+
+    def create_building_HB_room_bounding_box(self):
+        """ create a honeybee room with extruded footprints of buildings, mostly for plotting purposes """
+        for i, id in enumerate(self.building_dict):
+            self.building_dict[id].generate_oriented_bounding_box()
 
     def correct_envelop_elevation(self):
         """ correct the elevation of the building envelop (not to put it at z=0) """
         for i, id in enumerate(self.building_dict):
             self.building_dict[id].correct_envelop_elevation()
 
-    def correct_envelop_elevation(self):
+    def correct_bounding_box_elevation(self):
         """ correct the elevation of the building envelop (not to put it at z=0) """
         for i, id in enumerate(self.building_dict):
             self.building_dict[id].correct_bounding_box_elevation()

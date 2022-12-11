@@ -30,7 +30,7 @@ from building_ubem import _select_context, _attribute_setter, _shp_files, _LBT_o
 
 
 class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin, _LBT_obj_methods.Mixin,
-               _additional_LBT_obj_for_visualization.Mixin, _extract_result_csv.Mixin, _uwg.Mixin,
+               _footprin_and_envelop_manipulation.Mixin, _extract_result_csv.Mixin, _uwg.Mixin,
                _generate_sample.Mixin, _lca.Mixin, _ber.Mixin):
     """
     description ............

@@ -16,7 +16,7 @@ from ladybug_geometry.geometry3d import Vector3D, Point3D, Face3D
 
 from ladybug_geometry.bounding import bounding_domain_x, bounding_domain_y, bounding_rectangle_extents, _orient_geometry
 
-from building_ubem._footprin_and_envelop_manipulation import extrude_lb_face_to_hb_room
+# from building_ubem._footprin_and_envelop_manipulation import extrude_lb_face_to_hb_room
 
 
 class Mixin:
@@ -116,7 +116,7 @@ class Mixin:
         second_pass_duration = 0
         kept_surfaces_dict_list = []
 
-        kept_building_first_pass = []
+        # kept_building_first_pass = []
         kept_surface_first_pass = []
         kept_surface_second_pass = []
 
@@ -293,17 +293,18 @@ class Mixin:
         """
         kept_building = []  # surfaces to keep after the first pass
         for building_id in list(pre_processed_bb_building_surface_dict.keys()):
-            is_context = False
-            for test_face in pre_processed_bb_building_surface_dict[building_id]["bounding_box_faces"]:  # loop over all the context surfaces
-                for target_face in self.external_face_list_target:  # loop over all the surfaces of the target building
-                    if max_VF(centroid_1=target_face["centroid_point3d"], area_1=target_face["area"],
-                              centroid_2=test_face["centroid_point3d"], area_2=test_face["area"]) >= mvfc:  # mvf criterion
-                        kept_building.append(building_id)  # if criteria valid, add the surface to the kept surface
-                        is_context = True # if the mvfc is verified, the building is kept
-                        break  # if a surface is context for one of the target surface, it is kept and thus stop the loop
-                if is_context == True:
-                    # if the building is kept, no need to test the other surfaces
-                    break
+            if building_id != self.id:
+                is_context = False
+                for test_face in pre_processed_bb_building_surface_dict[building_id]["bounding_box_faces"]:  # loop over all the context surfaces
+                    for target_face in self.external_face_list_target:  # loop over all the surfaces of the target building
+                        if max_VF(centroid_1=target_face["centroid_point3d"], area_1=target_face["area"],
+                                  centroid_2=test_face["centroid_point3d"], area_2=test_face["area"]) >= mvfc:  # mvf criterion
+                            kept_building.append(building_id)  # if criteria valid, add the surface to the kept surface
+                            is_context = True # if the mvfc is verified, the building is kept
+                            break  # if a surface is context for one of the target surface, it is kept and thus stop the loop
+                    if is_context == True:
+                        # if the building is kept, no need to test the other surfaces
+                        break
         return kept_building
 
     def shading_context_second_pass(self, pre_processed_surface_list):
@@ -478,7 +479,9 @@ def hb_face_list_to_pv_polydata(hb_face_list):
 
     # mesh = sum(mesh_list)  # merge all the sub_meshes/hb faces/facades of all the context building
 
-    return mesh
+        return mesh
+    else:
+        return []
 
 
 def are_hb_faces_facing(hb_face_1, centroid_1, hb_face_2, centroid_2):

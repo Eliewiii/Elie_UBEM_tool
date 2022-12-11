@@ -78,7 +78,7 @@ U_c.create_building_LB_geometry_footprint()
 ## Create HB room envelop with GIS footprint
 U_c.create_building_HB_room_envelop()
 U_c.correct_envelop_elevation()
-U_c.generate_oriented_bounding_box()
+U_c.create_building_HB_room_bounding_box()
 U_c.correct_bounding_box_elevation()
 
 # %% Context filter algorithm
@@ -86,7 +86,7 @@ U_c.correct_bounding_box_elevation()
 # filter context and identify the buildings to simulate
 
 # U_c.filter_context_new(VF_criterion_shading)
-U_c.filter_context_new(0.01)
+U_c.filter_context_bounding_box(0.01)
 
 U_c.correct_context_elevation()  # todo
 
@@ -174,7 +174,9 @@ U_c.load_simulation_parameter(path_folder_simulation_parameter, path_simulation_
 U_c.add_design_days_to_simulation_parameters(path_simulation_parameter, path_file_epw)
 
 # # # # test # # # #
-# print(U_c.building_dict[2].HB_model.rooms)
+# print(U_c.building_dict[27].HB_model.rooms)
+
+print(U_c.building_dict)
 
 
 

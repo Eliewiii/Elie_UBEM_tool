@@ -84,7 +84,7 @@ class Mixin:
         for not_used, (id, building_obj) in enumerate(self.building_dict.items()):
             building_obj.prepare_bounding_box_face_list()
 
-    def generate_pre_processed_bb_building_surface_dic(self):
+    def generate_pre_processed_bb_building_surface_dict(self):
         """
             Generate the dictionary containing the face dictionary of the bounding box
             and the envelop faces of the buildings
@@ -93,7 +93,7 @@ class Mixin:
         for not_used, (id, building_obj) in enumerate(self.building_dict.items()):
             pre_processed_bb_building_surface_dict[id]={
                                                "bounding_box_faces": building_obj.bounding_box_face_list,
-                                               "envelop_faces": building_obj.external_face_list_context
+                                               "envelope_faces": building_obj.external_face_list_context
                                               }
         return pre_processed_bb_building_surface_dict
 
@@ -114,7 +114,7 @@ class Mixin:
         self.prepare_building_face_for_context_new()
         self.prepare_bounding_box_faces_for_context()
 
-        pre_processed_bb_building_dict = self.generate_pre_processed_bb_surface_list
+        pre_processed_bb_building_dict = self.generate_pre_processed_bb_building_surface_dict()
 
         ## Loop over all the target buildings
         for id_target in self.building_to_simulate:

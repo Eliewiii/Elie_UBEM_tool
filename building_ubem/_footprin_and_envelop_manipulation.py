@@ -26,17 +26,17 @@ class Mixin:
 
     def correct_envelop_elevation(self):
         """ Correct the elevation of the building envelop from z=0 (EnergyPlus) to its real elevation """
-        hb_room_move_vertically(self.HB_room_envelop, self.height)
+        hb_room_move_vertically(self.HB_room_envelop, self.elevation)
 
     def correct_bounding_box_elevation(self):
         """ Correct the elevation of the building bounding box from z=0 (EnergyPlus) to its real elevation """
-        hb_room_move_vertically(self.hb_oriented_bounding_box, self.height)
+        hb_room_move_vertically(self.hb_oriented_bounding_box, self.elevation)
 
 
 def lb_footprint_to_hb_bounding_box(lb_face_footprint, height, identifier):
     """ Convert ladybug geometry footprint to bounding box """
     # Identify the oriented bounding rectangle
-    bounding_rectangle, angle = lb_oriented_bounding_rectangle(lb_face_footprint)
+    bounding_rectangle, angle = lb_oriented_bounding_rectangle([lb_face_footprint])
     # extrude the rectangle to obtain the oriented bounding box
     bounding_box = lb_extrude_face_to_hb_room(bounding_rectangle, height, identifier)
     return (bounding_box)

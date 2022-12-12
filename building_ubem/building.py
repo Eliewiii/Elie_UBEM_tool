@@ -94,6 +94,7 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
         self.context_shading_HB_faces = []
         self.context_hb_kept_first_pass = []
         self.all_context_hb_faces = []
+        self.all_context_oriented_bb = []
         self.context_buildings_HB_faces = [] # todo : delete it later, useless
 
         # # Ladybug #
@@ -168,62 +169,10 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
         building_obj.affect_properties_shp(shape_file, building_id_shp)
         ## check if the properties given are sufficient to run building_zon simulation
         building_obj.check_property()
-        # print(building_obj.num_floor)
 
-    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-    # # # # # # # # # # # # # # # #                   Ladybug                   # # # # # # # # # # # # # # # # # # # # #
-    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-    #
-    #
-    # def LB_face_to_LB_extruded(self):
-    #     """
-    #     Extrude the footprint to get an extruded building_zon (before the floor layout is applied) for the 1st use of
-    #     the context filter algorithm.
-    #     """
-    #     # ## NEED TO FIND ANOTHER CRITERION, IT 'S ONLY FOR TEST
-    #     # if self.height==None:
-    #     #     self.height=1.
-    #
-    #     self.LB_extruded_building = Polyface3D.from_offset_face(self.LB_face_footprint, self.height)
 
-    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-    # # # # # # # # # # # # # # # #               Honeybee modeling             # # # # # # # # # # # # # # # # # # # # #
-    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
-    def select_context_buildings(self, min_VF):
-        """
-        Select the context buildings from the buildings in the GIS file extracted by the urban_canopy_44
-        using a approximate version of the context pass filter 1 (VF criteria).
-        """
-        None
-
-    def context_buildings(self):
-        """
-        Select the context buildings from the buildings in the GIS file extracted by the urban_canopy_44
-        """
-
-        None
-
-    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-    # # # # # # # # # # # # # # # #              Typology extraction            # # # # # # # # # # # # # # # # # # # # #
-    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
-    def load_characteristic_typo(self):
-        """
-        Load the constructions, constructions sets, loads etc... of the typology of the building_zon
-        """
-        None
-
-    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-    # # # # # # # # # # # # # # # #              Dragonfly modeling             # # # # # # # # # # # # # # # # # # # # #
-    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
-    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-    # # # # # # # # # # # # # # # #               Honeybee modeling             # # # # # # # # # # # # # # # # # # # # #
-    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
-    # # # # # # # # # # # # # # # #                  force rotation                 # # # # # # # # # # # # # # # # # # # # #
+    # # # # # # # # # # # # # # #                  force rotation                 # # # # # # # # # # # # # # # # # # # # #
 
     def HB_model_force_rotation(self, angle):
         """
@@ -399,36 +348,7 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
         # generate model
         model.to_hbjson(name="GIS_context", folder=path_folder_context_hbjson)
 
-    def context_surfaces_to_hbjson(self, path):
-        """
-        Convert HB_face context surface to HBjson file
-        """
-        surface_list = []
-        for i, surface in enumerate(self.context_shading_HB_faces):
-            surface_list.append(Face(("context_surface_{}_building_{}").format(i, self.id), surface.geometry))
-        model = Model(identifier=("context_building_{}").format(self.id), orphaned_faces=surface_list)
-        model.to_hbjson(name=("context_building_{}").format(self.id), folder=path)
-        if self.context_hb_kept_first_pass!= []:
-            surface_list = []
-            for i, surface in enumerate(self.context_hb_kept_first_pass):
-                surface_list.append(Face(("context_surface_{}_building_{}").format(i, self.id), surface.geometry))
-            model = Model(identifier=("context_first_pass_building_{}").format(self.id), orphaned_faces=surface_list)
-            model.to_hbjson(name=("first_pass_context_building_{}").format(self.id), folder=path)
-        if self.all_context_hb_faces!= []:
-            surface_list = []
-            for i, surface in enumerate(self.all_context_hb_faces):
-                surface_list.append(Face(("context_surface_{}_building_{}").format(i, self.id), surface.geometry))
-            model = Model(identifier=("all_context_building_{}").format(self.id), orphaned_faces=surface_list)
-            model.to_hbjson(name=("all_context_building_{}").format(self.id), folder=path)
 
-    def add_context_surfaces_to_HB_model(self):
-        """
-        Convert HB_face context surface to HBjson file
-        """
-        for i, surface in enumerate(self.context_shading_HB_faces):
-            shade_obj = Shade(identifier=("shade_{}_building_{}").format(i, self.id), geometry=surface.geometry,
-                              is_detached=True)
-            self.HB_model.add_shade(shade_obj)
 
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # #            Dragonfly modeling for UWG       # # # # # # # # # # # # # # # # # # # # #

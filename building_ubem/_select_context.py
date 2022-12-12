@@ -14,7 +14,12 @@ from copy import deepcopy
 
 from ladybug_geometry.geometry3d import Vector3D, Point3D, Face3D
 
+from honeybee.model import Model
+from honeybee.face import Face
+from honeybee.shade import Shade
+
 from ladybug_geometry.bounding import bounding_domain_x, bounding_domain_y, bounding_rectangle_extents, _orient_geometry
+
 
 # from building_ubem._footprin_and_envelop_manipulation import extrude_lb_face_to_hb_room
 
@@ -32,7 +37,7 @@ class Mixin:
         """
         face_list = []  # list to return
         z_vertices = [Vector3D(0, 0, 1), Vector3D(0, 0, -1)]  # vertical vertices
-        for face in self.HB_room_envelop.faces:
+        for face in self.hb_oriented_bounding_box:
             if face.normal not in z_vertices:  # do not keep the roof and ground
                 face_list.append(
                     {"hb_face_obj": face, "area": face.geometry.area, "centroid_point3d": face.geometry.centroid})
@@ -91,7 +96,7 @@ class Mixin:
             self.external_face_list_context = deepcopy(face_list)
 
     def shading_context_bb_surfaces_selection(self, pre_processed_bb_building_surface_dict, mvfc=0.01, first_pass=True,
-                                              second_pass=True, keep_all_context=True, keep_first_pass=True):
+                                              second_pass=True, keep_all_context=True, keep_first_pass=True, keep_bb=True):
         """
         Select the surfaces from all the context that shade noticeably on the building.
         The filtering has 2 passes:
@@ -132,18 +137,22 @@ class Mixin:
             # conversion into HB surface list for EnergyPlus and plotting purposes
             kept_surface_first_pass = surface_dict_to_hb_faces(kept_surfaces_dict_list)
             if keep_first_pass:
-                self.context_hb_kept_first_pass = list(kept_surface_first_pass) # no deepcopy ! otherwise cannot
+                self.context_hb_kept_first_pass = list(kept_surface_first_pass)  # no deepcopy ! otherwise cannot
                 # remove the surfaces from the second pass, the objects are not the same anymore
             # Save the context surfaces that were not kept by the first pass, to represent the rest of the context in Rhino
             if keep_all_context:
                 all_context_surface_dict_list = context_building_to_surface_kept(building_surfaces_dict_to_test,
-                                                                                 "all")
+                                                                                 "all",building_not_to_keep=[self.id])
                 all_context_hb_faces = surface_dict_to_hb_faces(all_context_surface_dict_list)
                 # keep only the surfaces not kept by the first pass (so that they don't overlap)
                 for face in all_context_hb_faces:
                     if face not in kept_surface_first_pass:
                         self.all_context_hb_faces.append(face)
                 self.all_context_hb_faces = deepcopy(self.all_context_hb_faces)
+
+            if keep_bb:
+                all_context_surface_bb_dict_list = context_building_to_bb_kept(building_surfaces_dict_to_test,building_not_to_keep=[self.id])
+                self.all_context_oriented_bb = surface_dict_to_hb_faces(all_context_surface_bb_dict_list)
 
             ## second pass
             if second_pass:
@@ -295,12 +304,14 @@ class Mixin:
         for building_id in list(pre_processed_bb_building_surface_dict.keys()):
             if building_id != self.id:
                 is_context = False
-                for test_face in pre_processed_bb_building_surface_dict[building_id]["bounding_box_faces"]:  # loop over all the context surfaces
+                for test_face in pre_processed_bb_building_surface_dict[building_id][
+                    "bounding_box_faces"]:  # loop over all the context surfaces
                     for target_face in self.external_face_list_target:  # loop over all the surfaces of the target building
                         if max_VF(centroid_1=target_face["centroid_point3d"], area_1=target_face["area"],
-                                  centroid_2=test_face["centroid_point3d"], area_2=test_face["area"]) >= mvfc:  # mvf criterion
+                                  centroid_2=test_face["centroid_point3d"],
+                                  area_2=test_face["area"]) >= mvfc:  # mvf criterion
                             kept_building.append(building_id)  # if criteria valid, add the surface to the kept surface
-                            is_context = True # if the mvfc is verified, the building is kept
+                            is_context = True  # if the mvfc is verified, the building is kept
                             break  # if a surface is context for one of the target surface, it is kept and thus stop the loop
                     if is_context == True:
                         # if the building is kept, no need to test the other surfaces
@@ -340,7 +351,6 @@ class Mixin:
             # print("surface checked")
         return kept_surfaces
 
-
     def correct_context_elevation(self):
         """ """
         for surface in self.context_hb_kept_first_pass:
@@ -351,6 +361,46 @@ class Mixin:
 
         for surface in self.all_context_hb_faces:
             surface.move(Vector3D(0, 0, -self.elevation))
+
+        for surface in self.all_context_oriented_bb:
+            surface.move(Vector3D(0, 0, -self.elevation))
+
+    def context_surfaces_to_hbjson(self, path):
+        """
+        Convert HB_face context surface to HBjson file
+        """
+        surface_list = []
+        for i, surface in enumerate(self.context_shading_HB_faces):
+            surface_list.append(Face(("context_surface_{}_building_{}").format(i, self.id), surface.geometry))
+        model = Model(identifier=("context_building_{}").format(self.id), orphaned_faces=surface_list)
+        model.to_hbjson(name=("context_building_{}").format(self.id), folder=path)
+        if self.context_hb_kept_first_pass!= []:
+            surface_list = []
+            for i, surface in enumerate(self.context_hb_kept_first_pass):
+                surface_list.append(Face(("context_surface_{}_building_{}").format(i, self.id), surface.geometry))
+            model = Model(identifier=("context_first_pass_building_{}").format(self.id), orphaned_faces=surface_list)
+            model.to_hbjson(name=("first_pass_context_building_{}").format(self.id), folder=path)
+        if self.all_context_hb_faces!= []:
+            surface_list = []
+            for i, surface in enumerate(self.all_context_hb_faces):
+                surface_list.append(Face(("context_surface_{}_building_{}").format(i, self.id), surface.geometry))
+            model = Model(identifier=("all_context_building_{}").format(self.id), orphaned_faces=surface_list)
+            model.to_hbjson(name=("all_context_building_{}").format(self.id), folder=path)
+        if self.all_context_oriented_bb != []:
+            surface_list = []
+            for i, surface in enumerate(self.all_context_oriented_bb):
+                surface_list.append(Face(("context_surface_{}_building_{}").format(i, self.id), surface.geometry))
+            model = Model(identifier=("all_context_bb_{}").format(self.id), orphaned_faces=surface_list)
+            model.to_hbjson(name=("all_context_bb_{}").format(self.id), folder=path)
+
+    def add_context_surfaces_to_HB_model(self):
+        """
+        Convert HB_face context surface to HBjson file
+        """
+        for i, surface in enumerate(self.context_shading_HB_faces):
+            shade_obj = Shade(identifier=("shade_{}_building_{}").format(i, self.id), geometry=surface.geometry,
+                              is_detached=True)
+            self.HB_model.add_shade(shade_obj)
 
 
 def distance_lb_geometry_point3d(pt_1, pt_2):
@@ -393,16 +443,18 @@ def surface_dict_to_hb_faces(surface_dict_list):
     return hb_surface_list
 
 
-def context_building_to_surface_kept(pre_processed_building_surfaces_dict_to_test, building_to_keep):
+def context_building_to_surface_kept(pre_processed_building_surfaces_dict_to_test, building_to_keep,
+                                     building_not_to_keep=[]):
     """ """
     # Initialization
     surface_dict_list = []
     # If we want all the surfaces
     if building_to_keep == "all":
         for id in list(pre_processed_building_surfaces_dict_to_test.keys()):
-            surface_list = pre_processed_building_surfaces_dict_to_test[id]["envelope_faces"]
-            for surface in surface_list:
-                surface_dict_list.append(surface)
+            if id not in building_not_to_keep:
+                surface_list = pre_processed_building_surfaces_dict_to_test[id]["envelope_faces"]
+                for surface in surface_list:
+                    surface_dict_list.append(surface)
     # keep only the surfaces in the kept building
     else:
         for id in building_to_keep:
@@ -410,6 +462,18 @@ def context_building_to_surface_kept(pre_processed_building_surfaces_dict_to_tes
             for surface in surface_list:
                 surface_dict_list.append(surface)
 
+    return surface_dict_list
+
+def context_building_to_bb_kept(pre_processed_building_surfaces_dict_to_test,building_not_to_keep=[]):
+    """ """
+    # Initialization
+    surface_dict_list = []
+    # If we want all the surfaces
+    for id in list(pre_processed_building_surfaces_dict_to_test.keys()):
+        if id not in building_not_to_keep:
+            surface_list = pre_processed_building_surfaces_dict_to_test[id]["bounding_box_faces"]
+            for surface in surface_list:
+                surface_dict_list.append(surface)
     return surface_dict_list
 
 
@@ -477,7 +541,7 @@ def hb_face_list_to_pv_polydata(hb_face_list):
         for hb_face in hb_face_list[1:]:
             mesh = mesh + hb_face_to_pv_polydata(hb_face)
 
-    # mesh = sum(mesh_list)  # merge all the sub_meshes/hb faces/facades of all the context building
+        # mesh = sum(mesh_list)  # merge all the sub_meshes/hb faces/facades of all the context building
 
         return mesh
     else:

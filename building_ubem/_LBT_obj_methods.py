@@ -14,7 +14,8 @@ import dragonfly
 
 
 class Mixin:
-    def footprint_to_LB_face(self):
+
+    def footprint_to_LB_face(self, tolerance_collinear_vertices=0.01):
         """ Convert the footprints into Ladybug Face3D geometry object, the elevation will be 0,  """
 
         footprint_point_list = []  # list containing the Ladybug Point3D of the external contour of the footprint
@@ -22,6 +23,7 @@ class Mixin:
         for point in self.footprint:
             footprint_point_list.append(Point3D(point[0], point[1], 0))
         ## internal holes
+        holes_list=None
         if self.holes != [] and self.holes != None:
             holes_list = []  # list of list of points of holes
             for hole in self.holes:
@@ -29,14 +31,16 @@ class Mixin:
                 for point in hole:
                     holes_point_list.append(Point3D(point[0], point[1], 0))
                 holes_list.append(holes_point_list)
-        else:
-            holes_list = None
+
         ## Create the Ladybug face for the footprint
         self.LB_face_footprint = Face3D(footprint_point_list, holes=holes_list, enforce_right_hand=True)
+        # Remove collinear vertices
+        self.LB_face_footprint=self.LB_face_footprint.remove_colinear_vertices(tolerance=tolerance_collinear_vertices)
+        # Centroid of the footprint
         self.LB_face_centroid = self.LB_face_footprint.centroid
 
     def lb_footprint_to_df_building(self, core_area_ratio=0.15, tol=0.005):
-        """ generate a Dragonfly building out of the footprint, generating a core in the center"""
+        """ generate a Dragonfly building out of the footprint, generating a core in the center """
 
         footprint_area = self.LB_face_footprint.area
         # target area of the core and the acceptable range

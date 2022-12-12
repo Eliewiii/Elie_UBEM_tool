@@ -38,7 +38,7 @@ def lb_footprint_to_hb_bounding_box(lb_face_footprint, height, identifier):
     # Identify the oriented bounding rectangle
     bounding_rectangle, angle = lb_oriented_bounding_rectangle([lb_face_footprint])
     # extrude the rectangle to obtain the oriented bounding box
-    bounding_box = lb_extrude_face_to_hb_room(bounding_rectangle, height, identifier)
+    bounding_box = lb_extrude_face_to_hb_room(bounding_rectangle, -height, identifier) # -height because of the orientation of the face
     return (bounding_box)
 
 

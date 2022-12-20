@@ -174,23 +174,8 @@ U_c.add_thermal_mass_int_wall()
 U_c.change_hb_constr_set_according_to_variation_to_simulate(dic_configuration_to_test=configuration_dic)
 # U_c.hb_change_construction_set_according_to_name(list_constructionsets_id=list_constructionsets_id)
 
-
-
 # log #
 logging.info("Building modeled")
-#
-
-# save_object_pickle(os.path.join("D:\Elie\PhD\Simulation\Input_Data\Sample_objects\Tiantian\Sample_building_LCA_project",
-#                                 "Building_LCA_z_A.p"),
-#                    U_c.building_dict[0])
-# save_object_pickle(os.path.join("D:\Elie\PhD\Simulation\Input_Data\Sample_objects\Tiantian\Sample_building_LCA_project",
-#                                 "Uc_LCA_z_A.p"),
-#                    U_c)
-
-# %% test
-
-# print(U_c.building_dict[0].HB_model.rooms[0].properties.energy.program_type)
-# print(U_c.building_dict[0].HB_model.rooms[0].properties.energy.internal_masses[0].construction)
 
 # %% Clean/create simulation folder
 
@@ -199,7 +184,6 @@ U_c.create_simulation_folder_buildings(path_folder_building_simulation)
 # %% Generate json to plot context
 # All the buildings that are target buildings
 
-# U_c.GIS_context_individual_to_hbjson(path_folder_building_simulation)
 
 # %% Extract simulation parameters
 ## Merge simulation parameters files
@@ -212,13 +196,9 @@ U_c.model_to_HBjson(path_folder_building_simulation)
 
 # %% Save urban_canopy object in a pickle file
 
-# U_c.generate_local_epw_with_uwg(path_epw="D:\Elie\PhD\Simulation\Input_Data\EPW\IS_5280_A_Haifa.epw",
-#                                     path_folder_epw_uwg="D:\Elie\PhD\\test")
-
 
 # %% Generate IDF and simulate the building
 U_c.simulate_idf(path_folder_building_simulation, path_simulation_parameter, path_file_epw, path_energyplus_exe)
-# U_c.simulate_idf(path_folder_building_simulation, path_simulation_parameter, "D:\Elie\PhD\\test\\random_neighborhood_uwg.epw", path_energyplus_exe)
 
 # %% Extract and print results
 
@@ -229,9 +209,9 @@ U_c.extract_building_csv_results(path_folder_building_simulation)
 ## LCA
 from lca_constuction_material.lca_surface_type import LcaMatColBySurfType
 
-# path_lca_database = "D:\Elie\PhD\Simulation\Input_Data\LCA\LCA_database\LCA_BER_project"  ##Elie
+path_lca_database = "D:\Elie\PhD\Simulation\Input_Data\LCA\LCA_database\LCA_BER_project"  ##Elie
 # path_lca_database = "D:\Pycharm\Task\Simulation\Input_Data\LCA\LCA_database\LCA_BER_project"  ##Tiantian
-path_lca_database = "D:\Pycharm\PyCharm 2022.2.3\Task\Simulation\Input_Data\LCA\LCA_database\LCA_BER_project"  ##Tiantian new
+# path_lca_database = "D:\Pycharm\PyCharm 2022.2.3\Task\Simulation\Input_Data\LCA\LCA_database\LCA_BER_project"  ##Tiantian new
 
 # Life time
 life_time=50

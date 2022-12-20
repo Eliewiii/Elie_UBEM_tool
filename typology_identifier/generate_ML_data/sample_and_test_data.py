@@ -14,7 +14,8 @@ from shapely.affinity import rotate, translate,scale
 import shutil
 from math import  sqrt
 
-import multiprocessing as mp
+from multiprocessing import Pool
+from time import time
 
 
 
@@ -28,7 +29,6 @@ def generate_data_base_from_sample(path_file_shp,index,output_building_type_path
     ## Convert to meter and move
     if is_deg :
         shape = convert_shape_to_meter(polygon)
-    # print("zob")
     # Remove collinear vertices
     shape = clean_polygon(shape)
     ## original image
@@ -37,6 +37,7 @@ def generate_data_base_from_sample(path_file_shp,index,output_building_type_path
     # increase the counter
     index += 1
     ## rotated original image
+    # dt = time()
     for angle in range(10,360,10) : # 1 shape per degree
         # rotate the shape
         rotated_shape = rotate_shape(shape,angle)
@@ -45,6 +46,8 @@ def generate_data_base_from_sample(path_file_shp,index,output_building_type_path
         Polygon_to_png_BnW(rotated_shape,image_output_path)
         # increase the counter
         index += 1
+    # dt = time()-dt
+    # print(dt)
     ## images with moise
     for i in range(nb_sample_noise) :
         # rotate the shape
@@ -83,10 +86,13 @@ def generate_data_base_from_sample_parallel(path_file_shp,index,output_building_
     ## rotated original image
     nb_angles = 36
     step_angle =360/nb_angles
-
-    pool = mp.Pool(10)
-    result=[pool.apply(generate_angle,args=(shape,step_angle*i,output_building_type_path,index+i)) for i in range(1,nb_angles)]
+    dt = time()
+    pool = Pool(10)
+    result=pool.starmap(generate_angle,[(shape,step_angle*i,output_building_type_path,index+i) for i in range(1,nb_angles)],chunksize=3)
     pool.close()
+    pool.join()
+    dt = time()-dt
+    print(dt)
 
 
     ## images with moise
@@ -177,22 +183,6 @@ def Polygon_to_png_BnW(shape,path) :
     img = img.convert("L")
     img.save(path)
 
-# def Polygon_to_png_BnW_test(shape,path) :
-#     """
-#     """
-#     ## Generate RGB image
-#     x, y = shape.exterior.xy
-#     plt.plot(x[:-1], y[:-1], "x")
-#     # plt.axis('off')
-#     plt.axis('equal')
-#     plt.savefig(path, bbox_inches=0,dpi=300)
-#     plt.clf()
-#
-#     ## Convert to black and white
-#     file = path
-#     img = Image.open(file)
-#     img = img.convert("L")
-#     img.save(path)
 
 def rotate_shape(shape,angle):
     """

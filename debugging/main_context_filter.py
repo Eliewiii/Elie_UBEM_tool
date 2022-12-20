@@ -86,7 +86,7 @@ U_c.correct_bounding_box_elevation()
 # filter context and identify the buildings to simulate
 
 # U_c.filter_context_new(VF_criterion_shading)
-U_c.filter_context_bounding_box(mvfc=0.01)
+U_c.filter_context_bounding_box(mvfc=0.005)
 
 U_c.correct_context_elevation()  # todo
 

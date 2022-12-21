@@ -34,6 +34,11 @@ def generate_graph_result():
                                 width, color="green",
                                 bottom=carbon_max["Building_"+str(i+1)],
                                 label="carbon_ftp", zorder=10)
+        #carbon_ftp_bar = ax.bar(bar_location,
+                                #- carbon_min["Building_" + str(i + 1)] + carbon_max["Building_" + str(i + 1)],
+                                #width, color="green",
+                                #bottom=carbon_min["Building_" + str(i + 1)],
+                                #label="carbon_ftp", zorder=10)
         tot_impact_bar = ax.bar(bar_location + width,
                                 carbon_min["Building_"+str(i+1)]-carbon_max["Building_"+str(i+1)],
                                 width, color="orange",

@@ -57,7 +57,7 @@ path_folder_building_simulation = os.path.join(path_folder_simulation,"Simulatio
 # # # # # # # # # # # # # # # #           Load Typology             # # # # # # # # # # # # # # # # # # # # #
 
 
-from typology import Typology
+from typology.typology import Typology
 
 ## load typology HB constructions etc... , critical to be before importing honeybee-energy
 

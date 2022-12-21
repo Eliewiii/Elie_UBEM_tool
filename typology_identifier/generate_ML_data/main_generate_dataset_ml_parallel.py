@@ -10,8 +10,7 @@ from multiprocessing import Pool
 
 # Inputs
 path_folder_model = "D:\Elie\PhD\Simulation\Input_Data\Typology\machine_learning_training\model_sample"
-# path_folder_model = "D:\Elie\PhD\Simulation\Input_Data\Typology\machine_learning_training\model_sample"
-
+# path_folder_model = "D:\Elie\PhD\Simulation\Input_Data\Typology\machine_learning_training\model_sample" # another model potentially
 
 is_deg = True  # tell if the GIS are in degree or in meters, if degree it needs to be converted in meter.
 
@@ -24,25 +23,6 @@ path_folder_shp_test = os.path.join(path_folder_shp_data, "test_shp")
 # Initialization outputs
 path_folder_output_data_training = path_folder_shp_data = os.path.join(path_folder_model, "training")
 path_folder_output_data_test = os.path.join(path_folder_model, "test")
-
-
-#
-# building_type_folder_path = "D://Elie//PhD//Programming//GIS//Building_type//North_Tel_Aviv//Training_data"
-# # building_type_folder_path = "D://Elie//PhD//Programming//GIS//Building_type//North_Tel_Aviv//Verification"
-#
-# is_deg = True # if the GIS is in degree and not meters
-#
-# ML_path = "D://Elie//PhD//Programming//Machine_Learning_Identifier"
-#
-# output_folder_name = "Training_data"
-# # output_folder_name = "Test_data"
-#
-#
-# ML_output_folder_path = os.path.join(ML_path, output_folder_name)
-#
-#
-# nb_sample_noise = 100
-#
 
 
 def test_par(building_type):

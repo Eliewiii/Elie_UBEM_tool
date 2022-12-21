@@ -34,7 +34,7 @@ logging.info("Input data extracted and simulation folder created")
 
 # %% Load Typology
 
-from library import Library
+from library.library import Library
 
 ## load user defined object for the LBT, before importing the LBT (otherwise the objects will not be updated
 Library.load_HBjson_sets(path_construction_and_load_library_folder=path_folder_construction_and_load_library,
@@ -47,7 +47,7 @@ logging.info("Library imported")
 
 from urban_canopy_ubem.urban_canopy import Urban_canopy
 
-# %% Initialize Urban Canopy object and load typologies
+# %% Initialize Urban Canopy object and load typology
 
 ## Create Urban Canopy
 U_c = Urban_canopy("random_neighborhood")

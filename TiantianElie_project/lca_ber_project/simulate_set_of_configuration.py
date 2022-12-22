@@ -4,7 +4,7 @@ import sys
 import logging
 
 from tools._folder_manipulation import create_folder_output, move_input_files_to_output_folder
-from tools._save_and_load_objects import save_object_pickle
+from tools._save_and_load_objects import save_urban_canopy_object_pickle,load_urban_canopy_object_pickle
 
 # %% Load inputs
 
@@ -238,20 +238,10 @@ U_c.write_csv_results_in_building_folder(path_folder_building_simulation)
 ###print(tot_h_cop_compared_to_ref)
 ###
 
-# generate the graph
-U_c.generate_graph_result(path_folder_building_results)
-# %% test
 
+path = "D:\Elie\PhD\Simulation\Input_Data\Sample_objects\Tiantian\\urban_canopy.pkl"
 
-# print(U_c.building_dict[0].HB_model.rooms[0].identifier)
-# print(U_c.building_dict[0].HB_model.rooms[0].properties.energy.infiltration) #test infiltration
-
-
-
-
-
-
-
+save_urban_canopy_object_pickle(path, U_c)
 
 
 

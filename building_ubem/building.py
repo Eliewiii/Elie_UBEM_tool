@@ -147,7 +147,7 @@ class Building(_select_context.Mixin, _attribute_setter.Mixin, _shp_files.Mixin,
         self.carbon_footprint = {"mini": 0, "maxi": 0, "standard": 0}  # total
         self.carbon_footprint_kwh_per_m2_eq_per_year= {"mini": 0, "maxi": 0, "standard": 0}
         self.carbon_footprint_kwh_per_m2_eq_compared_to_ref = {"mini": 0, "maxi": 0}
-        self.carbon_footprint_kwh_per_m2_eq_per_year_compared_to_ref = {"mini": 0, "maxi": 0}
+        self.carbon_footprint_kwh_per_m2_eq_per_year_improvement_compared_to_ref = {"mini": 0, "maxi": 0}
 
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # #                   Class methods             # # # # # # # # # # # # # # # # # # # # #

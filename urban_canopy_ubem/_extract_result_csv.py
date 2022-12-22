@@ -100,35 +100,37 @@ class Mixin:
                                  bottom=building_obj.energy_consumption["total_h_cop_compared_to_ref"],
                                  label="cooling", zorder=10)
             #carbon_ftp_bar = ax.bar(bar_location,
-                                    #building_obj.carbon_footprint_kwh_per_m2_eq_per_year_compared_to_ref["mini"] -
-                                    #building_obj.carbon_footprint_kwh_per_m2_eq_per_year_compared_to_ref["maxi"],
+                                    #building_obj.carbon_footprint_kwh_per_m2_eq_per_year_improvement_compared_to_ref["mini"] -
+                                    #building_obj.carbon_footprint_kwh_per_m2_eq_per_year_improvement_compared_to_ref["maxi"],
                                     #width, color="green",
-                                    #bottom=building_obj.carbon_footprint_kwh_per_m2_eq_per_year_compared_to_ref["maxi"],
+                                    #bottom=building_obj.carbon_footprint_kwh_per_m2_eq_per_year_improvement_compared_to_ref["maxi"],
                                     #label="carbon footprint", zorder=10)
             carbon_ftp_bar = ax.bar(bar_location,
-                                    -building_obj.carbon_footprint_kwh_per_m2_eq_per_year_compared_to_ref["mini"]+
-                                    building_obj.carbon_footprint_kwh_per_m2_eq_per_year_compared_to_ref["maxi"],
+                                    -building_obj.carbon_footprint_kwh_per_m2_eq_per_year_improvement_compared_to_ref["mini"]+
+                                    building_obj.carbon_footprint_kwh_per_m2_eq_per_year_improvement_compared_to_ref["maxi"],
                                     width, color="green",
-                                    bottom=building_obj.carbon_footprint_kwh_per_m2_eq_per_year_compared_to_ref["mini"],
+                                    bottom=building_obj.carbon_footprint_kwh_per_m2_eq_per_year_improvement_compared_to_ref["mini"],
                                     label="carbon footprint", zorder=10)
 
             #tot_impact_bar = ax.bar(bar_location + width,
-                                    #building_obj.carbon_footprint_kwh_per_m2_eq_per_year_compared_to_ref["mini"] -
-                                    #building_obj.carbon_footprint_kwh_per_m2_eq_per_year_compared_to_ref["maxi"],
+                                    #building_obj.carbon_footprint_kwh_per_m2_eq_per_year_improvement_compared_to_ref["mini"] -
+                                    #building_obj.carbon_footprint_kwh_per_m2_eq_per_year_improvement_compared_to_ref["maxi"],
                                     #width, color="orange",
                                     #bottom=building_obj.energy_consumption["total_BER_compared_to_ref"] +
-                                    #building_obj.carbon_footprint_kwh_per_m2_eq_per_year_compared_to_ref["maxi"],
+                                    #building_obj.carbon_footprint_kwh_per_m2_eq_per_year_improvement_compared_to_ref["maxi"],
                                     #label="total environmental impact", zorder=10)
             tot_impact_bar = ax.bar(bar_location + width,
-                                    -building_obj.carbon_footprint_kwh_per_m2_eq_per_year_compared_to_ref["mini"] +
-                                    building_obj.carbon_footprint_kwh_per_m2_eq_per_year_compared_to_ref["maxi"],
+                                    -building_obj.carbon_footprint_kwh_per_m2_eq_per_year_improvement_compared_to_ref["mini"] +
+                                    building_obj.carbon_footprint_kwh_per_m2_eq_per_year_improvement_compared_to_ref["maxi"],
                                     width, color="orange",
                                     bottom=building_obj.energy_consumption["total_BER_compared_to_ref"] +
-                                           building_obj.carbon_footprint_kwh_per_m2_eq_per_year_compared_to_ref["mini"],
+                                           building_obj.carbon_footprint_kwh_per_m2_eq_per_year_improvement_compared_to_ref["mini"],
                                     label="total environmental impact", zorder=10)
             if bar_location == 1:
                 ax.legend()
         ax.set_xticks(x_position_bar, labels=model)
+        # ax.set_xticks(x_position_bar)
+
         ax.set_ylabel("Environmental impact in KWh/m2 compared to reference")
         plt.setp(ax.get_xticklabels(), rotation=30, horizontalalignment='right')
         fig.tight_layout()

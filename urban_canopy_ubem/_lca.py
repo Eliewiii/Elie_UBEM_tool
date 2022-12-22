@@ -33,12 +33,12 @@ class Mixin:
             building_obj.carbon_footprint_kwh_per_m2_eq_per_year["mini"] = building_obj.carbon_footprint[
                                                                                "mini"] / building_obj.apartment_area * conversion_rate / life_time
             # conversion in kwh/m2 per year compared to ref
-            building_obj.carbon_footprint_kwh_per_m2_eq_per_year_compared_to_ref["maxi"] = -(lca_min_ref - \
-                                                                                  building_obj.carbon_footprint[
-                                                                                      "maxi"] / building_obj.apartment_area * conversion_rate)/ life_time
-            building_obj.carbon_footprint_kwh_per_m2_eq_per_year_compared_to_ref["mini"] = (lca_max_ref - \
+            building_obj.carbon_footprint_kwh_per_m2_eq_per_year_improvement_compared_to_ref["maxi"] = (lca_max_ref - \
                                                                                   building_obj.carbon_footprint[
                                                                                       "mini"] / building_obj.apartment_area * conversion_rate)/ life_time
+            building_obj.carbon_footprint_kwh_per_m2_eq_per_year_improvement_compared_to_ref["mini"] = (lca_min_ref - \
+                                                                                  building_obj.carbon_footprint[
+                                                                                      "maxi"] / building_obj.apartment_area * conversion_rate)/ life_time
 
 
     def compute_consumption_compared_to_ref(self):

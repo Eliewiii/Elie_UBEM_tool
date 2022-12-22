@@ -11,7 +11,7 @@ from honeybee_energy.config import folders
 from ladybug.futil import write_to_file
 from honeybee_energy.lib.constructionsets import construction_set_by_identifier
 
-from typology import Typology
+from typology.typology import Typology
 from tools._folder_manipulation import make_sub_folders
 from tools._save_and_load_objects import load_object_pickle
 

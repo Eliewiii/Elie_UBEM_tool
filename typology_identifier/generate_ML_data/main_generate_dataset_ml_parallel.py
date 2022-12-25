@@ -43,22 +43,80 @@ def test_par(building_type):
                                                        nb_noised_sample, is_deg)
 
 
+def generate_sample_ml(building_type, training_or_test):
+    """
+
+    """
+    logging.warning(f"Generating {training_or_test} samples for '{building_type}'")
+    if training_or_test == "training":
+        path_building_type_shp = os.path.join(path_folder_shp_training,
+                                              building_type)  # path directory with all the samples
+        ## create a folder to store the generated images
+        path_output_building_type = os.path.join(path_folder_output_data_training, building_type)
+        os.mkdir(path_output_building_type)  # create the output folder
+
+    if training_or_test == "test":
+        path_building_type_shp = os.path.join(path_folder_shp_test,
+                                              building_type)  # path directory with all the samples
+        ## create a folder to store the generated images
+        path_output_building_type = os.path.join(path_folder_output_data_test, building_type)
+        os.mkdir(path_output_building_type)  # create the output folder
+
+    sample_list = os.listdir(path_building_type_shp)  # list of the samples in the building type folder
+    # Initialize the index
+    index = 0
+    ## Loop on all the samples
+    for sample in sample_list:
+        for shp_file in os.listdir(os.path.join(path_building_type_shp, sample)):  # identify the .shp files
+            if shp_file.endswith(".shp"):
+                path_file_shp = os.path.join(path_building_type_shp, sample, shp_file)
+                # return the index at the end of the generation
+                index = generate_data_base_from_sample(path_file_shp, index, path_output_building_type,
+                                                       nb_noised_sample, is_deg)
+
 if __name__ == "__main__":  # mandatory for parallel processing, what is executed by the master should be under this
     # Training set
     building_type_list = os.listdir(path_folder_shp_training)  # each folder is associated with
     # Clear folders
     clean_directory(path_folder_output_data_training)
-    clean_directory(path_folder_output_data_training)
+    clean_directory(path_folder_output_data_test)
+    # Prepare inputs parameters for paralellization
+    nb_type = len(building_type_list)
+    building_type_input_list = building_type_list + building_type_list  # concatenate the list with itself to have
+                                                                        # for both training and test
+    type_data = ["training" for i in range(nb_type)] + ["test" for i in range(nb_type)]  # input for multiprocessing
+    # Number of processes to run
+    nb_process = nb_type*2
     # number of processes to run in parallel
-    nb_process = len(building_type_list)  # eventually to optimize
+    nb_simultaneous_process = nb_process # eventually to optimize
     dt = time()  # timer
-
     # begin Pool parallel
     p = Pool(nb_process)
-    p.map(test_par, building_type_list, chunksize=1)
+    p.starmap(generate_sample_ml, [(building_type_input_list[i],type_data[i]) for i in range(nb_process)], chunksize=1)
     p.close()
     p.join()
     # end parallel computation
-
     dt = time() - dt  # timer
     print(dt)
+
+ ## old ##
+
+# if __name__ == "__main__":  # mandatory for parallel processing, what is executed by the master should be under this
+#     # Training set
+#     building_type_list = os.listdir(path_folder_shp_training)  # each folder is associated with
+#     # Clear folders
+#     clean_directory(path_folder_output_data_training)
+#     clean_directory(path_folder_output_data_test)
+#     # number of processes to run in parallel
+#     nb_process = len(building_type_list)  # eventually to optimize
+#     dt = time()  # timer
+#
+#     # begin Pool parallel
+#     p = Pool(nb_process)
+#     p.map(test_par, building_type_list, chunksize=1)
+#     p.close()
+#     p.join()
+#     # end parallel computation
+#
+#     dt = time() - dt  # timer
+#     print(dt)

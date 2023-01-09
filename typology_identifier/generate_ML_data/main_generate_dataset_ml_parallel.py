@@ -86,12 +86,13 @@ if __name__ == "__main__":  # mandatory for parallel processing, what is execute
                                                                         # for both training and test
     type_data = ["training" for i in range(nb_type)] + ["test" for i in range(nb_type)]  # input for multiprocessing
     # Number of processes to run
-    nb_process = nb_type*2
+    nb_process = nb_type * 2
     # number of processes to run in parallel
     nb_simultaneous_process = nb_process # eventually to optimize
+
     dt = time()  # timer
     # begin Pool parallel
-    p = Pool(nb_process)
+    p = Pool(nb_simultaneous_process)
     p.starmap(generate_sample_ml, [(building_type_input_list[i],type_data[i]) for i in range(nb_process)], chunksize=1)
     p.close()
     p.join()

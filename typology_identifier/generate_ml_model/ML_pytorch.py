@@ -1,6 +1,6 @@
 import os
 import torch
-import  pickle
+import pickle
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -10,6 +10,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 from PIL import Image
+
 
 class Net(nn.Module):
     def __init__(self):
@@ -25,7 +26,7 @@ class Net(nn.Module):
     def forward(self, x):
         x = self.pool(F.relu(self.conv1(x)))
         x = self.pool(F.relu(self.conv2(x)))
-        x = torch.flatten(x, 1) # flatten all dimensions except batch
+        x = torch.flatten(x, 1)  # flatten all dimensions except batch
         x = F.relu(self.fc1(x))
         x = F.relu(self.fc2(x))
         x = self.fc3(x)
@@ -64,19 +65,19 @@ class BuildingsDataset(Dataset):
         return sample
 
 
-
 class BuildingsDataset_single(Dataset):
     """
     Dataset to test only one file
 
     """
+
     def __init__(self, image_path, transform=None):
         self.image_path = image_path
         self.transform = transform
-        self.len = 1 # just one image
+        self.len = 1  # just one image
         self.idx_to_image = {}
-        self.idx_to_image[0] = [self.image_path, 1000] # the class id is set to 1000 because we don't care about this
-                                                       # thsi value anyway, we don't know class it belongs to
+        self.idx_to_image[0] = [self.image_path, 1000]  # the class id is set to 1000 because we don't care about this
+        # thsi value anyway, we don't know class it belongs to
 
     def __len__(self):
         return self.len
@@ -94,14 +95,12 @@ class BuildingsDataset_single(Dataset):
         return sample
 
 
-
-
-
-def Identify_shape_typology(image_path, transform=None) :
+def Identify_shape_typology(image_path, transform=None):
     """
     """
     test_dataset = BuildingsDataset_single(image_path=image_path,
-                                    transform=transforms.Compose([transforms.ToTensor(), transforms.Scale((90, 90))]))
+                                           transform=transforms.Compose(
+                                               [transforms.ToTensor(), transforms.Scale((90, 90))]))
 
     test_loader = DataLoader(dataset=test_dataset)
 
@@ -110,8 +109,6 @@ def Identify_shape_typology(image_path, transform=None) :
         labels = data['label']
 
         outputs = model(images)
-
-
 
 
 # class BuildingsDataset2(Dataset):
@@ -167,10 +164,7 @@ def Identify_shape_typology(image_path, transform=None) :
 #         return sample
 
 
-
-
-
-if __name__=="__main__":
+if __name__ == "__main__":
     model = Net()  # open the model before the loop of the buildings
 
     model.load_state_dict(torch.load('model2.pkl'))
@@ -182,11 +176,10 @@ if __name__=="__main__":
     # test_path = "D:\Elie\PhD\Programming\Machine_Learning_Identifier\Test_data\\rect_crop\sample_0.png"
     # test_path = "D:\Elie\PhD\Programming\Machine_Learning_Identifier\Test_data\square\sample_0.png"
 
-
     test_dataset = BuildingsDataset_single(image_path=test_path,
-                                    transform=transforms.Compose([
-                                        transforms.ToTensor(), transforms.Scale((90, 90))
-                                    ]))
+                                           transform=transforms.Compose([
+                                               transforms.ToTensor(), transforms.Scale((90, 90))
+                                           ]))
 
     # test_dataset_2 = BuildingsDataset2.full_data_set(root_dir=test_path, classes=classes,class_to_label=class_to_label,
     #                                            transform=transforms.Compose([
@@ -221,42 +214,3 @@ if __name__=="__main__":
         correct += (predicted.cpu() == labels).sum()
 
     print("Test Accuracy: {} %".format(100 * correct / total))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

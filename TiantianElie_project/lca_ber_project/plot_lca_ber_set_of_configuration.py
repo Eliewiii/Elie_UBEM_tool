@@ -46,7 +46,8 @@ logging.info("Library imported")
 from urban_canopy_ubem.urban_canopy import Urban_canopy
 
 
-path= "D:\Elie\PhD\Simulation\Input_Data\Sample_objects\Tiantian\\urban_canopy.pkl"
+# path= "D:\Elie\PhD\Simulation\Input_Data\Sample_objects\Tiantian\\urban_canopy.pkl"  #Elie
+path = "D:\Pycharm\PyCharm 2022.2.3\Task\Simulation\Input_Data\Sample_objects\Tiantian\\urban_canopy.pkl"  #Tiantian
 
 U_c=load_urban_canopy_object_pickle(path)
 

@@ -83,15 +83,15 @@ class Mixin:
 
         """
         fig, ax = plt.subplots()
-        width = 0.3
-        bar_location = -0.1
+        width = 0.2
+        bar_location = 0
         model = []           # A list in the form of ["Building_1", "Building_2",...]
         x_position_bar = []  # A list used to record the location of the center of bar for each building in the graph
 
         for building_id in self.building_to_simulate:
             building_obj = self.building_dict[building_id]
-            model.append(building_obj.name)
-            bar_location += 1.1
+            model.append(building_obj.name[-8:])
+            bar_location += 1
             x_position_bar.append(bar_location)
             heating_bar = ax.bar(bar_location - width, building_obj.energy_consumption["total_h_cop_compared_to_ref"],
                                  width, color="red", label="heating", zorder=10)

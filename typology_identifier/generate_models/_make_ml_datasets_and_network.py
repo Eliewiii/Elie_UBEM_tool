@@ -13,6 +13,9 @@ from PIL import Image
 
 
 class MultipleBuildingsDataset(Dataset):
+    """
+    Dataset for training and testing, extracting the data from a folder with a given tree/structure
+    """
     def __init__(self, classes, class_to_label, root_dir, transform=None):
         self.root_dir = root_dir
         self.transform = transform
@@ -45,8 +48,7 @@ class MultipleBuildingsDataset(Dataset):
 
 class SingleBuildingsDataset(Dataset):
     """
-    Dataset to test only one file
-
+    Dataset to test only one images
     """
 
     def __init__(self, image_path, transform=None):

@@ -76,12 +76,19 @@ U_c.select_target_building(target_buildings)
 U_c.create_building_LB_geometry_footprint()
 ## Create HB room envelop with GIS footprint
 U_c.create_building_HB_room_envelop()
+U_c.correct_envelop_elevation()
+U_c.create_building_HB_room_bounding_box()
+U_c.correct_bounding_box_elevation()
 
 # %% Context filter algorithm
 
 # filter context and identify the buildings to simulate
+# U_c.filter_context_new(VF_criterion_shading) # previous version
+U_c.filter_context_bounding_box(mvfc=0.005)
 
-U_c.filter_context(0.1)
+U_c.correct_context_elevation()  # todo
+
+logging.warning("context filtered")
 
 # %% test
 
@@ -89,12 +96,9 @@ U_c.filter_context(0.1)
 
 # %% Force Typology
 
-U_c.building_dict[0].typology = U_c.typology_dict["train_40x4_Z_A"]
+# U_c.building_dict[0].typology = U_c.typology_dict["train_40x4_Z_A"] # apply a specific typology to a specific building
 U_c.force_default_typology()
-
-# %% Force Typology
-
-# print(U_c.building_dict[0].num_floor)
+logging.warning("typology applied")
 
 # %% DF + HB modeling using GIS data + typology
 
@@ -105,14 +109,11 @@ U_c.generate_HB_model()
 # U_c.convert_DF_building_to_HB_models()
 U_c.HB_solve_adjacencies()
 
-# %% DF + HB modeling using GIS data + typology
-
-## Force rotation on building
-# need to guess it and rotate it at the beginning
+## Force rotation on building  (if necessary)
 
 # U_c.building_dict[45].HB_model_force_rotation(80)  ################  TO MODIFY
 
-# %% DF + HB modeling using GIS data + typology
+# HB modeling using GIS data + typology
 
 
 U_c.assign_conditioned_zone()
@@ -139,25 +140,17 @@ U_c.add_thermal_mass_int_wall()
 
 # log #
 logging.info("Building modeled")
-#
 
-
-# %% test
-
-# print(U_c.building_dict[0].HB_model.rooms[0].properties.energy.program_type)
-# print(U_c.building_dict[0].HB_model.rooms[0].properties.energy.internal_masses[0].construction)
-
-# %% Clean/create simulation folder
-
+# Clean/create simulation folder
 U_c.create_simulation_folder_buildings(path_folder_building_simulation)
 
-# %% Generate json to plot context
+# Generate json to plot context
 # All the buildings that are target buildings
 U_c.context_to_hbjson(path_folder_context_hbjson)
 U_c.context_surfaces_to_hbjson(path_folder_building_simulation)
 # U_c.GIS_context_individual_to_hbjson(path_folder_building_simulation)
 
-# %% Extract simulation parameters
+# Extract simulation parameters
 ## Merge simulation parameters files
 U_c.load_simulation_parameter(path_folder_simulation_parameter, path_simulation_parameter)
 ## Add design days
@@ -166,15 +159,12 @@ U_c.add_design_days_to_simulation_parameters(path_simulation_parameter, path_fil
 # %% Generate HB models
 U_c.model_to_HBjson(path_folder_building_simulation)
 
-# %% Save urban_canopy object in a pickle file
-#
+# Generate local EPW
 # U_c.generate_local_epw_with_uwg(path_epw="D:\Elie\PhD\Simulation\Input_Data\EPW\IS_5280_A_Haifa.epw",
 #                                     path_folder_epw_uwg="D:\Elie\PhD\\test")
 
 
-# U_c.building_dict[0].urban_canopy = None
-
-
+# Save objects   todo: put the new function that bypass the "locked class" issue
 # save_object_pickle(os.path.join(path_folder_simulation, "Urban_canopy", "uc_obj_2.p"), U_c)
 
 
@@ -188,15 +178,19 @@ U_c.simulate_idf(path_folder_building_simulation, path_simulation_parameter, pat
 
 U_c.extract_building_csv_results(path_folder_building_simulation)
 
-save_urban_canopy_object_pickle(os.path.join(path_folder_simulation, "Urban_canopy", "uc_obj.p"), U_c)
+# Save objects todo: update with the new function
+# save_urban_canopy_object_pickle(os.path.join(path_folder_simulation, "Urban_canopy", "uc_obj.p"), U_c)
 
+# U_c.print_detailed_results_BER(apartment_details=True)
 
-
-# U_c_2=copy.deepcopy(U_c)
-
-U_c.print_detailed_results_BER(apartment_details=True)
-
-# %% test
+# path for csv results
+path_folder_building_results = os.path.join(path_folder_simulation, "Results")
+csv_name = "Results.csv"
+path_csv = os.path.join(path_folder_building_results, csv_name)
+# Global results
+U_c.write_global_csv_results_with_lca(path_csv)
+# Individual results of buildings
+U_c.write_csv_results_in_building_folder(path_folder_building_simulation)
 
 
 # print(U_c.building_dict[0].HB_model.rooms[0].identifier)

@@ -9,7 +9,6 @@ from getpass import getuser
 from datetime import datetime
 from loads._load_inputs import load_input_parameter
 
-
 ####  Get user  ####
 # # Elie
 elie = 'elie-medioni'
@@ -17,6 +16,12 @@ elie = 'elie-medioni'
 path_folder_elie = "D://Elie//PhD//Simulation"
 # path_LBT_elie = "C://Users//elie-medioni//ladybug_tools//resources//standards//honeybee_standards"
 path_LBT_elie = "C://Users//elie-medioni//AppData//Roaming//ladybug_tools//standards"
+
+# # Elie home
+elie_home = 'eliem'
+path_folder_elie_home = "D:\\Documents\\Ale_project\\Simulation"
+path_LBT_elie_home = "C:\\Users\\eliem\\AppData\\Roaming\\ladybug_tools\\standards"
+
 # # Abraham
 abraham = ''
 path_folder_abraham = None
@@ -30,28 +35,31 @@ tiantian_acer = '22637'
 path_folder_tiantian_acer = "D:\\Pycharm\\PyCharm 2022.2.3\\Task\\Simulation"
 path_LBT_tiantian_acer = "C:\\Users\\22637\\AppData\\Roaming\\ladybug_tools\\standards"
 
-
 user = getuser()
 
 if user == elie:
     path_LBT_user_defined = path_LBT_elie
     path_folder = path_folder_elie
-    path_energyplus_exe = "C:\EnergyPlusV22-1-0\energyplus.exe"
+    path_energyplus_exe = "C:\\EnergyPlusV22-1-0\\energyplus.exe"
+if user == elie_home:
+    path_LBT_user_defined = path_LBT_elie_home
+    path_folder = path_folder_elie_home
+    path_energyplus_exe = "C:\\EnergyPlusV22-2-0\\energyplus.exe"
 
 elif user == abraham:
     path_LBT_user_defined = path_LBT_abraham
     path_folder = path_folder_abraham
-    path_energyplus_exe = "C:\EnergyPlusV22-1-0\energyplus.exe"
+    path_energyplus_exe = "C:\\EnergyPlusV22-1-0\\energyplus.exe"
 
 elif user == tiantian:
     path_LBT_user_defined = path_LBT_tiantian
     path_folder = path_folder_tiantian
-    path_energyplus_exe = "C:\EnergyPlusV22-1-0\energyplus.exe"
+    path_energyplus_exe = "C:\\EnergyPlusV22-1-0\\energyplus.exe"
 
 elif user == tiantian_acer:
     path_LBT_user_defined = path_LBT_tiantian_acer
     path_folder = path_folder_tiantian_acer
-    path_energyplus_exe = "C:\EnergyPlusV22-2-0\energyplus.exe"
+    path_energyplus_exe = "C:\\EnergyPlusV22-2-0\\energyplus.exe"
 
 else:
     print("The user is not defined")

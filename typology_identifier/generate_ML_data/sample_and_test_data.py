@@ -165,7 +165,7 @@ def extract_shape_shp(path_file_shp):
     return(shape)
 
 
-def Polygon_to_png_BnW(shape,path) :
+def Polygon_to_png_BnW(shape, path):
     """ 
     """
     ## Generate RGB image

@@ -16,7 +16,7 @@ from _make_ml_datasets_and_network import MultipleBuildingsDataset, Net
 from _load_ml_parameters import load_ml_parameters
 
 
-def train_ml_model(path_folder_model,path_model_parameters_json, num_epochs=30, batch_size=1, learning_rate=0.0001):
+def train_ml_model(path_folder_model,path_model_parameters_json, num_epochs=10, batch_size=1, learning_rate=0.0001):
     """
     Train the machine learning algorithm
     :param path_model_parameters_json:
@@ -79,5 +79,5 @@ def train_ml_model(path_folder_model,path_model_parameters_json, num_epochs=30, 
 if __name__ == "__main__":
     path_folder_model ="D:\Elie\PhD\Simulation\Input_Data\Typology\machine_learning_training\Tel_Aviv_MOE"
     path_model_parameters_json = os.path.join(path_folder_model,"model_param.json")
-    train_ml_model(path_folder_model,path_model_parameters_json, num_epochs=3, batch_size=1, learning_rate=0.0001)
+    train_ml_model(path_folder_model,path_model_parameters_json, num_epochs=20, batch_size=8, learning_rate=0.001)
 

@@ -16,6 +16,7 @@ class MultipleBuildingsDataset(Dataset):
     """
     Dataset for training and testing, extracting the data from a folder with a given tree/structure
     """
+
     def __init__(self, classes, class_to_label, root_dir, transform=None):
         self.root_dir = root_dir
         self.transform = transform
@@ -46,33 +47,52 @@ class MultipleBuildingsDataset(Dataset):
         return sample
 
 
-class SingleBuildingsDataset(Dataset):
+# class SingleBuildingDataset(Dataset):
+#     """
+#     Dataset to test only one images
+#     """
+#
+#     def __init__(self, path_image, transform=None):
+#         self.path_image = path_image
+#         self.transform = transform
+#         self.len = 1  # just one image
+#         self.idx_to_image = {0: self.path_image}
+#
+#
+#
+#     def __len__(self):
+#         return self.len
+#
+#     def __getitem__(self, idx):
+#         if torch.is_tensor(idx):
+#             idx = idx.tolist()
+#         img_name = self.idx_to_image[idx]
+#         image = Image.open(img_name)
+#
+#         if self.transform:
+#             image = self.transform(image)
+#
+#         sample = {'image': image, 'label': label}
+#         return sample
+
+
+class SingleBuildingDataset(Dataset):
     """
     Dataset to test only one images
     """
 
-    def __init__(self, image_path, transform=None):
-        self.image_path = image_path
-        self.transform = transform
+    def __init__(self, path_image, transform=None):
+        self.image = Image.open(path_image)
         self.len = 1  # just one image
-        self.idx_to_image = {}
-        self.idx_to_image[0] = [self.image_path, None]  # the class id is set to 1000 because we don't care about this
-        # thsi value anyway, we don't know class it belongs to
+
+        if transform:
+            self.image = transform(self.image)
 
     def __len__(self):
         return self.len
 
     def __getitem__(self, idx):
-        if torch.is_tensor(idx):
-            idx = idx.tolist()
-        img_name, label = self.idx_to_image[idx]
-        image = Image.open(img_name)
-
-        if self.transform:
-            image = self.transform(image)
-
-        sample = {'image': image, 'label': label}
-        return sample
+        return self.image
 
 
 class Net(nn.Module):

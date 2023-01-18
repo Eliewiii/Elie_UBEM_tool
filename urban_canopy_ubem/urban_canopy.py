@@ -18,11 +18,11 @@ from tools._save_and_load_objects import load_object_pickle
 # additional methods for the Urban_canopy class
 
 from urban_canopy_ubem import _EP_simulation, _context_filtering, _extract_data, _outputs_for_GH_visualization, \
-    _geometry_and_HB, _extract_result_csv, _uwg, _generate_sample,_lca
+    _geometry_and_HB, _extract_result_csv, _uwg, _generate_sample,_lca,_typology_identifier
 
 
 class Urban_canopy(_context_filtering.Mixin, _EP_simulation.Mixin, _extract_data.Mixin, _geometry_and_HB.Mixin,
-                   _outputs_for_GH_visualization.Mixin, _extract_result_csv.Mixin, _uwg.Mixin, _generate_sample.Mixin,_lca.Mixin):
+                   _outputs_for_GH_visualization.Mixin, _extract_result_csv.Mixin, _uwg.Mixin, _generate_sample.Mixin,_lca.Mixin,_typology_identifier.Mixin):
     """
     Urban canopy recreated from a GIS file.
 

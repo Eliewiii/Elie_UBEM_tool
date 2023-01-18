@@ -35,7 +35,7 @@ class Mixin:
         ## Create the Ladybug face for the footprint
         self.LB_face_footprint = Face3D(footprint_point_list, holes=holes_list, enforce_right_hand=True)
         # Remove collinear vertices
-        self.LB_face_footprint=self.LB_face_footprint.remove_colinear_vertices(tolerance=tolerance_collinear_vertices)
+        self.LB_face_footprint = self.LB_face_footprint.remove_colinear_vertices(tolerance=tolerance_collinear_vertices)
         # Centroid of the footprint
         self.LB_face_centroid = self.LB_face_footprint.centroid
 

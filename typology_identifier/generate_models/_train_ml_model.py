@@ -71,13 +71,13 @@ def train_ml_model(path_folder_model,path_model_parameters_json, num_epochs=30, 
     torch.save(model.state_dict(),path_model_pkl)
 
     # Write the training parameters in a txt file
-    with open(os.path.join(path_folder_model,""),"w") as training_par_file :
+    with open(os.path.join(path_folder_model,"model_training_param.txt"),"w") as training_par_file :
         training_par_file.write(f"number of epochs = {num_epochs}, batch_size = {batch_size}, learning_rate = {learning_rate} ")
 
 
 # Training
 if __name__ == "__main__":
-    path_folder_model ="D:\Elie\PhD\Simulation\Input_Data\Typology\machine_learning_training\model_sample"
-    path_model_parameters_json = os.path.join(path_folder_model,"model_sample.json")
-    train_ml_model(path_folder_model,path_model_parameters_json, num_epochs=10, batch_size=1, learning_rate=0.0001)
+    path_folder_model ="D:\Elie\PhD\Simulation\Input_Data\Typology\machine_learning_training\Tel_Aviv_MOE"
+    path_model_parameters_json = os.path.join(path_folder_model,"model_param.json")
+    train_ml_model(path_folder_model,path_model_parameters_json, num_epochs=3, batch_size=1, learning_rate=0.0001)
 

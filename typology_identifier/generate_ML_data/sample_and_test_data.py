@@ -29,6 +29,8 @@ def generate_data_base_from_sample(path_file_shp,index,output_building_type_path
     ## Convert to meter and move
     if is_deg :
         shape = convert_shape_to_meter(polygon)
+    else:
+        shape = polygon
     # Remove collinear vertices
     shape = clean_polygon(shape)
     ## original image
@@ -37,7 +39,6 @@ def generate_data_base_from_sample(path_file_shp,index,output_building_type_path
     # increase the counter
     index += 1
     ## rotated original image
-    # dt = time()
     for angle in range(10,360,10) : # 1 shape per degree
         # rotate the shape
         rotated_shape = rotate_shape(shape,angle)
@@ -46,8 +47,7 @@ def generate_data_base_from_sample(path_file_shp,index,output_building_type_path
         Polygon_to_png_BnW(rotated_shape,image_output_path)
         # increase the counter
         index += 1
-    # dt = time()-dt
-    # print(dt)
+
     ## images with moise
     for i in range(nb_sample_noise) :
         # rotate the shape
@@ -75,7 +75,6 @@ def generate_data_base_from_sample_parallel(path_file_shp,index,output_building_
     ## Convert to meter and move
     if is_deg :
         shape = convert_shape_to_meter(polygon)
-    # print("zob")
     # Remove collinear vertices
     shape = clean_polygon(shape)
     ## original image
@@ -88,7 +87,7 @@ def generate_data_base_from_sample_parallel(path_file_shp,index,output_building_
     step_angle =360/nb_angles
     dt = time()
     pool = Pool(10)
-    result=pool.starmap(generate_angle,[(shape,step_angle*i,output_building_type_path,index+i) for i in range(1,nb_angles)],chunksize=3)
+    result = pool.starmap(generate_angle,[(shape,step_angle*i,output_building_type_path,index+i) for i in range(1,nb_angles)],chunksize=3)
     pool.close()
     pool.join()
     dt = time()-dt
@@ -212,8 +211,8 @@ def add_noise_to_shape(polygon):
 
     for vertex in exterior[:-1] :
         new_exterior.append(add_noise_to_point(vertex))
-    for interior in interiors :
-        new_hole=[]
+    for interior in interiors:
+        new_hole = []
         for vertex in interior[:-1]:
             new_hole.append(add_noise_to_point(vertex))
         new_interiors.append(new_hole)
@@ -223,7 +222,7 @@ def add_noise_to_shape(polygon):
 
 
 def add_noise_to_point(vertex):
-    max_shift = 1  # max
+    max_shift = 0.5  # max
     [x, y] = [vertex[0], vertex[1]]
     return((x + random.uniform(-max_shift,max_shift), y + random.uniform(-max_shift,max_shift)))
 
@@ -244,7 +243,7 @@ def clean_polygon(polygon) :
     for hole in interiors :
         new_interiors.append(remove_collinear_vertices(hole.coords))
 
-    return(Polygon(shell=new_exterior,holes=new_interiors))
+    return Polygon(shell=new_exterior,holes=new_interiors)
 
 def remove_collinear_vertices(vertex_list):
     """
@@ -258,19 +257,19 @@ def remove_collinear_vertices(vertex_list):
     else :
         new_vertex_list = []
         n_ver = len(vertex_list) # number of vertices in the polygon
-        pt_A_index = 0
-        pt_B_index = 2
-        pt_C_index = 1
+        pt_a_index = 0
+        pt_b_index = 2
+        pt_c_index = 1
         for i in range(n_ver-2) :
-            d = distance_line([vertex_list[pt_A_index],vertex_list[pt_B_index]], vertex_list[pt_C_index]) # compute distance
-            if d < tol : # if collinear, we don't keep the vertex C
-                pt_B_index += 1
-                pt_C_index += 1
+            d = distance_line([vertex_list[pt_a_index],vertex_list[pt_b_index]], vertex_list[pt_c_index]) # compute distance
+            if d < tol : # if collinear, we don't keep the vertex c
+                pt_b_index += 1
+                pt_c_index += 1
             else : # if not, we keep it
-                new_vertex_list.append(vertex_list[pt_C_index])
-                pt_A_index += 1
-                pt_B_index += 1
-                pt_C_index += 1
+                new_vertex_list.append(vertex_list[pt_c_index])
+                pt_a_index += 1
+                pt_b_index += 1
+                pt_c_index += 1
         # check for the last point
         d = distance_line([new_vertex_list[-1],vertex_list[0]], vertex_list[-1]) # compute distance
         if d >= tol : # if not collinear we keep it
@@ -281,23 +280,26 @@ def remove_collinear_vertices(vertex_list):
         if d >= tol:  # if not collinear we keep it
             new_vertex_list.insert(0,vertex_list[0])
 
-        return(new_vertex_list)
+        return new_vertex_list
 
 
-def distance_line(pt_line,pt_C) :
+def distance_line(pt_line, pt_c):
     """
-    Compute the distance from pt_C to the line going through pt_A and pt_B
+    Compute the distance from pt_c to the line going through pt_a and pt_b
     pt_line = [(x_a,y_a),(x_b,y_b)]
     pt_C    = (x_c,y_c)
     """
     [(x_a, y_a), (x_b, y_b)] = pt_line
-    (x_c, y_c) = pt_C
+    (x_c, y_c) = pt_c
     # characteristic values of the line mx+p=y
-    m = (y_b-y_a)/(x_b-x_a)
-    p = y_a-m*x_a
-    # distance
-    d = abs((m*x_c - y_c+p)/sqrt(m**2+1))
-    return(d)
+    if x_b == x_a:  # the formula doesn't work if the line is perfectly vertical
+        return abs(x_a-x_c)  # distance with a a vertical line
+    else:
+        m = (y_b-y_a)/(x_b-x_a)
+        p = y_a-m*x_a
+        # distance
+        d = abs((m*x_c - y_c+p)/sqrt(m**2+1))
+        return d
 
 
 

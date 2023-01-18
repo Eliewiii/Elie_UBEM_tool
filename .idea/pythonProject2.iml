@@ -4,7 +4,7 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/building_ubem" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.9 (PHD)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.8 (building_modeling_22_04_06)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>

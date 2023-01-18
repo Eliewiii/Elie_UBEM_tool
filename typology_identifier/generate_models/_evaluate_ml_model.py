@@ -93,7 +93,9 @@ def make_evaluation_dictionary(shapes_to_labels_dic):
 
 
 
-# Evaluation
+# Evaluation zob
+
+
 if __name__ == "__main__":
     path_folder_model ="D:\Elie\PhD\Simulation\Input_Data\Typology\machine_learning_training\Tel_Aviv_MOE"
     path_model_parameters_json = os.path.join(path_folder_model,"model_param.json")

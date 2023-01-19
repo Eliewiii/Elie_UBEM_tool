@@ -25,7 +25,7 @@ def train_ml_model(path_folder_model,path_model_parameters_json, num_epochs=10, 
     :param learning_rate [float]: todo ?
     """
     # Load model parameter
-    identifier,path_training_data, path_test_data,path_model_pkl, shapes, shapes_to_labels_dic, \
+    identifier, path_training_data, path_test_data, path_model_pkl, shapes, shapes_to_labels_dic, labels_to_shapes_dic,  \
     nb_shapes, pixel_size = load_ml_parameters(path_model_parameters_json)
 
     # Make the data set from the training images

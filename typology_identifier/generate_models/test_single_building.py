@@ -20,7 +20,7 @@ def evaluate_ml_model(path_model_parameters_json):
     :return:
     """
     # Load model parameter
-    identifier,path_training_data, path_test_data,path_model_pkl, shapes, shapes_to_labels_dic, \
+    identifier, path_training_data, path_test_data, path_model_pkl, shapes, shapes_to_labels_dic, labels_to_shapes_dic,  \
     nb_shapes, pixel_size = load_ml_parameters(path_model_parameters_json)
 
     # Initialize the model
@@ -39,7 +39,9 @@ def evaluate_ml_model(path_model_parameters_json):
 
     for image in test_loader:
         outputs = model(image)
-        outputs
+        outputs = outputs[0]
+        outputs = list(map(float,outputs))
+
 
 
 

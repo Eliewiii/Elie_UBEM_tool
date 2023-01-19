@@ -37,16 +37,20 @@ def load_ml_parameters(path_json):
     shapes = parameter_dic["shapes"]
     # Dictionary with the identifier and labels of the shapes
     shapes_to_labels_dic = {}
+    labels_to_shapes_dic = {}
     for index, shape in enumerate(shapes):
         shapes_to_labels_dic[shape] = index
+    for index, shape in enumerate(shapes):
+        labels_to_shapes_dic[index] = shapes
     # Number of shapes
     nb_shapes = len(shapes)
     # Size in pixel
     pixel_size = parameter_dic["pixel_size"]
 
-    return identifier,path_training_data, path_test_data, path_model_pkl, shapes, shapes_to_labels_dic, nb_shapes, pixel_size
+    return identifier, path_training_data, path_test_data, path_model_pkl, shapes, shapes_to_labels_dic, labels_to_shapes_dic, nb_shapes, pixel_size
 
 
-if __name__=="__main__":
-    test=load_ml_parameters("D:\Elie\PhD\Simulation\Input_Data\Typology\machine_learning_training\model_sample\model_sample.json")
-    print (test)
+if __name__ == "__main__":
+    test = load_ml_parameters(
+        "D:\Elie\PhD\Simulation\Input_Data\Typology\machine_learning_training\model_sample\model_sample.json")
+    print(test)

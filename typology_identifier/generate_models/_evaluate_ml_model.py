@@ -25,7 +25,7 @@ def evaluate_ml_model(path_model_parameters_json):
     :return:
     """
     # Load model parameter
-    identifier,path_training_data, path_test_data,path_model_pkl, shapes, shapes_to_labels_dic, \
+    identifier, path_training_data, path_test_data, path_model_pkl, shapes, shapes_to_labels_dic, labels_to_shapes_dic,  \
     nb_shapes, pixel_size = load_ml_parameters(path_model_parameters_json)
 
     # Initialize the model
@@ -44,7 +44,7 @@ def evaluate_ml_model(path_model_parameters_json):
     # Load the dataset according to the batch size and shuffle the images
     test_loader = DataLoader(dataset=test_dataset)
     # Initialize evaluation dictionary
-    evaluation_dictionary, label_to_shape = make_evaluation_dictionary(shapes_to_labels_dic)
+    evaluation_dictionary = make_evaluation_dictionary(shapes_to_labels_dic)
 
     # Initialize the evaluation variables
     total = 0
@@ -62,8 +62,8 @@ def evaluate_ml_model(path_model_parameters_json):
         correct += (predicted.cpu() == labels).sum()
 
         #
-        evaluation_dictionary[label_to_shape[int(labels[0])]]["nb_image"] = evaluation_dictionary[label_to_shape[int(labels[0])]]["nb_image"] + 1
-        evaluation_dictionary[label_to_shape[int(labels[0])]]["nb_identified"] = evaluation_dictionary[label_to_shape[int(labels[0])]]["nb_identified"] + int((predicted.cpu() == labels).sum())
+        evaluation_dictionary[labels_to_shapes_dic[int(labels[0])]]["nb_image"] = evaluation_dictionary[labels_to_shapes_dic[int(labels[0])]]["nb_image"] + 1
+        evaluation_dictionary[labels_to_shapes_dic[int(labels[0])]]["nb_identified"] = evaluation_dictionary[labels_to_shapes_dic[int(labels[0])]]["nb_identified"] + int((predicted.cpu() == labels).sum())
 
     print("Test Accuracy: {} %".format(100 * correct / total))
 
@@ -83,16 +83,13 @@ def make_evaluation_dictionary(shapes_to_labels_dic):
     :return evaluation_dictionary:
     :return label_to_shape:
     """
-    label_to_shape={}
-    for (shape,label) in list(shapes_to_labels_dic.items()):
-        label_to_shape[label]=shape
 
     evaluation_dictionary = {}
     for shape in list(shapes_to_labels_dic.keys()):
         evaluation_dictionary[shape]={"nb_image": 0, "nb_identified":0, "accuracy":None}
 
 
-    return evaluation_dictionary, label_to_shape
+    return evaluation_dictionary
 
 
 

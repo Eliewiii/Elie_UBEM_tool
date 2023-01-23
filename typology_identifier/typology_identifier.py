@@ -8,13 +8,10 @@ import torch
 import matplotlib.pyplot as plt
 from PIL import Image
 from torchvision import transforms
-from torch.utils.data import  DataLoader
-
+from torch.utils.data import DataLoader
 
 from typology_identifier.generate_models._load_ml_parameters import load_ml_parameters
 from typology_identifier.generate_models._make_ml_datasets_and_network import SingleBuildingDataset, Net
-
-
 
 
 # def identify_typology(footprint, year, ml_model):
@@ -33,8 +30,7 @@ from typology_identifier.generate_models._make_ml_datasets_and_network import Si
 #     """
 
 
-
-def identify_shape_type(footprint, ml_model, ml_model_param):
+def identify_shape_type(lb_face_footprint, ml_model, path_folder_image, pixel_size, labels_to_shapes_dic, min_prob=90.):
     """
         Return the typology identifier the building belongs to according to its footprint geometry
         and the year it was built.
@@ -44,18 +40,30 @@ def identify_shape_type(footprint, ml_model, ml_model_param):
         ml_model: machine learning model to use
 
     """
+    # load model parameter
+
+    # convert lb to png
+    path_lb_footprint_png = lb_face_to_png_BnW(lb_face=lb_face_footprint, path_folder_image=path_folder_image)
+    # creat dataloader
+    image_loader = png_to_ml_dataloader(path_image=path_lb_footprint_png, pixel_size=pixel_size)
+    # identify
+    for image in image_loader:  # need to access this way, can only be used as iterable (but there is only one value here)
+        output = ml_model(image)  # send the image to the model
+        shape_probability_list = ml_output_to_probability_list(ml_output=output)
+
+    prob_max = max(shape_probability_list)
+    if prob_max > min_prob:
+        shape_identified = labels_to_shapes_dic[shape_probability_list.index(prob_max)]
+    else:
+        shape_identified="default"
+
+    return (shape_identified)
 
 
-    for image in test_loader:
-        outputs = model(image)
-        outputs
-
-
-
-def identify_shape_type_from_lb_footprint(lb_face_footprint,path_model_param_json,path_folder_image):
+def identify_shape_type_from_lb_footprint(lb_face_footprint, path_model_param_json, path_folder_image):
     """
     todo
-    :param lb_footprint:
+    :param lb_face_footprint:
     :param path_model_param_json:
     :param path_folder_image:
     :return:
@@ -67,27 +75,24 @@ def identify_shape_type_from_lb_footprint(lb_face_footprint,path_model_param_jso
     # load model
     model = load_ml_model(path_model_pkl, nb_shapes)
     # convert lb to png
-    path_lb_footprint_png = lb_face_to_png_BnW(lb_face=lb_face_footprint,path_folder_image=path_folder_image)
+    path_lb_footprint_png = lb_face_to_png_BnW(lb_face=lb_face_footprint, path_folder_image=path_folder_image)
     # creat dataloader
     image_loader = png_to_ml_dataloader(path_image=path_lb_footprint_png, pixel_size=pixel_size)
     # identify
     shape_probability_list = None  # initialize
     for image in image_loader:  # need to access this way, can only be used as iterable (but there is only one value here)
-        output = model(image)   # send the image to the model
+        output = model(image)  # send the image to the model
         shape_probability_list = ml_output_to_probability_list(ml_output=output)
 
 
-
-def probability_list_to_shape_type(probability_list,labels_to_shapes_dic,minimum_proba = 70):
+def probability_list_to_shape_type(probability_list, labels_to_shapes_dic, minimum_proba=70):
     """ todo """
-
-
 
 
 def ml_output_to_probability_list(ml_output):
     """ todo """
     probability_list = ml_output[0]  # for some reason the probability are in a list of list : [[0.1,0.2...,0.4]]
-    probability_list = list(map(float,probability_list))  # convert tensor to float list
+    probability_list = list(map(float, probability_list))  # convert tensor to float list
     probability_list = [proba * 100 for proba in probability_list]  # convert to probability in percent
     return probability_list
 
@@ -98,7 +103,8 @@ def identify_shape_type_from_png_bnw(path_image_footprint, ml_model, ml_model_pa
     """
     png_to_ml_dataset(path_image, pixel_size)
 
-def load_ml_model(path_model_pkl,nb_shapes):
+
+def load_ml_model(path_model_pkl, nb_shapes):
     """
     todo
     """
@@ -124,7 +130,7 @@ def lb_face_to_xy_list(lb_face):
     return x, y
 
 
-def lb_face_to_png_BnW(lb_face,path_folder_image, building_id="single_test"):
+def lb_face_to_png_BnW(lb_face, path_folder_image, building_id="single_test"):
     """ Convert LB Face3D of a building footprint into a black and white image for ML typology identification """
     # Convert LB Face3D to x and y list of coordinates
     x, y = lb_face_to_xy_list(lb_face)
@@ -158,17 +164,3 @@ def png_to_ml_dataloader(path_image, pixel_size):
     image_loader = DataLoader(dataset=dataset)
 
     return image_loader
-
-
-
-
-
-
-
-
-
-
-
-
-
-

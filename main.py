@@ -97,7 +97,8 @@ logging.warning("context filtered")
 # %% Force Typology
 
 # U_c.building_dict[0].typology = U_c.typology_dict["train_40x4_Z_A"] # apply a specific typology to a specific building
-U_c.force_default_typology()
+U_c.building_dict[0].typology = U_c.typology_dict["H_moe"] # apply a specific typology to a specific building
+# U_c.force_default_typology()
 logging.warning("typology applied")
 
 # %% DF + HB modeling using GIS data + typology

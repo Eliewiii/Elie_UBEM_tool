@@ -18,14 +18,14 @@ from _make_ml_datasets_and_network import MultipleBuildingsDataset, Net
 from _load_ml_parameters import load_ml_parameters
 
 
-def evaluate_ml_model(path_model_parameters_json):
+def evaluate_ml_model(path_model_parameters_json, min_percentage=None):
     """
 
     :param path_model_parameters_json:
     :return:
     """
     # Load model parameter
-    identifier, path_training_data, path_test_data, path_model_pkl, shapes, shapes_to_labels_dic, labels_to_shapes_dic,  \
+    identifier, path_training_data, path_test_data, path_model_pkl, shapes, shapes_to_labels_dic, labels_to_shapes_dic, \
     nb_shapes, pixel_size = load_ml_parameters(path_model_parameters_json)
 
     # Initialize the model
@@ -36,11 +36,11 @@ def evaluate_ml_model(path_model_parameters_json):
     model.eval()
     # Make the data set from the training images
     test_dataset = MultipleBuildingsDataset(classes=shapes,
-                                             class_to_label=shapes_to_labels_dic,
-                                             root_dir=path_test_data,
-                                             transform=transforms.Compose([
-                                                 transforms.ToTensor(), transforms.Resize((pixel_size[0], pixel_size[1]))
-                                             ]))
+                                            class_to_label=shapes_to_labels_dic,
+                                            root_dir=path_test_data,
+                                            transform=transforms.Compose([
+                                                transforms.ToTensor(), transforms.Resize((pixel_size[0], pixel_size[1]))
+                                            ]))
     # Load the dataset according to the batch size and shuffle the images
     test_loader = DataLoader(dataset=test_dataset)
     # Initialize evaluation dictionary
@@ -56,24 +56,34 @@ def evaluate_ml_model(path_model_parameters_json):
 
         outputs = model(images)
 
-        _, predicted = torch.max(outputs.data, 1)
+
+        if float(torch.max(outputs.data))>min_percentage:
+            _, predicted = torch.max(outputs.data, 1)
+            predicted = int(predicted)
+            if predicted == int(labels[0]):
+                correct += 1
+                evaluation_dictionary[labels_to_shapes_dic[int(labels[0])]]["nb_identified"] = \
+                    evaluation_dictionary[labels_to_shapes_dic[int(labels[0])]]["nb_identified"] + 1
+        else:
+            evaluation_dictionary[labels_to_shapes_dic[int(labels[0])]]["not_identified"] = \
+                evaluation_dictionary[labels_to_shapes_dic[int(labels[0])]]["not_identified"] + 1
+
+
         total += labels.size(0)
+        evaluation_dictionary[labels_to_shapes_dic[int(labels[0])]]["nb_image"] = \
+        evaluation_dictionary[labels_to_shapes_dic[int(labels[0])]]["nb_image"] + 1
 
-        correct += (predicted.cpu() == labels).sum()
 
-        #
-        evaluation_dictionary[labels_to_shapes_dic[int(labels[0])]]["nb_image"] = evaluation_dictionary[labels_to_shapes_dic[int(labels[0])]]["nb_image"] + 1
-        evaluation_dictionary[labels_to_shapes_dic[int(labels[0])]]["nb_identified"] = evaluation_dictionary[labels_to_shapes_dic[int(labels[0])]]["nb_identified"] + int((predicted.cpu() == labels).sum())
 
     print("Test Accuracy: {} %".format(100 * correct / total))
 
     for shape in list(evaluation_dictionary.keys()):
-        evaluation_dictionary[shape]["accuracy"] = evaluation_dictionary[shape]["nb_identified"]/evaluation_dictionary[shape]["nb_image"] *100
+        evaluation_dictionary[shape]["accuracy"] = evaluation_dictionary[shape]["nb_identified"] / \
+                                                   evaluation_dictionary[shape]["nb_image"] * 100
     print(evaluation_dictionary)
 
-    with open(os.path.join(path_folder_model,"eval_result.json"), "w") as out_file:
+    with open(os.path.join(path_folder_model, "eval_result.json"), "w") as out_file:
         json.dump(evaluation_dictionary, out_file, indent=4)
-
 
 
 def make_evaluation_dictionary(shapes_to_labels_dic):
@@ -86,17 +96,15 @@ def make_evaluation_dictionary(shapes_to_labels_dic):
 
     evaluation_dictionary = {}
     for shape in list(shapes_to_labels_dic.keys()):
-        evaluation_dictionary[shape]={"nb_image": 0, "nb_identified":0, "accuracy":None}
-
+        evaluation_dictionary[shape] = {"nb_image": 0, "nb_identified": 0,"not_identified": 0, "accuracy": None}
 
     return evaluation_dictionary
 
 
-
-# Evaluation zob
+# Evaluation
 
 
 if __name__ == "__main__":
-    path_folder_model ="D:\Elie\PhD\Simulation\Input_Data\Typology\machine_learning_training\Tel_Aviv_MOE"
-    path_model_parameters_json = os.path.join(path_folder_model,"model_param.json")
-    evaluate_ml_model(path_model_parameters_json)
+    path_folder_model = "D:\Elie\PhD\Simulation\Input_Data\Typology\machine_learning_training\Tel_Aviv_MOE"
+    path_model_parameters_json = os.path.join(path_folder_model, "model_param.json")
+    evaluate_ml_model(path_model_parameters_json, min_percentage=0.90)

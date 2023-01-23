@@ -40,8 +40,8 @@ user = getuser()
 if user == elie:
     path_LBT_user_defined = path_LBT_elie
     path_folder = path_folder_elie
-    path_energyplus_exe = "C:\\EnergyPlusV22-1-0\\energyplus.exe"
-if user == elie_home:
+    path_energyplus_exe = "C:\\EnergyPlusV22-2-0\\energyplus.exe"
+elif user == elie_home:
     path_LBT_user_defined = path_LBT_elie_home
     path_folder = path_folder_elie_home
     path_energyplus_exe = "C:\\EnergyPlusV22-2-0\\energyplus.exe"

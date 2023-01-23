@@ -41,7 +41,7 @@ def load_ml_parameters(path_json):
     for index, shape in enumerate(shapes):
         shapes_to_labels_dic[shape] = index
     for index, shape in enumerate(shapes):
-        labels_to_shapes_dic[index] = shapes
+        labels_to_shapes_dic[index] = shape
     # Number of shapes
     nb_shapes = len(shapes)
     # Size in pixel

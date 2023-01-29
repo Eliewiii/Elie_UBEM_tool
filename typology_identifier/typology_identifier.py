@@ -11,7 +11,7 @@ from torchvision import transforms
 from torch.utils.data import DataLoader
 
 from typology_identifier.generate_models._load_ml_parameters import load_ml_parameters
-from typology_identifier.generate_models._make_ml_datasets_and_network import SingleBuildingDataset, Net
+from typology_identifier.generate_models._ml_datasets_and_network_classes import SingleBuildingDataset, Net
 
 
 # def identify_typology(footprint, year, ml_model):

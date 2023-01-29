@@ -13,7 +13,7 @@ from torchvision import transforms, utils
 import torch.nn as nn
 import torch.optim as optim
 
-from _make_ml_datasets_and_network import MultipleBuildingsDataset, Net
+from _ml_datasets_and_network_classes import MultipleBuildingsDataset, Net
 
 from _load_ml_parameters import load_ml_parameters
 
@@ -27,6 +27,8 @@ def evaluate_ml_model(path_model_parameters_json, min_percentage=None):
     # Load model parameter
     identifier, path_training_data, path_test_data, path_model_pkl, shapes, shapes_to_labels_dic, labels_to_shapes_dic, \
     nb_shapes, pixel_size = load_ml_parameters(path_model_parameters_json)
+
+    path_folder_model = os.path.dirname(os.path.realpath(path_model_parameters_json))
 
     # Initialize the model
     model = Net(nb_classes=nb_shapes)  # open the model before the loop of the buildings
@@ -50,14 +52,14 @@ def evaluate_ml_model(path_model_parameters_json, min_percentage=None):
     total = 0
     correct = 0
     # Start evaluation
+    print("Start evaluation")
     for data in test_loader:
         images = data['image']  # load image
         labels = data['label']  # load label of the image
 
         outputs = model(images)
 
-
-        if float(torch.max(outputs.data))>min_percentage:
+        if float(torch.max(outputs.data)) > min_percentage:
             _, predicted = torch.max(outputs.data, 1)
             predicted = int(predicted)
             if predicted == int(labels[0]):
@@ -68,18 +70,20 @@ def evaluate_ml_model(path_model_parameters_json, min_percentage=None):
             evaluation_dictionary[labels_to_shapes_dic[int(labels[0])]]["not_identified"] = \
                 evaluation_dictionary[labels_to_shapes_dic[int(labels[0])]]["not_identified"] + 1
 
-
         total += labels.size(0)
         evaluation_dictionary[labels_to_shapes_dic[int(labels[0])]]["nb_image"] = \
-        evaluation_dictionary[labels_to_shapes_dic[int(labels[0])]]["nb_image"] + 1
+            evaluation_dictionary[labels_to_shapes_dic[int(labels[0])]]["nb_image"] + 1
 
-
-
-    print("Test Accuracy: {} %".format(100 * correct / total))
+    print("Overall Accuracy: {} %".format(100 * correct / total))
 
     for shape in list(evaluation_dictionary.keys()):
-        evaluation_dictionary[shape]["accuracy"] = evaluation_dictionary[shape]["nb_identified"] / \
-                                                   evaluation_dictionary[shape]["nb_image"] * 100
+        evaluation_dictionary[shape]["true positive (accuracy) [%]"] = evaluation_dictionary[shape]["nb_identified"] / \
+                                                                       evaluation_dictionary[shape]["nb_image"] * 100
+        evaluation_dictionary[shape]["false positive [%]"] = 100 - (evaluation_dictionary[shape]["nb_identified"] +
+                                                              evaluation_dictionary[shape]["not_identified"]) / \
+                                                             evaluation_dictionary[shape]["nb_image"] * 100
+        evaluation_dictionary[shape]["false negative [%]"] = evaluation_dictionary[shape]["not_identified"] / \
+                                                             evaluation_dictionary[shape]["nb_image"] * 100
     print(evaluation_dictionary)
 
     with open(os.path.join(path_folder_model, "eval_result.json"), "w") as out_file:
@@ -96,7 +100,9 @@ def make_evaluation_dictionary(shapes_to_labels_dic):
 
     evaluation_dictionary = {}
     for shape in list(shapes_to_labels_dic.keys()):
-        evaluation_dictionary[shape] = {"nb_image": 0, "nb_identified": 0,"not_identified": 0, "accuracy": None}
+        evaluation_dictionary[shape] = {"nb_image": 0, "nb_identified": 0, "not_identified": 0,
+                                        "true positive (accuracy) [%]": None, "false positive [%]": None,
+                                        "false negative [%]": None}
 
     return evaluation_dictionary
 

@@ -11,12 +11,12 @@ from torchvision import transforms, utils
 import torch.nn as nn
 import torch.optim as optim
 
-from _make_ml_datasets_and_network import MultipleBuildingsDataset, Net
+from _ml_datasets_and_network_classes import MultipleBuildingsDataset, Net
 
 from _load_ml_parameters import load_ml_parameters
 
 
-def train_ml_model(path_folder_model,path_model_parameters_json, num_epochs=10, batch_size=1, learning_rate=0.0001):
+def train_ml_model(path_model_parameters_json, num_epochs=10, batch_size=1, learning_rate=0.0001, continue_training=False):
     """
     Train the machine learning algorithm
     :param path_model_parameters_json:
@@ -27,6 +27,8 @@ def train_ml_model(path_folder_model,path_model_parameters_json, num_epochs=10, 
     # Load model parameter
     identifier, path_training_data, path_test_data, path_model_pkl, shapes, shapes_to_labels_dic, labels_to_shapes_dic,  \
     nb_shapes, pixel_size = load_ml_parameters(path_model_parameters_json)
+
+    path_folder_model = os.path.dirname(os.path.realpath(path_model_parameters_json))
 
     # Make the data set from the training images
     train_dataset = MultipleBuildingsDataset(classes=shapes,
@@ -41,12 +43,16 @@ def train_ml_model(path_folder_model,path_model_parameters_json, num_epochs=10, 
 
     # Make the model
     model = Net(nb_classes=nb_shapes)
+    if continue_training :  # if true we load the existing model
+        if os.path.isfile(path_model_pkl):  # if the model exist of course
+            model.load_state_dict(torch.load(path_model_pkl)) # load the model, otherwise do nothing, keep the default values
+
     criterion = nn.CrossEntropyLoss() # training criteria
     optimizer = optim.Adam(model.parameters(), lr=learning_rate) # choose optimizer
 
     # start the training of the model
     model.train()
-    print("Training Starts")
+    print("Start training")
     for e in range(num_epochs): # loop over the epochs
         running_loss = 0  # initialize loss
         for data in train_loader:
@@ -64,7 +70,7 @@ def train_ml_model(path_folder_model,path_model_parameters_json, num_epochs=10, 
 
             running_loss += loss.item()  # sums the loss
         else:
-            print("Epoch {} - Training loss: {}".format(e, running_loss / len(train_loader)))
+            print("Epoch {}/{} - Training loss: {}".format(e+1,num_epochs, running_loss / len(train_loader)))
     print("Training Done")
 
     # save model
@@ -77,7 +83,7 @@ def train_ml_model(path_folder_model,path_model_parameters_json, num_epochs=10, 
 
 # Training
 if __name__ == "__main__":
-    path_folder_model ="D:\Elie\PhD\Simulation\Input_Data\Typology\machine_learning_training\Tel_Aviv_MOE"
+    path_folder_model ="D:\Elie\PhD\Simulation\Input_Data\Typology\machine_learning_training\Tel_Aviv_MOE_test"
     path_model_parameters_json = os.path.join(path_folder_model,"model_param.json")
-    train_ml_model(path_folder_model,path_model_parameters_json, num_epochs=20, batch_size=8, learning_rate=0.001)
+    train_ml_model(path_model_parameters_json, num_epochs=2, batch_size=8, learning_rate=0.001, continue_training=True)
 

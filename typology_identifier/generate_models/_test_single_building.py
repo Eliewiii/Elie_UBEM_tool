@@ -8,7 +8,7 @@ from torchvision import transforms, utils
 import torch.nn as nn
 import torch.optim as optim
 
-from _make_ml_datasets_and_network import SingleBuildingDataset, Net
+from _ml_datasets_and_network_classes import SingleBuildingDataset, Net
 
 from _load_ml_parameters import load_ml_parameters
 

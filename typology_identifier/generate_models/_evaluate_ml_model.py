@@ -13,9 +13,9 @@ from torchvision import transforms, utils
 import torch.nn as nn
 import torch.optim as optim
 
-from _ml_datasets_and_network_classes import MultipleBuildingsDataset, Net
+from typology_identifier.generate_models._ml_datasets_and_network_classes import MultipleBuildingsDataset, Net
 
-from _load_ml_parameters import load_ml_parameters
+from typology_identifier.generate_models._load_ml_parameters import load_ml_parameters
 
 
 def evaluate_ml_model(path_model_parameters_json, min_percentage=None):

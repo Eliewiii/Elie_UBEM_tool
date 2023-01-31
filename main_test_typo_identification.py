@@ -93,23 +93,32 @@ room_list_default = []
 for building_id in list(U_c.building_dict.keys()):
     building_obj= U_c.building_dict[building_id]
     print(building_obj.typology)
-    if building_obj.typology.identifier == "H":
-        room_list_H.append(building_obj.HB_room_envelop)
-    elif building_obj.typology.identifier == "Train":
-        room_list_train.append(building_obj.HB_room_envelop)
-    elif building_obj.typology.identifier == "Rectangle":
-        room_list_rectangle.append(building_obj.HB_room_envelop)
-    if building_obj.typology.identifier == "default":
-        room_list_default.append(building_obj.HB_room_envelop)
+    room = building_obj.HB_room_envelop
+    try:
+        room.to_dict()
+    except:
+        print(f"building {building_id}'s geometry not ok, it is removed from the simulation")
+    else:
+        if building_obj.typology.identifier == "H":
+            room_list_H.append(room)
+        elif building_obj.typology.identifier == "Train":
+            room_list_train.append(room)
+        elif building_obj.typology.identifier == "Rectangle":
+            room_list_rectangle.append(room)
+        if building_obj.typology.identifier == "default":
+            room_list_default.append(room)
 
 path_folder_identified_shapes = "D:\Elie\PhD\Simulation\Input_Data\Typology\\identified_typo_json"
 
 model_H = Model("h",rooms=room_list_H)
 model_train = Model("train",rooms=room_list_train)
-# model_rectangle = Model("rectangle",rooms=room_list_rectangle)
+model_rectangle = Model("rectangle",rooms=room_list_rectangle)
 model_default = Model("default",rooms=room_list_default)
 
 model_H.to_hbjson(name="H", folder=path_folder_identified_shapes)
 model_train.to_hbjson(name="train", folder=path_folder_identified_shapes)
-# model_rectangle.to_hbjson(name="rectangle", folder=path_folder_identified_shapes)
+model_rectangle.to_hbjson(name="rectangle", folder=path_folder_identified_shapes)
 model_default.to_hbjson(name="default", folder=path_folder_identified_shapes)
+
+
+

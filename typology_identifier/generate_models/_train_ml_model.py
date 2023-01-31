@@ -11,9 +11,9 @@ from torchvision import transforms, utils
 import torch.nn as nn
 import torch.optim as optim
 
-from _ml_datasets_and_network_classes import MultipleBuildingsDataset, Net
+from typology_identifier.generate_models._ml_datasets_and_network_classes import MultipleBuildingsDataset, Net
 
-from _load_ml_parameters import load_ml_parameters
+from typology_identifier.generate_models._load_ml_parameters import load_ml_parameters
 
 
 def train_ml_model(path_model_parameters_json, num_epochs=10, batch_size=1, learning_rate=0.0001, continue_training=False):

@@ -10,6 +10,7 @@ from honeybee_energy import run
 from honeybee_energy.config import folders
 from ladybug.futil import write_to_file
 from honeybee_energy.lib.constructionsets import construction_set_by_identifier
+from honeybee_energy.run import _run_idf_windows
 
 from typology.typology import Typology
 from tools._folder_manipulation import make_sub_folders
@@ -345,9 +346,13 @@ class Urban_canopy(_context_filtering.Mixin, _EP_simulation.Mixin, _extract_data
         ## Generate models ##
         for building_id in self.building_to_simulate:
             path_dir_building = os.path.join(path_folder_building_simulation, self.building_dict[building_id].name)
+
+            # Small adjustments to the room to prevent error from Openstudio/EnergyPlus
+            for room in self.building_dict[building_id].HB_model.rooms:
+                room.remove_colinear_vertices_envelope(tolerance=0.01, delete_degenerate=True)
+            model_dict = self.building_dict[building_id].HB_model.to_dict(triangulate_sub_faces=True)
+            self.building_dict[building_id].HB_model.properties.energy.add_autocal_properties_to_dict(model_dict)
             ## Convert HB model to hbjson file ##
-            # for room in self.building_dict[building_id].HB_model.rooms:
-                # room.remove_colinear_vertices_envelope(0.1)
             self.building_dict[building_id].HB_model.to_hbjson("in", os.path.join(path_dir_building, "HBjson_model"))
             # run.measure_compatible_model_json(path_dir_building + "//model_json//in.hbjson")
 
@@ -366,10 +371,13 @@ class Urban_canopy(_context_filtering.Mixin, _EP_simulation.Mixin, _extract_data
                                         sim_par_json_path=path_simulation_parameter,
                                         epw_file=path_file_epw)
             ## Run simulation in OpenStudio to generate IDF ##
-            (osm, idf) = run.run_osw(osw, measures_only=True, silent=False)
+            (osm, idf) = run.run_osw(osw, silent=False)
+            # (osm, idf) = run.run_osw(osw, silent=False)
+
             # zob = run.run_idf(idf, epw_file_path=path_file_epw,silent=False)
             zob = run_idf_windows_modified(idf_file_path=idf, epw_file_path=path_file_epw, expand_objects=True,
                                            silent=False, path_energyplus_exe=path_energyplus_exe)
+
 
     def create_simulation_folder_buildings(self, path_folder_building_simulation):
         """ Generate the output simulation folder and the sub-folder of each simulated building_zon """

@@ -19,7 +19,7 @@ from time import time
 
 
 
-def generate_data_base_from_sample(path_file_shp,index,output_building_type_path,nb_sample_noise,is_deg):
+def generate_data_base_from_sample(path_file_shp,index,output_building_type_path,nb_sample_noise,nb_angles,is_deg):
     """
 
 
@@ -39,9 +39,10 @@ def generate_data_base_from_sample(path_file_shp,index,output_building_type_path
     # increase the counter
     index += 1
     ## rotated original image
-    for angle in range(10,360,10) : # 1 shape per degree
+    step_angle = 360 / nb_angles
+    for it_angle in range(1,nb_angles) : # 1 shape per number angle
         # rotate the shape
-        rotated_shape = rotate_shape(shape,angle)
+        rotated_shape = rotate_shape(shape,step_angle*it_angle)
         # generate the image
         image_output_path = os.path.join(output_building_type_path, "sample_{}.png".format(index))
         Polygon_to_png_BnW(rotated_shape,image_output_path)
@@ -65,7 +66,7 @@ def generate_data_base_from_sample(path_file_shp,index,output_building_type_path
 
 
 
-def generate_data_base_from_sample_parallel(path_file_shp,index,output_building_type_path,nb_sample_noise,is_deg):
+def generate_data_base_from_sample_parallel(path_file_shp,index,output_building_type_path,nb_sample_noise = 10,nb_angles = 10,is_deg=False):
     """
 
 
@@ -83,7 +84,6 @@ def generate_data_base_from_sample_parallel(path_file_shp,index,output_building_
     # increase the counter
     index += 1
     ## rotated original image
-    nb_angles = 36
     step_angle =360/nb_angles
     dt = time()
     pool = Pool(10)

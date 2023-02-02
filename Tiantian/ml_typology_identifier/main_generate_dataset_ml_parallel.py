@@ -8,9 +8,8 @@ import logging
 from time import time
 from multiprocessing import Pool
 
-# Inputs
-# path_folder_model = "D:\Elie\PhD\Simulation\Input_Data\Typology\machine_learning_training\model_sample"
-path_folder_model = "D:\Elie\PhD\Simulation\Input_Data\Typology\machine_learning_training\Tel_Aviv_MOE_test" # another model potentially
+# Inputs, path to model
+path_folder_model = "D:\Elie\PhD\Simulation\Input_Data\Typology\machine_learning_training\Tel_Aviv_MOE_test" # TO MODIFY
 
 is_deg = False  # tell if the GIS are in degree or in meters, if degree it needs to be converted in meter.
 

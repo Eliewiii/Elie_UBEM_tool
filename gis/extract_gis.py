@@ -7,7 +7,9 @@ def extract_gis(path_gis):
     return shape_file
 
 if __name__=="__main__":
-    path_gis = "C:\\Users\elie-medioni\OneDrive\OneDrive - Technion\Ministry of Energy Research\Ron and Elie\Double_Train\Double_Train_01"
+    path_gis = "D:\Elie\PhD\Simulation\Input_Data\GIS\gis_typo_id_extra_small"
 
     shapefile = extract_gis(path_gis)
     print(shapefile["geometry"])
+    for nb,id in enumerate(shapefile["oidmivne"]):
+        print(nb,id)

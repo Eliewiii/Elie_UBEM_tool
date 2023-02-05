@@ -38,4 +38,4 @@ def hb_model_window_by_facade_ratio_per_direction(hb_model, ratio_per_direction,
         if room.properties.energy.is_conditioned or only_conditioned==False:
             for face in room.faces:
             # get the length of the surface => projection of the face on the XY plane
-            pt_a , pt_b = room.min, room.max # extreme points of the
+                pt_a , pt_b = room.min, room.max # extreme points of the

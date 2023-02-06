@@ -1,40 +1,57 @@
 """
 Building class, representing one building in an urban canopy.
 """
+
+import logging
+
 import shapely
 
+
 from math import sqrt
+from ladybug_geometry.geometry3d import Point3D, Face3D
+
 
 class Building:
     """Building class, representing one building in an urban canopy."""
 
-    def __init__(self, urban_canopy, id, footprint, holes_footprint=None, name=None, group=None, age=None, typo=None,
-                 height=None, num_floor=None, building_id_shp=None, elevation=0., dimension=2):
+    def __init__(self, identifier, lb_footprint, urban_canopy=None, building_id_shp=None):
         """Initialize a building obj"""
-        ## add building_zon to urban canopy dictionary
-        urban_canopy.add_building(id, self)
+        # urban canopy and key to access to the object from building_dict
         self.urban_canopy = urban_canopy
-        # # # # # # # properties # # # # # # #
-        self.id = id
-        self.footprint = footprint  # will be oriented down as the ground floor "look" down
-        self.holes = holes_footprint
-        self.name = name
-        self.group = group
-        self.age = age
-        self.typology = typo
-        self.num_floor = None
-        self.height = None
-        # todo : add the elevation, especially to the buuilding envelop
-        self.elevation = elevation
-        self.shp_id = building_id_shp  # id in the shp file, can be useful to see which is the building_zon if a problem is spotted
-        self.floor_height = None
+        self.id = identifier  # id of the building in the urban canopy building_dict
+        # GIS specific
+        self.shp_id = building_id_shp  # id in the shp file
+        # Properties
+        self.name = None  # name of the building (if available in the GIS)
+        self.group = None  # group/neighbourhood of the building (if available in the GIS)
+        self.age = None  # year the building was built
+        self.typology = None  # typology of the building
+        self.height = None  # height of the building in meter
+        self.num_floor = None  # number of floor of the building
+        self.elevation = None  # elevation of the building in meter
+        self.floor_height = None  # height of the floors in meter
+        # Geometry
+        self.lb_footprint = lb_footprint  # footprint of the building, including the holes in the LB geometry face format
+        self.hb_room_envelope = None  # Envelop, extruded of the lb_footprint, in HB room format
 
     @classmethod
-    def from_shp_file(cls, shp_file, building_id_shp, building_id_key_gis, unit):
+    def from_lb_footprint(cls, lb_footprint, identifier, urban_canopy=None, building_id_shp=None):
+        """Generate a Building from a Ladybug footprint."""
+        return cls(identifier, lb_footprint, urban_canopy, building_id_shp)
+
+    @classmethod
+    def from_polygon(cls, polygon, identifier, urban_canopy=None, building_id_shp=None):
+        """Generate a Building from a shapely polygon."""
+        lb_footprint = polygon_to_lb_footprint(polygon)
+        return cls(identifier, lb_footprint, urban_canopy, building_id_shp)
+
+    @classmethod
+    def from_shp_file(cls, urban_canopy, shp_file, building_id_shp, building_id_key_gis, unit):
         """
             Generate a building from a shp file.
             Can Eventually return multiple buildings if the footprint is a multipolygon.
 
+            :param urban_canopy:
             :param shp_file: shp file
             :param building_id_shp: id of the building in the shp file
             :param building_id_key_gis: key of the building id in the shp file
@@ -51,36 +68,38 @@ class Building:
         # check if the building is a polygon or multiple a multipolygon
         if isinstance(footprint, shapely.geometry.polygon.Polygon):
             try:
-                lb_footprint = polygon_to_lb_footprint(footprint, unit)
+                polygon_to_lb_footprint(footprint, unit)
 
-            except
-                lb_footprint = polygon_to_lb_footprint(footprint, unit)
+            except:
+                logging.warning(f"The footprint of the building id {building_id} in the GIS file could not be converted"
+                                f" to a Ladybug footprint. The building will be ignored.")
+            else:
+                building_obj = cls.from_polygon(polygon=footprint, identifier=building_id, urban_canopy=urban_canopy,
+                                                building_id_shp=building_id_shp)
+                building_id_list.append(building_id)
+                building_obj_list.append(building_obj)
 
-            else :
-                self.polygon_to_building(footprint, shape_file, building_number_shp, unit)
-        elif isinstance(footprint,
-                        shapely.geometry.multipolygon.MultiPolygon):  # if the building_zon is made of multiple footprints
-            self.multipolygon_to_building(footprint, shape_file, building_number_shp, unit)
+
+        # if the building_zon is made of multiple footprints
+        elif isinstance(footprint, shapely.geometry.multipolygon.MultiPolygon):
+            for i, polygon in enumerate(footprint.geoms):
+                sub_building_id = f"{building_id}_{i}"
+                try:
+                    polygon_to_lb_footprint(polygon, unit)
+                except:
+                    logging.warning(
+                        f"The footprint of the building id {sub_building_id} in the GIS file could not be converted"
+                        f" to a Ladybug footprint. The building will be ignored.")
+                else:
+                    building_obj = cls.from_polygon(polygon=footprint, identifier=sub_building_id, urban_canopy=urban_canopy,
+                                                    building_id_shp=building_id_shp)
+                    building_id_list.append(sub_building_id)
+                    building_obj_list.append(building_obj)
 
         return building_id_list, building_obj_list
 
 
-
-def polygon_to_lb_footprint(polygon, unit):
-    """
-    Convert a shapely polygon to a ladybug footprint.
-    :param polygon: shapely polygon
-    :param unit: unit of the shp file
-    :return: ladybug footprint
-    """
-    # get the coordinates of the polygon
-    coordinates = list(polygon.exterior.coords)
-    # convert the coordinates to ladybug footprint
-    lb_footprint = lb_polygon(coordinates, unit)
-    return lb_footprint
-
-
-def polygon_to_lb_footprint(polygon_obj, unit):
+def polygon_to_lb_footprint(polygon_obj, unit , tolerance=0.01):
     """
         Transform a Polygon object to a Ladybug footprint.
         Args:
@@ -97,22 +116,24 @@ def polygon_to_lb_footprint(polygon_obj, unit):
     # Scale the point list according to the unit of the shp file
     scale_point_list_according_to_unit(point_list_outline, unit)
     # Remove redundant vertices (maybe not necessary, already included in Ladybug)
-    # remove_redundant_vertices(point_list_outline)
+    # remove_redundant_vertices(point_list_outline, tol=tolerance)
 
+    # Convert the list of points to a list of Ladybug Point3D
+    point_3d_list_outline = [Point3D(point[0], point[1], 0) for point in point_list_outline]
+
+    # Convert the exterior of the polygon to a list of points
     # Check if the polygon has holes
     try:
-        polygon_obj.interiors
+        polygon_obj.interiors  # Check if the polygon has holes
     except:
         interior_holes_pt_list = None
     else:
         interior_holes_pt_list = []
         for hole in polygon_obj.interiors:
             if hole.__geo_interface__['coordinates'] != None:
-                list_point_hole =[]
                 if len(hole) == 1:
                     hole = hole[0]
-                for point in hole:
-                    list_point_hole.append(list(point))
+                list_point_hole = [list(point) for point in hole]
                 list_point_hole.reverse()
 
                 interior_holes_pt_list.append(list_point_hole)
@@ -120,8 +141,18 @@ def polygon_to_lb_footprint(polygon_obj, unit):
             interior_holes_pt_list = []
         for holes in interior_holes_pt_list:
             scale_point_list_according_to_unit(holes, unit)
-            # remove_redundant_vertices(holes)  #(maybe not necessary, already included in Ladybug)
-    return ([exterior_footprint, interior_holes])
+            # remove_redundant_vertices(holes,tol = tolerance)  #(maybe not necessary, already included in Ladybug)
+
+        interior_holes_pt_3d_list=[]
+        for hole in interior_holes_pt_list:
+            interior_holes_pt_3d_list.append([Point3D(point[0], point[1], 0) for point in hole])
+
+    # Convert the list of points to a Ladybug footprint
+    lb_footprint = Face3D (boundary=point_3d_list_outline, holes=interior_holes_pt_3d_list,enforce_right_hand=True)
+    # Remove collinear vertices
+    lb_footprint = lb_footprint.remove_colinear_vertices(tolerance=tolerance)
+
+    return lb_footprint
 
 
 def scale_point_list_according_to_unit(point_list, unit):
@@ -140,6 +171,7 @@ def scale_point_list_according_to_unit(point_list, unit):
     else:
         None
 
+
 def remove_redundant_vertices(point_list, tol=0.5):
     """
     Check if the points of the footprint are too close to each other. If yes, delete one of the points.
@@ -155,12 +187,12 @@ def remove_redundant_vertices(point_list, tol=0.5):
             point_list.pop(i + 1)
         else:
             i += 1
-        if i >= len(point_list) - 1:  # if we reach the end of the footprint, considering some points were removed, the loop ends
+        if i >= len(
+                point_list) - 1:  # if we reach the end of the footprint, considering some points were removed, the loop ends
             break
     if distance(point_list[0],
                 point_list[-1]) < tol:  # check also with the first and last points in the footprint
         point_list.pop(-1)
-
 
 
 def distance(pt_1, pt_2):

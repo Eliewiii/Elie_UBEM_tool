@@ -43,7 +43,7 @@ class UrbanCanopy:
 
 
 
-    def add_2d_gis(self, path_gis, building_id_key_gis= "idbinyan", unit = "m", gis_attribute_key_dict = None):
+    def add_2d_gis(self, path_gis, building_id_key_gis= "idbinyan", unit = "m", additional_gis_attribute_key_dict = None):
         """ exctract the data from a shp file and create the associated buildings objects"""
         # Read GIS file
         shape_file = extract_gis(path_gis)
@@ -58,7 +58,7 @@ class UrbanCanopy:
 
         # Collect the attributes to the buildings from the shp file
         for building in self.building_dict.values():
-            building.collect_attributes_from_shp_file(shape_file, gis_attribute_key_dict)
+            building.collect_attributes_from_shp_file(shape_file, additional_gis_attribute_key_dict)
 
 
 

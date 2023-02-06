@@ -11,6 +11,17 @@ from math import sqrt
 from ladybug_geometry.geometry3d import Point3D, Face3D
 
 
+default_gis_attribute_key_dict ={
+  "name" : ["name", "full_name_"],
+  "age" : ["age", "date"],
+  "typology" : ["typo", "typology", "type", "Typology"],
+  "elevation" : ["minheight"],
+  "height" : ["height", "Height", "govasimple"],
+  "number of floor" : ["number_floor", "nb_floor", "mskomot"],
+  "group" : ["group"]
+}
+
+
 class Building:
     """Building class, representing one building in an urban canopy."""
 
@@ -97,6 +108,79 @@ class Building:
                     building_obj_list.append(building_obj)
 
         return building_id_list, building_obj_list
+
+    def affect_properties_shp(self, shp_file, building_id_shp, additional_gis_attribute_key_dict=None):
+        """
+        Affect the properties of the building from a shp file.
+        :param shp_file: shp file
+        :param building_id_shp: id of the building in the shp file
+        :param additional_gis_attribute_key_dict: dictionary of additional keys to look for in the shp file
+        """
+        gis_attribute_key_dict = add_additional_attribute_keys_to_dict(default_gis_attribute_key_dict, additional_gis_attribute_key_dict)
+        ## age ##
+        for attribute_key in gis_attribute_key_dict["age"]:  # loop on all the possible name
+            try:  # check if the property name exist
+                int(shp_file[attribute_key][building_id_shp])
+            except:  # if it doesn't, don't do anything
+                None
+            else:  # if it does, assign the information to the building_zon then break = get out of the loop
+                self.age = int(shp_file[attribute_key][building_id_shp])
+                break
+        ## name ##
+        for attribute_key in gis_attribute_key_dict["name"]:
+            try:
+                str(shp_file[attribute_key][building_id_shp])
+            except:
+                None
+            else:
+                self.name = str(shp_file[attribute_key][building_id_shp])
+                break
+        ## group ##
+        for attribute_key in gis_attribute_key_dict["group"]:
+            try:
+                str(shp_file[attribute_key][building_id_shp])
+            except:
+                None
+            else:
+                self.group = str(shp_file[attribute_key][building_id_shp])
+                break
+        ## height ##
+        for attribute_key in gis_attribute_key_dict["height"]:
+            try:
+                float(shp_file[attribute_key][building_id_shp])
+            except:
+                None
+            else:
+                self.height = float(shp_file[attribute_key][building_id_shp])
+                break
+        ## elevation ##
+        for attribute_key in gis_attribute_key_dict["elevation"]:
+            try:
+                float(shp_file[attribute_key][building_id_shp])
+            except:
+                None
+            else:
+                self.elevation = float(shp_file[attribute_key][building_id_shp])
+                break
+        ## number of floor ##
+        for attribute_key in gis_attribute_key_dict["number_floor"]:
+            try:
+                int(shp_file[attribute_key][building_id_shp])
+            except:
+                None
+            else:
+                self.num_floor = int(shp_file[attribute_key][building_id_shp])
+                break
+
+        ## typology ##
+        for attribute_key in gis_attribute_key_dict["typology"]:
+            try:
+                str(shp_file[attribute_key][building_id_shp])
+            except:
+                None
+            else:
+                self.typology = str(shp_file[attribute_key][building_id_shp])
+                break
 
 
 def polygon_to_lb_footprint(polygon_obj, unit , tolerance=0.01):
@@ -203,3 +287,45 @@ def distance(pt_1, pt_2):
     """
 
     return sqrt((pt_1[0] - pt_2[0]) ** 2 + (pt_1[1] - pt_2[1]) ** 2)
+
+
+def add_additional_attribute_keys_to_dict(attribute_key_dict,additional_attribute_key_dict):
+    """
+    Add additional attribute keys to the attribute key dictionary.
+    :param attribute_key_dict: dictionary of attribute keys
+    :param additional_attribute_key_dict: dictionary of additional attribute keys
+    :return: dictionary of attribute keys
+    """
+    if additional_attribute_key_dict== {}:
+        return attribute_key_dict
+    else:
+        concatenated_attribute_key_dict = {} # initialize the concatenated attribute key dictionary
+        for key in additional_attribute_key_dict.keys():
+            # sum the list = concatenating the attribute keys
+            concatenated_attribute_key_dict[key] = attribute_key_dict[key] + additional_attribute_key_dict[key]
+        return concatenated_attribute_key_dict
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

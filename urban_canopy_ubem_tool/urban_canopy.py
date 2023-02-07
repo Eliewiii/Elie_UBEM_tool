@@ -5,6 +5,8 @@ Urban canopy class, containing and managing collections of buildings in urban ar
 import os
 import logging
 
+from honeybee.model import Model
+
 from building_ubem_tool.building import Building
 from gis.extract_gis import extract_gis
 
@@ -61,16 +63,12 @@ class UrbanCanopy:
             building.collect_attributes_from_shp_file(shape_file, additional_gis_attribute_key_dict)
 
 
+    def make_building_envelop_hb_model(self):
+        """ Make the hb model for the building envelop """
+        # List of the hb rooms representing the building envelops
+        hb_room_envelop_list =[building.to_elevated_hb_room_envelop() for building in self.building_dict.values()]
+        # Make the hb model
+        return Model(identifier="urban_canopy_building_envelops",rooms=hb_room_envelop_list)
 
-
-            footprint = shape_file['geometry'][building_number_shp]
-            if isinstance(footprint,
-                          shapely.geometry.polygon.Polygon):  # if the building_zon is made of 1 footprint (isinstance check if the type is correct)
-                self.polygon_to_building(footprint, shape_file, building_number_shp, unit)
-            elif isinstance(footprint,
-                            shapely.geometry.multipolygon.MultiPolygon):  # if the building_zon is made of multiple footprints
-                self.multipolygon_to_building(footprint, shape_file, building_number_shp, unit)
-            else:
-                print(("geometry {} in shp file is not a POLYGON").format(building_number_shp))
 
 

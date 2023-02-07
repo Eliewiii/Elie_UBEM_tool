@@ -110,78 +110,78 @@ class Building:
 
         return building_id_list, building_obj_list
 
-    def affect_properties_shp(self, shp_file, building_id_shp, additional_gis_attribute_key_dict=None):
+    def collect_attributes_from_shp_file(self, shp_file, additional_gis_attribute_key_dict=None):
         """
         Affect the properties of the building from a shp file.
         :param shp_file: shp file
-        :param building_id_shp: id of the building in the shp file
         :param additional_gis_attribute_key_dict: dictionary of additional keys to look for in the shp file
         """
         gis_attribute_key_dict = add_additional_attribute_keys_to_dict(default_gis_attribute_key_dict,
                                                                        additional_gis_attribute_key_dict)
+
         ## age ##
         for attribute_key in gis_attribute_key_dict["age"]:  # loop on all the possible name
             try:  # check if the property name exist
-                int(shp_file[attribute_key][building_id_shp])
+                int(shp_file[attribute_key][self.shp_id])
             except:  # if it doesn't, don't do anything
                 None
             else:  # if it does, assign the information to the building_zon then break = get out of the loop
-                self.age = int(shp_file[attribute_key][building_id_shp])
+                self.age = int(shp_file[attribute_key][self.shp_id])
                 break
         ## name ##
         for attribute_key in gis_attribute_key_dict["name"]:
             try:
-                str(shp_file[attribute_key][building_id_shp])
+                str(shp_file[attribute_key][self.shp_id])
             except:
                 None
             else:
-                self.name = str(shp_file[attribute_key][building_id_shp])
+                self.name = str(shp_file[attribute_key][self.shp_id])
                 break
         ## group ##
         for attribute_key in gis_attribute_key_dict["group"]:
             try:
-                str(shp_file[attribute_key][building_id_shp])
+                str(shp_file[attribute_key][self.shp_id])
             except:
                 None
             else:
-                self.group = str(shp_file[attribute_key][building_id_shp])
+                self.group = str(shp_file[attribute_key][self.shp_id])
                 break
         ## height ##
         for attribute_key in gis_attribute_key_dict["height"]:
             try:
-                float(shp_file[attribute_key][building_id_shp])
+                float(shp_file[attribute_key][self.shp_id])
             except:
                 None
             else:
-                self.height = float(shp_file[attribute_key][building_id_shp])
+                self.height = float(shp_file[attribute_key][self.shp_id])
                 break
         ## elevation ##
         for attribute_key in gis_attribute_key_dict["elevation"]:
             try:
-                float(shp_file[attribute_key][building_id_shp])
+                float(shp_file[attribute_key][self.shp_id])
             except:
                 None
             else:
-                self.elevation = float(shp_file[attribute_key][building_id_shp])
+                self.elevation = float(shp_file[attribute_key][self.shp_id])
                 break
         ## number of floor ##
         for attribute_key in gis_attribute_key_dict["number_floor"]:
             try:
-                int(shp_file[attribute_key][building_id_shp])
+                int(shp_file[attribute_key][self.shp_id])
             except:
                 None
             else:
-                self.num_floor = int(shp_file[attribute_key][building_id_shp])
+                self.num_floor = int(shp_file[attribute_key][self.shp_id])
                 break
 
         ## typology ##
         for attribute_key in gis_attribute_key_dict["typology"]:
             try:
-                str(shp_file[attribute_key][building_id_shp])
+                str(shp_file[attribute_key][self.shp_id])
             except:
                 None
             else:
-                self.typology = str(shp_file[attribute_key][building_id_shp])
+                self.typology = str(shp_file[attribute_key][self.shp_id])
                 break
 
         # check the property of the building, correct and assign default value if needed
@@ -230,7 +230,6 @@ class Building:
                                                                         building_id=self.identifier,
                                                                         height=self.height,
                                                                         elevation=self.elevation)
-
         return hb_room_envelop
 
 

@@ -6,19 +6,19 @@ import logging
 
 import shapely
 
-
 from math import sqrt
 from ladybug_geometry.geometry3d import Point3D, Face3D
 
+from ladybugtools_addons.hb_rooms_addons import lb_face_footprint_to_elevated_hb_room_envelop
 
-default_gis_attribute_key_dict ={
-  "name" : ["name", "full_name_"],
-  "age" : ["age", "date"],
-  "typology" : ["typo", "typology", "type", "Typology"],
-  "elevation" : ["minheight"],
-  "height" : ["height", "Height", "govasimple"],
-  "number of floor" : ["number_floor", "nb_floor", "mskomot"],
-  "group" : ["group"]
+default_gis_attribute_key_dict = {
+    "name": ["name", "full_name_"],
+    "age": ["age", "date"],
+    "typology": ["typo", "typology", "type", "Typology"],
+    "elevation": ["minheight"],
+    "height": ["height", "Height", "govasimple"],
+    "number of floor": ["number_floor", "nb_floor", "mskomot"],
+    "group": ["group"]
 }
 
 
@@ -102,7 +102,8 @@ class Building:
                         f"The footprint of the building id {sub_building_id} in the GIS file could not be converted"
                         f" to a Ladybug footprint. The building will be ignored.")
                 else:
-                    building_obj = cls.from_polygon(polygon=footprint, identifier=sub_building_id, urban_canopy=urban_canopy,
+                    building_obj = cls.from_polygon(polygon=footprint, identifier=sub_building_id,
+                                                    urban_canopy=urban_canopy,
                                                     building_id_shp=building_id_shp)
                     building_id_list.append(sub_building_id)
                     building_obj_list.append(building_obj)
@@ -116,7 +117,8 @@ class Building:
         :param building_id_shp: id of the building in the shp file
         :param additional_gis_attribute_key_dict: dictionary of additional keys to look for in the shp file
         """
-        gis_attribute_key_dict = add_additional_attribute_keys_to_dict(default_gis_attribute_key_dict, additional_gis_attribute_key_dict)
+        gis_attribute_key_dict = add_additional_attribute_keys_to_dict(default_gis_attribute_key_dict,
+                                                                       additional_gis_attribute_key_dict)
         ## age ##
         for attribute_key in gis_attribute_key_dict["age"]:  # loop on all the possible name
             try:  # check if the property name exist
@@ -182,8 +184,57 @@ class Building:
                 self.typology = str(shp_file[attribute_key][building_id_shp])
                 break
 
+        # check the property of the building, correct and assign default value if needed
+        self.check_and_correct_property()
 
-def polygon_to_lb_footprint(polygon_obj, unit , tolerance=0.01):
+    def check_and_correct_property(self):
+        """ check if there is enough information about the building"""
+        # no valid height and no valid number of floor
+        if ((type(self.height) != int or type(self.height) != float) or (
+                self.height < 3)) and (type(self.num_floor) != int or self.num_floor < 1):
+            self.height = 9.
+            self.num_floor = 3
+            self.floor_height = 3.
+        # no valid height but valid number of floor
+        elif ((type(self.height) != int or type(self.height) != float) or (
+                self.height < 3)) and type(self.num_floor) == int and self.num_floor > 0:  # assume 3m floor height
+            self.height = 3. * self.num_floor
+            self.floor_height = 3.
+        # no number of floor but valid height
+        elif (type(self.num_floor) != int or self.num_floor < 1) and (
+                type(self.height) == int or type(self.height) == float) and self.height >= 3:
+            # assume approximately 3m floor height
+            self.num_floor = self.height // 3.
+            self.floor_height = self.height / float(self.num_floor)
+        # both height and number of floor
+        elif (type(self.height) == int or type(self.height) == float) and (type(
+                self.num_floor) == int and self.num_floor > 0):  # both height and number of floor
+            if 5. <= self.height / float(self.num_floor) <= 2.5:  # then ok
+                self.floor_height = self.height / float(self.num_floor)
+            else:  # prioritize the height
+                self.num_floor = self.height // 3.
+                self.floor_height = self.height / float(self.num_floor)
+        else:  # not the proper format
+            self.height = 9.
+            self.num_floor = 3
+            self.floor_height = 3.
+
+    def to_elevated_hb_room_envelop(self):
+        """
+        Convert the building to HB Room object showing the envelop of the building for plotting purposes
+        or for context filtering
+        :return: HB Room envelop
+        """
+        # convert the envelop of the building to a HB Room
+        hb_room_envelop = lb_face_footprint_to_elevated_hb_room_envelop(lb_face_footprint=self.lb_footprint,
+                                                                        building_id=self.identifier,
+                                                                        height=self.height,
+                                                                        elevation=self.elevation)
+
+        return hb_room_envelop
+
+
+def polygon_to_lb_footprint(polygon_obj, unit, tolerance=0.01):
     """
         Transform a Polygon object to a Ladybug footprint.
         Args:
@@ -227,12 +278,12 @@ def polygon_to_lb_footprint(polygon_obj, unit , tolerance=0.01):
             scale_point_list_according_to_unit(holes, unit)
             # remove_redundant_vertices(holes,tol = tolerance)  #(maybe not necessary, already included in Ladybug)
 
-        interior_holes_pt_3d_list=[]
+        interior_holes_pt_3d_list = []
         for hole in interior_holes_pt_list:
             interior_holes_pt_3d_list.append([Point3D(point[0], point[1], 0) for point in hole])
 
     # Convert the list of points to a Ladybug footprint
-    lb_footprint = Face3D (boundary=point_3d_list_outline, holes=interior_holes_pt_3d_list,enforce_right_hand=True)
+    lb_footprint = Face3D(boundary=point_3d_list_outline, holes=interior_holes_pt_3d_list, enforce_right_hand=True)
     # Remove collinear vertices
     lb_footprint = lb_footprint.remove_colinear_vertices(tolerance=tolerance)
 
@@ -289,43 +340,19 @@ def distance(pt_1, pt_2):
     return sqrt((pt_1[0] - pt_2[0]) ** 2 + (pt_1[1] - pt_2[1]) ** 2)
 
 
-def add_additional_attribute_keys_to_dict(attribute_key_dict,additional_attribute_key_dict):
+def add_additional_attribute_keys_to_dict(attribute_key_dict, additional_attribute_key_dict):
     """
     Add additional attribute keys to the attribute key dictionary.
     :param attribute_key_dict: dictionary of attribute keys
     :param additional_attribute_key_dict: dictionary of additional attribute keys
     :return: dictionary of attribute keys
     """
-    if additional_attribute_key_dict== {}:
+    if additional_attribute_key_dict is None:
+        # if there is no additional attribute key dictionary, return the default attribute key dictionary
         return attribute_key_dict
     else:
-        concatenated_attribute_key_dict = {} # initialize the concatenated attribute key dictionary
+        concatenated_attribute_key_dict = {}  # initialize the concatenated attribute key dictionary
         for key in additional_attribute_key_dict.keys():
             # sum the list = concatenating the attribute keys
             concatenated_attribute_key_dict[key] = attribute_key_dict[key] + additional_attribute_key_dict[key]
         return concatenated_attribute_key_dict
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

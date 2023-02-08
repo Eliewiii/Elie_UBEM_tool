@@ -72,11 +72,15 @@ class Building:
         # Initialize the outputs
         building_id_list, building_obj_list = [], []
         # get the building id
-        building_id = shp_file[building_id_key_gis][building_id_shp]
+        if building_id_key_gis is None:
+            # if the building identifier is not specified in the shp file, use the index of the building in the shp file
+            building_id = building_id_shp
+        else:
+            building_id = shp_file[building_id_key_gis][building_id_shp]
         # get the footprint of the building
         footprint = shp_file['geometry'][building_id_shp]
 
-        # check if the building is a polygon or multiple a multipolygon
+        # if the building footprint is a multipolygon
         if isinstance(footprint, shapely.geometry.polygon.Polygon):
             try:
                 polygon_to_lb_footprint(footprint, unit)
@@ -91,7 +95,7 @@ class Building:
                 building_obj_list.append(building_obj)
 
 
-        # if the building_zon is made of multiple footprints
+        # if the building footprint is a multipolygon
         elif isinstance(footprint, shapely.geometry.multipolygon.MultiPolygon):
             for i, polygon in enumerate(footprint.geoms):
                 sub_building_id = f"{building_id}_{i}"

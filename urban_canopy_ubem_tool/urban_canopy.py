@@ -50,7 +50,7 @@ class UrbanCanopy:
                 self.building_dict[building_id] = building_obj
 
     def add_2d_gis(self, path_gis, building_id_key_gis="idbinyan", unit="m", additional_gis_attribute_key_dict=None):
-        """ exctract the data from a shp file and create the associated buildings objects"""
+        """ Extract the data from a shp file and create the associated buildings objects"""
         # Read GIS file
         shape_file = extract_gis(path_gis)
         # Check if the building_id_key_gis is an attribute in the shape file
@@ -67,8 +67,8 @@ class UrbanCanopy:
         number_of_buildings_in_shp_file = len(shape_file['geometry'])  # number of buildings in the shp file
         for building_id_shp in range(0, number_of_buildings_in_shp_file):
             # create the building object
-            building_id_list, building_obj_list = Building.from_shp_file(shape_file, building_id_shp, unit,
-                                                                         building_id_key_gis)
+            building_id_list, building_obj_list = Building.from_shp_file(self, shape_file, building_id_shp,
+                                                                         building_id_key_gis,unit)
             # add the building to the urban canopy if it is valid
             if building_obj_list is not None:
                 self.add_list_of_buildings(building_id_list, building_obj_list)
@@ -82,12 +82,13 @@ class UrbanCanopy:
         # List of the hb rooms representing the building envelops
         hb_room_envelop_list = [building.to_elevated_hb_room_envelop() for building in self.building_dict.values()]
         # Make the hb model
-        hb_model = Model(identifier="urban_canopy_building_envelops", rooms=hb_room_envelop_list)
+        hb_model = Model(identifier="urban_canopy_building_envelops", rooms=hb_room_envelop_list,tolerance=0.01)
+        hb_dict =hb_model.to_dict()
         if path_folder is not None:
             hb_model.to_hbjson(name="buildings_envelops", folder=path_folder)
-        return hb_model
+        return hb_dict,hb_model
 
     def to_pkl(self, path_folder):
         """ Save the urban canopy to a pickle file """
-        with open(os.path.join(path_folder, "urban_canopy.pkl", 'wb')) as f:
+        with open(os.path.join(path_folder, "urban_canopy.pkl"), 'wb') as f:
             pickle.dump(self, f)

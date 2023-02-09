@@ -12,6 +12,7 @@ from ladybug_geometry.geometry3d import Point3D, Face3D
 from ladybugtools_addons.hb_rooms_addons import lb_face_footprint_to_elevated_hb_room_envelop
 
 default_gis_attribute_key_dict = {
+    "building_id_key_gis" : [],
     "name": ["name", "full_name_"],
     "age": ["age", "date"],
     "typology": ["typo", "typology", "type", "Typology"],
@@ -51,9 +52,9 @@ class Building:
         return cls(identifier, lb_footprint, urban_canopy, building_id_shp)
 
     @classmethod
-    def from_polygon(cls, polygon, identifier, urban_canopy=None, building_id_shp=None):
+    def from_polygon(cls, polygon, identifier, unit, urban_canopy=None, building_id_shp=None):
         """Generate a Building from a shapely polygon."""
-        lb_footprint = polygon_to_lb_footprint(polygon)
+        lb_footprint = polygon_to_lb_footprint(polygon, unit)
         return cls(identifier, lb_footprint, urban_canopy, building_id_shp)
 
     @classmethod
@@ -89,7 +90,7 @@ class Building:
                 logging.warning(f"The footprint of the building id {building_id} in the GIS file could not be converted"
                                 f" to a Ladybug footprint. The building will be ignored.")
             else:
-                building_obj = cls.from_polygon(polygon=footprint, identifier=building_id, urban_canopy=urban_canopy,
+                building_obj = cls.from_polygon(polygon=footprint, identifier=building_id, unit=unit, urban_canopy=urban_canopy,
                                                 building_id_shp=building_id_shp)
                 building_id_list.append(building_id)
                 building_obj_list.append(building_obj)
@@ -169,7 +170,7 @@ class Building:
                 self.elevation = float(shp_file[attribute_key][self.shp_id])
                 break
         ## number of floor ##
-        for attribute_key in gis_attribute_key_dict["number_floor"]:
+        for attribute_key in gis_attribute_key_dict["number of floor"]:
             try:
                 int(shp_file[attribute_key][self.shp_id])
             except:
@@ -231,7 +232,7 @@ class Building:
         """
         # convert the envelop of the building to a HB Room
         hb_room_envelop = lb_face_footprint_to_elevated_hb_room_envelop(lb_face_footprint=self.lb_footprint,
-                                                                        building_id=self.identifier,
+                                                                        building_id=self.id,
                                                                         height=self.height,
                                                                         elevation=self.elevation)
         return hb_room_envelop

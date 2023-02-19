@@ -9,7 +9,7 @@ import shapely
 from math import sqrt,isnan
 from ladybug_geometry.geometry3d import Point3D, Face3D
 
-from ladybugtools_addons.hb_rooms_addons import lb_face_footprint_to_elevated_hb_room_envelop
+from libraries_addons.hb_rooms_addons import lb_face_footprint_to_elevated_hb_room_envelop
 
 default_gis_attribute_key_dict = {
     "building_id_key_gis" : [],

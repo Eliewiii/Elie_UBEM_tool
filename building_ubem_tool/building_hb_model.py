@@ -87,6 +87,7 @@ def lb_footprint_from_hb_model(hb_model):
 def lb_faces_ground_bc_from_hb_model(hb_model):
     """
     Extract LB geometry faces 3D that have ground boundary condition from the HB model
+    todo: not relevant if the building is on pillar...
     :param hb_model:
     :return:
     """
@@ -105,7 +106,7 @@ def lb_faces_ground_bc_from_hb_model(hb_model):
 
 def lb_face_to_shapely_polygon(lb_face):
     """
-    Convert a LB geometry face 3D to a shapelu polygon
+    Convert a LB geometry face 3D to a shapely polygon
     :param lb_face:
     :return:
     """

@@ -81,6 +81,9 @@ class UrbanCanopy:
         """ Make the hb model for the building envelop and save it to hbjson file if the path is provided """
         # List of the hb rooms representing the building envelops
         hb_room_envelop_list = [building.to_elevated_hb_room_envelop() for building in self.building_dict.values()]
+        # additional cleaning of the colinear vertices, might not be necessary
+        for room in hb_room_envelop_list:
+            room.remove_colinear_vertices_envelope(tolerance=0.01, delete_degenerate=True)
         # Make the hb model
         hb_model = Model(identifier="urban_canopy_building_envelops", rooms=hb_room_envelop_list,tolerance=0.01)
         hb_dict =hb_model.to_dict()

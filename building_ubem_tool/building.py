@@ -6,7 +6,7 @@ import logging
 
 import shapely
 
-from math import sqrt
+from math import sqrt,isnan
 from ladybug_geometry.geometry3d import Point3D, Face3D
 
 from ladybugtools_addons.hb_rooms_addons import lb_face_footprint_to_elevated_hb_room_envelop
@@ -40,7 +40,7 @@ class Building:
         self.typology = None  # typology of the building
         self.height = None  # height of the building in meter
         self.num_floor = None  # number of floor of the building
-        self.elevation = None  # elevation of the building in meter
+        self.elevation = 0  # elevation of the building in meter
         self.floor_height = None  # height of the floors in meter
         # Geometry
         self.lb_footprint = lb_footprint  # footprint of the building, including the holes in the LB geometry face format
@@ -55,7 +55,10 @@ class Building:
     def from_polygon(cls, polygon, identifier, unit, urban_canopy=None, building_id_shp=None):
         """Generate a Building from a shapely polygon."""
         lb_footprint = polygon_to_lb_footprint(polygon, unit)
-        return cls(identifier, lb_footprint, urban_canopy, building_id_shp)
+        if lb_footprint is not None:
+            return cls(identifier, lb_footprint, urban_canopy, building_id_shp)
+        else:
+            return None
 
     @classmethod
     def from_shp_file(cls, urban_canopy, shp_file, building_id_shp, building_id_key_gis, unit):
@@ -92,8 +95,9 @@ class Building:
             else:
                 building_obj = cls.from_polygon(polygon=footprint, identifier=building_id, unit=unit, urban_canopy=urban_canopy,
                                                 building_id_shp=building_id_shp)
-                building_id_list.append(building_id)
-                building_obj_list.append(building_obj)
+                if building_obj is not None:
+                    building_id_list.append(building_id)
+                    building_obj_list.append(building_obj)
 
 
         # if the building footprint is a multipolygon
@@ -110,8 +114,9 @@ class Building:
                     building_obj = cls.from_polygon(polygon=footprint, identifier=sub_building_id,
                                                     urban_canopy=urban_canopy,
                                                     building_id_shp=building_id_shp)
-                    building_id_list.append(sub_building_id)
-                    building_obj_list.append(building_obj)
+                    if building_obj is not None:
+                        building_id_list.append(sub_building_id)
+                        building_obj_list.append(building_obj)
 
         return building_id_list, building_obj_list
 
@@ -131,8 +136,9 @@ class Building:
             except:  # if it doesn't, don't do anything
                 None
             else:  # if it does, assign the information to the building_zon then break = get out of the loop
-                self.age = int(shp_file[attribute_key][self.shp_id])
-                break
+                if not isnan(int(shp_file[attribute_key][self.shp_id])):
+                    self.age = int(shp_file[attribute_key][self.shp_id])
+                    break
         ## name ##
         for attribute_key in gis_attribute_key_dict["name"]:
             try:
@@ -158,8 +164,9 @@ class Building:
             except:
                 None
             else:
-                self.height = float(shp_file[attribute_key][self.shp_id])
-                break
+                if not isnan(float(shp_file[attribute_key][self.shp_id])):
+                    self.height = float(shp_file[attribute_key][self.shp_id])
+                    break
         ## elevation ##
         for attribute_key in gis_attribute_key_dict["elevation"]:
             try:
@@ -167,8 +174,10 @@ class Building:
             except:
                 None
             else:
-                self.elevation = float(shp_file[attribute_key][self.shp_id])
-                break
+                if not isnan(float(shp_file[attribute_key][self.shp_id])):
+                    self.elevation = float(shp_file[attribute_key][self.shp_id])
+
+                    break
         ## number of floor ##
         for attribute_key in gis_attribute_key_dict["number of floor"]:
             try:
@@ -176,8 +185,9 @@ class Building:
             except:
                 None
             else:
-                self.num_floor = int(shp_file[attribute_key][self.shp_id])
-                break
+                if not isnan(int(shp_file[attribute_key][self.shp_id])):
+                    self.num_floor = int(shp_file[attribute_key][self.shp_id])
+                    break
 
         ## typology ##
         for attribute_key in gis_attribute_key_dict["typology"]:
@@ -250,6 +260,9 @@ def polygon_to_lb_footprint(polygon_obj, unit, tolerance=0.01):
 
     # Convert the exterior of the polygon to a list of points
     point_list_outline = [list(point) for point in polygon_obj.exterior.__geo_interface__['coordinates']]
+    # if there is less than 3 points, the geometry is not valid, then return None
+    if len(point_list_outline) < 3:
+        return None
     # Reverse the list of points to have the right orientation (facing down)
     point_list_outline.reverse()
     # Scale the point list according to the unit of the shp file
@@ -273,6 +286,9 @@ def polygon_to_lb_footprint(polygon_obj, unit, tolerance=0.01):
                 if len(hole) == 1:
                     hole = hole[0]
                 list_point_hole = [list(point) for point in hole]
+                # if their is less than 3 points in the geometry, then the geometry is not valid =>
+                if len(list_point_hole) < 3:
+                    return None
                 list_point_hole.reverse()
 
                 interior_holes_pt_list.append(list_point_hole)
@@ -290,6 +306,7 @@ def polygon_to_lb_footprint(polygon_obj, unit, tolerance=0.01):
     lb_footprint = Face3D(boundary=point_3d_list_outline, holes=interior_holes_pt_3d_list, enforce_right_hand=True)
     # Remove collinear vertices
     lb_footprint = lb_footprint.remove_colinear_vertices(tolerance=tolerance)
+
 
     return lb_footprint
 

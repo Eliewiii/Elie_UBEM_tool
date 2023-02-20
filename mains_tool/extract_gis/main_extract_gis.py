@@ -75,7 +75,7 @@ if __name__ == "__main__":
     urban_canopy.add_2d_gis(path_gis, building_id_key_gis, unit, additional_gis_attribute_key_dict)
     logging.info(f"Builing geometries extracted from the GIS file successfully")
     # Move the buildings to the origin if asked
-    if move_buildings_to_origin:
+    if move_buildings_to_origin or urban_canopy.moving_vector_to_origin is not None:
         urban_canopy.move_buildings_to_origin()
     # generate the hb model that contains all the building envelopes to plot in Grasshopper
     urban_canopy.make_building_envelop_hb_model(path_folder=path_folder_gis_extraction)

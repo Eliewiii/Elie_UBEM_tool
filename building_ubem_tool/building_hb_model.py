@@ -104,12 +104,6 @@ def lb_faces_ground_bc_from_hb_model(hb_model):
 
 
 
-def lb_face_to_shapely_polygon(lb_face):
-    """
-    Convert a LB geometry face 3D to a shapely polygon
-    :param lb_face:
-    :return:
-    """
 
 
 

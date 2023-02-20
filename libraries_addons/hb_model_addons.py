@@ -7,6 +7,23 @@ from honeybee.room import Room
 from honeybee_energy.lib.constructionsets import construction_set_by_identifier
 from honeybee_energy.lib.programtypes import program_type_by_identifier
 
+
+def hb_model_elevation(hb_model):
+    """
+    Extract the elevation of the building from the hb model
+    :param hb_model:
+    :return:
+    """
+    elevation = min([room.min.z for room in hb_model.rooms])
+    height = max([room.max.z for room in hb_model.rooms]) - elevation
+
+    return elevation, height
+
+
+
+
+
+
 def hb_model_apply_constructionset(hb_model, constructions_set_id):
     """
     Assign construction set and program type to each room of the model

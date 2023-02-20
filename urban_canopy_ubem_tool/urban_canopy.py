@@ -16,11 +16,15 @@ class UrbanCanopy:
 
     def __init__(self):
         """Initialize the Urban Canopy"""
-        # process the boundary and plane inputs
+        #
         self.building_dict = {}
         self.target_buildings = []
         self.building_to_simulate = []
         self.typology_dict = {}
+
+        # Move
+        self.moving_vector_to_origin = None # moving vector of the urban canopy that moved the urban canopy to the origin
+
 
     def __str__(self):
         """ what you see when you print the urban canopy object """
@@ -36,6 +40,11 @@ class UrbanCanopy:
         with open(path_pkl, 'rb') as f:
             urban_canopy = pickle.load(f)
         return urban_canopy
+
+    def to_pkl(self, path_folder):
+        """ Save the urban canopy to a pickle file """
+        with open(os.path.join(path_folder, "urban_canopy.pkl"), 'wb') as f:
+            pickle.dump(self, f)
 
     def add_list_of_buildings(self, building_id_list, building_obj_list):
         """ Add a list of buildings to the urban canopy"""
@@ -91,7 +100,41 @@ class UrbanCanopy:
             hb_model.to_hbjson(name="buildings_envelops", folder=path_folder)
         return hb_dict,hb_model
 
-    def to_pkl(self, path_folder):
-        """ Save the urban canopy to a pickle file """
-        with open(os.path.join(path_folder, "urban_canopy.pkl"), 'wb') as f:
-            pickle.dump(self, f)
+    def compute_moving_vector_to_origin(self):
+        """ Make the moving vector to move the urban canopy to the origin """
+        # get the center of mass (Point3D) of the urban canopy on the x,y plane
+        list_of_centroid = [building.lb_footprint.centroid for building in self.building_dict.values()]
+        center_of_mass_x = sum([centroid.x for centroid in list_of_centroid]) / len(list_of_centroid)
+        center_of_mass_y = sum([centroid.y for centroid in list_of_centroid]) / len(list_of_centroid)
+        # Find the minimum elevation of the buildings in the urban canopy
+        # The elevation of all building will be rebased considering the minimum elevation to be z=0
+        min_elevation = min([building.elevation for building in self.building_dict.values()])
+
+
+        self.moving_vector_to_origin = [-center_of_mass_x, -center_of_mass_y, -min_elevation]
+
+    def move_buildings_to_origin(self):
+        """ Move the buildings to the origin """
+
+        # Check if the the urban canopy has already been moved to the origin
+        if self.moving_vector_to_origin is not None:
+            logging.info("The urban canopy has already been moved to the origin, the building will be moved back and"
+                            " then moved again to the origin with the new buildings")
+            # Move back the buildings to their original position
+            self.move_back_buildings()
+        # Compute the moving vector
+        self.compute_moving_vector_to_origin()
+        # Move the buildings
+        for building in self.building_dict.values():
+            print("move_buildings")
+            print(self.moving_vector_to_origin)
+            building.move(self.moving_vector_to_origin)
+
+    def move_back_buildings(self):
+        """ Move back the buildings to their original position """
+        for building in self.building_dict.values():
+            # Check if the building has been moved to the origin already
+            if building.moved_to_origin:
+                # Move by the opposite vector
+                building.move([-coordinate for coordinate in self.moving_vector_to_origin])
+

@@ -7,7 +7,7 @@ import logging
 import shapely
 
 from math import sqrt,isnan
-from ladybug_geometry.geometry3d import Point3D, Face3D
+from ladybug_geometry.geometry3d import Point3D, Face3D, Vector3D
 
 from libraries_addons.hb_rooms_addons import lb_face_footprint_to_elevated_hb_room_envelop
 
@@ -44,7 +44,8 @@ class Building:
         self.floor_height = None  # height of the floors in meter
         # Geometry
         self.lb_footprint = lb_footprint  # footprint of the building, including the holes in the LB geometry face format
-        self.hb_room_envelope = None  # Envelop, extruded of the lb_footprint, in HB room format
+        # Position
+        self.moved_to_origin = False  # boolean to know if the building has been moved
 
     @classmethod
     def from_lb_footprint(cls, lb_footprint, identifier, urban_canopy=None, building_id_shp=None):
@@ -233,6 +234,19 @@ class Building:
             self.height = 9.
             self.num_floor = 3
             self.floor_height = 3.
+
+    def move(self,vector):
+        """
+        Move the building to a new location
+        :param vector: [x,y,z]
+        """
+        # move the lb footprint
+        self.lb_footprint.move(Vector3D(vector[0], vector[1], 0))
+        # adjust the elevation
+        self.elevation = self.elevation + vector[2]
+        # make it moved
+        self.moved_to_origin = True
+
 
     def to_elevated_hb_room_envelop(self):
         """

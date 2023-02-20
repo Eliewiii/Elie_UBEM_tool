@@ -8,15 +8,28 @@ import logging
 import argparse
 import json
 
-sys.path.append('D://Elie//PhD//Programming//Elie_UBEM_tool')
+# sys.path.append('D://Elie//PhD//Programming//Elie_UBEM_tool')
+sys.path.append('D://Documents//PhD')
+
 
 from urban_canopy_ubem_tool.urban_canopy import UrbanCanopy
 
 # default paths if no input is given
+
+# WORK
 # default_path_gis = "D:\Elie\PhD\Simulation\Input_Data\GIS\gis_typo_id_extra_small"
-default_path_gis = "D:\Elie\PhD\Simulation\\Input_Data\GIS\Example_context_filter_medium"
+# default_path_gis = "D:\Elie\PhD\Simulation\\Input_Data\GIS\Example_context_filter_medium"
+# default_folder_gis_extraction = "D:\Elie\PhD\Simulation\sim_new_tool\gis_extraction"
+
+
+# HOME
+default_path_gis="D:\Documents\Phd_23_02_12\Simulation\Input_Data\GIS\gis_typo_id_extra_small"
+# default_path_gis="D:\Documents\Phd_23_02_12\Simulation\Input_Data\GIS\gis_typo_id_small"
+default_folder_gis_extraction = "D:\Documents\Phd_23_02_12\Simulation\sim_new_tool\gis_extraction"
+
 default_unit = "m"
-default_folder_gis_extraction = "D:\Elie\PhD\Simulation\sim_new_tool\gis_extraction"
+
+
 default_additional_gis_attribute_key_dict = None
 
 if __name__ == "__main__":
@@ -25,6 +38,8 @@ if __name__ == "__main__":
     parser.add_argument("-f", "--folder", help="path to the simulation folder", nargs='?', default=default_folder_gis_extraction)
     parser.add_argument("-u", "--unit", help="value of arg3", nargs='?', default=default_unit)
     parser.add_argument("-d", "--dic", help="path to the additional key dictionary", nargs='?', default=default_additional_gis_attribute_key_dict)
+    parser.add_argument("-m", "--mov", help="Boolean telling if building should be moved to the origin", nargs='?', default=False)
+
     args = parser.parse_args()
 
     # Input parameter that will be given by Grasshopper
@@ -32,6 +47,8 @@ if __name__ == "__main__":
     unit = args.unit
     path_folder_gis_extraction = args.folder
     path_additional_gis_attribute_key_dict = args.dic
+    move_buildings_to_origin = bool(args.mov)
+    move_buildings_to_origin = True
 
     # Create or load the urban canopy object
     path_urban_canopy_pkl = os.path.join(path_folder_gis_extraction, "urban_canopy.pkl")
@@ -56,7 +73,10 @@ if __name__ == "__main__":
 
     # Add the 2D GIS to the urban canopy
     urban_canopy.add_2d_gis(path_gis, building_id_key_gis, unit, additional_gis_attribute_key_dict)
-    logging.info(f"A new urban canopy object was created")
+    logging.info(f"Builing geometries extracted from the GIS file successfully")
+    # Move the buildings to the origin if asked
+    if move_buildings_to_origin:
+        urban_canopy.move_buildings_to_origin()
     # generate the hb model that contains all the building envelopes to plot in Grasshopper
     urban_canopy.make_building_envelop_hb_model(path_folder=path_folder_gis_extraction)
     logging.info(f"HB model for the building envelop created successfully")

@@ -23,8 +23,8 @@ from urban_canopy_ubem_tool.urban_canopy import UrbanCanopy
 
 
 # HOME
-default_path_gis="D:\Documents\Phd_23_02_12\Simulation\Input_Data\GIS\gis_typo_id_extra_small"
-# default_path_gis="D:\Documents\Phd_23_02_12\Simulation\Input_Data\GIS\gis_typo_id_small"
+# default_path_gis="D:\Documents\Phd_23_02_12\Simulation\Input_Data\GIS\gis_typo_id_extra_small"
+default_path_gis="D:\Documents\Phd_23_02_12\Simulation\Input_Data\GIS\gis_typo_id_small"
 default_folder_gis_extraction = "D:\Documents\Phd_23_02_12\Simulation\sim_new_tool\gis_extraction"
 
 default_unit = "m"

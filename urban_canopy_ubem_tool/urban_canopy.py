@@ -110,7 +110,6 @@ class UrbanCanopy:
         # The elevation of all building will be rebased considering the minimum elevation to be z=0
         min_elevation = min([building.elevation for building in self.building_dict.values()])
 
-
         self.moving_vector_to_origin = [-center_of_mass_x, -center_of_mass_y, -min_elevation]
 
     def move_buildings_to_origin(self):
@@ -126,8 +125,6 @@ class UrbanCanopy:
         self.compute_moving_vector_to_origin()
         # Move the buildings
         for building in self.building_dict.values():
-            print("move_buildings")
-            print(self.moving_vector_to_origin)
             building.move(self.moving_vector_to_origin)
 
     def move_back_buildings(self):

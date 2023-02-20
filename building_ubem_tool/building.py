@@ -241,7 +241,7 @@ class Building:
         :param vector: [x,y,z]
         """
         # move the lb footprint
-        self.lb_footprint.move(Vector3D(vector[0], vector[1], 0))
+        self.lb_footprint=self.lb_footprint.move(Vector3D(vector[0], vector[1], 0))
         # adjust the elevation
         self.elevation = self.elevation + vector[2]
         # make it moved

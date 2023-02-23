@@ -1,0 +1,2399 @@
+{
+    "IS_5280_InternalWall": {
+        "display_name": "IS_5280_InternalWall", 
+        "type": "OpaqueConstruction", 
+        "identifier": "IS_5280_InternalWall", 
+        "materials": [
+            {
+                "conductivity": 0.80000000000000004, 
+                "specific_heat": 1000.0, 
+                "density": 1600.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.014999999999999999, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Lime-Cement_Mortar_1.5cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Lime-Cement_Mortar_1.5cm"
+            }, 
+            {
+                "conductivity": 0.34000000000000002, 
+                "specific_heat": 1000.0, 
+                "density": 900.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.10000000000000001, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_ConcBlck_10cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_ConcBlck_10cm"
+            }, 
+            {
+                "conductivity": 0.80000000000000004, 
+                "specific_heat": 1000.0, 
+                "density": 1600.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.014999999999999999, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Lime-Cement_Mortar_1.5cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Lime-Cement_Mortar_1.5cm"
+            }
+        ]
+    }, 
+    "IS_5280_Floor_Unheated_A_B": {
+        "display_name": "IS_5280_Floor_Unheated_A_B", 
+        "type": "OpaqueConstruction", 
+        "identifier": "IS_5280_Floor_Unheated_A_B", 
+        "materials": [
+            {
+                "conductivity": 1.0, 
+                "specific_heat": 900.0, 
+                "density": 1000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.02, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Cement_Mortar_2cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Cement_Mortar_2cm"
+            }, 
+            {
+                "conductivity": 2.0, 
+                "specific_heat": 1000.0, 
+                "density": 2400.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.14000000000000001, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_RegularConcrete_14cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_RegularConcrete_14cm"
+            }, 
+            {
+                "conductivity": 0.040000000000000001, 
+                "specific_heat": 1450.0, 
+                "density": 30.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.02, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Ins_2cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Ins_2cm"
+            }, 
+            {
+                "conductivity": 2.0, 
+                "specific_heat": 1000.0, 
+                "density": 2000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.10000000000000001, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Sand_10cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Sand_10cm"
+            }, 
+            {
+                "conductivity": 1.3999999999999999, 
+                "specific_heat": 1000.0, 
+                "density": 2000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.02, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Clay_2cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Clay_2cm"
+            }, 
+            {
+                "conductivity": 1.3, 
+                "specific_heat": 840.0, 
+                "density": 2300.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.014999999999999999, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Ceramic_1.5cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Ceramic_1.5cm"
+            }
+        ]
+    }, 
+    "IS_5280_Dg_Wind_Tris_New": {
+        "display_name": "IS_5280_Dg_Wind_Tris_New", 
+        "identifier": "IS_5280_Dg_Wind_Tris_New", 
+        "control_type": "AlwaysOn", 
+        "shade_material": {
+            "top_opening_multiplier": 1.0, 
+            "type": "EnergyWindowMaterialShade", 
+            "infrared_transmittance": 0.050000000000000003, 
+            "visible_transmittance": 0.14999999999999999, 
+            "right_opening_multiplier": 1.0, 
+            "left_opening_multiplier": 1.0, 
+            "display_name": "IS_5280_Tris_New", 
+            "identifier": "IS_5280_Tris_New", 
+            "distance_to_glass": 0.10000000000000001, 
+            "airflow_permeability": 0.0, 
+            "solar_transmittance": 0.14999999999999999, 
+            "emissivity": 0.90000000000000002, 
+            "conductivity": 160.0, 
+            "thickness": 0.001, 
+            "solar_reflectance": 0.59999999999999998, 
+            "bottom_opening_multiplier": 1.0, 
+            "visible_reflectance": 0.59999999999999998
+        }, 
+        "type": "WindowConstructionShade", 
+        "window_construction": {
+            "display_name": "IS_5280_WindowReference_Const", 
+            "type": "WindowConstruction", 
+            "identifier": "IS_5280_WindowReference_Const", 
+            "materials": [
+                {
+                    "shgc": 0.63, 
+                    "vt": 0.60999999999999999, 
+                    "display_name": "IS_5280_WindowReference_Mat", 
+                    "identifier": "IS_5280_WindowReference_Mat", 
+                    "u_factor": 4.0, 
+                    "type": "EnergyWindowMaterialSimpleGlazSys"
+                }
+            ]
+        }, 
+        "shade_location": "Exterior"
+    }, 
+    "IS_5280_GroundFloor": {
+        "display_name": "IS_5280_GroundFloor", 
+        "type": "OpaqueConstruction", 
+        "identifier": "IS_5280_GroundFloor", 
+        "materials": [
+            {
+                "conductivity": 0.040000000000000001, 
+                "specific_heat": 1450.0, 
+                "density": 30.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.02, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Ins_2cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Ins_2cm"
+            }, 
+            {
+                "conductivity": 2.0, 
+                "specific_heat": 1000.0, 
+                "density": 2400.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.20000000000000001, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_RegularConcrete_20cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_RegularConcrete_20cm"
+            }, 
+            {
+                "conductivity": 2.0, 
+                "specific_heat": 1000.0, 
+                "density": 2000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.10000000000000001, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Sand_10cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Sand_10cm"
+            }, 
+            {
+                "conductivity": 1.3999999999999999, 
+                "specific_heat": 1000.0, 
+                "density": 2000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.02, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Clay_2cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Clay_2cm"
+            }, 
+            {
+                "conductivity": 1.3, 
+                "specific_heat": 840.0, 
+                "density": 2300.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.014999999999999999, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Ceramic_1.5cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Ceramic_1.5cm"
+            }
+        ]
+    }, 
+    "IS_5280_Ceiling_UnderUnheated_C_D": {
+        "display_name": "IS_5280_Ceiling_UnderUnheated_C_D", 
+        "type": "OpaqueConstruction", 
+        "identifier": "IS_5280_Ceiling_UnderUnheated_C_D", 
+        "materials": [
+            {
+                "conductivity": 1.3, 
+                "specific_heat": 840.0, 
+                "density": 2300.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.014999999999999999, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Ceramic_1.5cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Ceramic_1.5cm"
+            }, 
+            {
+                "conductivity": 1.3999999999999999, 
+                "specific_heat": 1000.0, 
+                "density": 2000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.02, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Clay_2cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Clay_2cm"
+            }, 
+            {
+                "conductivity": 2.0, 
+                "specific_heat": 1000.0, 
+                "density": 2000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.10000000000000001, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Sand_10cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Sand_10cm"
+            }, 
+            {
+                "conductivity": 0.040000000000000001, 
+                "specific_heat": 1450.0, 
+                "density": 30.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.025000000000000001, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Ins_2.5cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Ins_2.5cm"
+            }, 
+            {
+                "conductivity": 2.0, 
+                "specific_heat": 1000.0, 
+                "density": 2400.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.14000000000000001, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_RegularConcrete_14cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_RegularConcrete_14cm"
+            }, 
+            {
+                "conductivity": 1.0, 
+                "specific_heat": 900.0, 
+                "density": 1000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.02, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Cement_Mortar_2cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Cement_Mortar_2cm"
+            }
+        ]
+    }, 
+    "IS_5280_InternalWall_Half_ThermalMass": {
+        "display_name": "IS_5280_InternalWall_Half_ThermalMass", 
+        "type": "OpaqueConstruction", 
+        "identifier": "IS_5280_InternalWall_Half_ThermalMass", 
+        "materials": [
+            {
+                "conductivity": 0.34000000000000002, 
+                "specific_heat": 1000.0, 
+                "density": 900.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.050000000000000003, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_ConcBlck_5cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_ConcBlck_5cm"
+            }, 
+            {
+                "conductivity": 0.80000000000000004, 
+                "specific_heat": 1000.0, 
+                "density": 1600.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.014999999999999999, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Lime-Cement_Mortar_1.5cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Lime-Cement_Mortar_1.5cm"
+            }
+        ]
+    }, 
+    "IS_5280_Roof": {
+        "display_name": "IS_5280_Roof", 
+        "type": "OpaqueConstruction", 
+        "identifier": "IS_5280_Roof", 
+        "materials": [
+            {
+                "conductivity": 1.0, 
+                "specific_heat": 1000.0, 
+                "density": 1600.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.050000000000000003, 
+                "solar_absorptance": 0.45000000000000001, 
+                "visible_absorptance": 0.45000000000000001, 
+                "display_name": "IS_5280_LightConcrete_5cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_LightConcrete_5cm"
+            }, 
+            {
+                "conductivity": 0.040000000000000001, 
+                "specific_heat": 1450.0, 
+                "density": 30.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.055, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Ins_5.5cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Ins_5.5cm"
+            }, 
+            {
+                "conductivity": 2.0, 
+                "specific_heat": 1000.0, 
+                "density": 2400.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.14000000000000001, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_RegularConcrete_14cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_RegularConcrete_14cm"
+            }, 
+            {
+                "conductivity": 0.80000000000000004, 
+                "specific_heat": 1000.0, 
+                "density": 1600.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.014999999999999999, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Lime-Cement_Mortar_1.5cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Lime-Cement_Mortar_1.5cm"
+            }
+        ]
+    }, 
+    "IS_5280_Dg_Wind_Tris_New_A_B": {
+        "display_name": "IS_5280_Dg_Wind_Tris_New_A_B", 
+        "identifier": "IS_5280_Dg_Wind_Tris_New_A_B", 
+        "control_type": "AlwaysOn", 
+        "shade_material": {
+            "top_opening_multiplier": 1.0, 
+            "type": "EnergyWindowMaterialShade", 
+            "infrared_transmittance": 0.050000000000000003, 
+            "visible_transmittance": 0.14999999999999999, 
+            "right_opening_multiplier": 1.0, 
+            "left_opening_multiplier": 1.0, 
+            "display_name": "IS_5280_Tris_New", 
+            "identifier": "IS_5280_Tris_New", 
+            "distance_to_glass": 0.10000000000000001, 
+            "airflow_permeability": 0.0, 
+            "solar_transmittance": 0.14999999999999999, 
+            "emissivity": 0.90000000000000002, 
+            "conductivity": 160.0, 
+            "thickness": 0.001, 
+            "solar_reflectance": 0.59999999999999998, 
+            "bottom_opening_multiplier": 1.0, 
+            "visible_reflectance": 0.59999999999999998
+        }, 
+        "type": "WindowConstructionShade", 
+        "window_construction": {
+            "display_name": "IS_5280_WindowReference_Const", 
+            "type": "WindowConstruction", 
+            "identifier": "IS_5280_WindowReference_Const", 
+            "materials": [
+                {
+                    "shgc": 0.63, 
+                    "vt": 0.60999999999999999, 
+                    "display_name": "IS_5280_WindowReference_Mat", 
+                    "identifier": "IS_5280_WindowReference_Mat", 
+                    "u_factor": 4.0, 
+                    "type": "EnergyWindowMaterialSimpleGlazSys"
+                }
+            ]
+        }, 
+        "shade_location": "Exterior", 
+        "schedule": {
+            "display_name": "Is_5280_TrisSchd_A_B", 
+            "identifier": "Is_5280_TrisSchd_A_B", 
+            "schedule_rules": [
+                {
+                    "apply_tuesday": true, 
+                    "apply_saturday": true, 
+                    "schedule_day": "IS_5280_Sch_Tris_Summer_Day Schedule", 
+                    "apply_friday": true, 
+                    "apply_monday": true, 
+                    "start_date": [
+                        4, 
+                        1
+                    ], 
+                    "end_date": [
+                        11, 
+                        30
+                    ], 
+                    "apply_wednesday": true, 
+                    "type": "ScheduleRuleAbridged", 
+                    "apply_thursday": true, 
+                    "apply_sunday": true
+                }, 
+                {
+                    "apply_tuesday": true, 
+                    "apply_saturday": true, 
+                    "schedule_day": "IS_5280_Sch_Tris_Winter_Day Schedule", 
+                    "apply_friday": true, 
+                    "apply_monday": true, 
+                    "start_date": [
+                        1, 
+                        1
+                    ], 
+                    "end_date": [
+                        3, 
+                        31
+                    ], 
+                    "apply_wednesday": true, 
+                    "type": "ScheduleRuleAbridged", 
+                    "apply_thursday": true, 
+                    "apply_sunday": true
+                }
+            ], 
+            "default_day_schedule": "IS_5280_Sch_Tris_Winter_Day Schedule", 
+            "summer_designday_schedule": "Is_5280_TrisSchd_A_B_SmrDsn", 
+            "schedule_type_limit": {
+                "upper_limit": 1.0, 
+                "identifier": "Fractional", 
+                "lower_limit": 0.0, 
+                "numeric_type": "Continuous", 
+                "unit_type": "Dimensionless", 
+                "type": "ScheduleTypeLimit"
+            }, 
+            "type": "ScheduleRuleset", 
+            "winter_designday_schedule": "Is_5280_TrisSchd_A_B_SmrDsn", 
+            "day_schedules": [
+                {
+                    "identifier": "IS_5280_Sch_Tris_Winter_Day Schedule", 
+                    "times": [
+                        [
+                            0, 
+                            0
+                        ], 
+                        [
+                            6, 
+                            0
+                        ], 
+                        [
+                            18, 
+                            0
+                        ]
+                    ], 
+                    "values": [
+                        1.0, 
+                        0.0, 
+                        1.0
+                    ], 
+                    "type": "ScheduleDay", 
+                    "interpolate": false
+                }, 
+                {
+                    "identifier": "Is_5280_TrisSchd_A_B_SmrDsn", 
+                    "times": [
+                        [
+                            0, 
+                            0
+                        ], 
+                        [
+                            6, 
+                            0
+                        ], 
+                        [
+                            18, 
+                            0
+                        ]
+                    ], 
+                    "values": [
+                        0.0, 
+                        1.0, 
+                        0.0
+                    ], 
+                    "type": "ScheduleDay", 
+                    "interpolate": false
+                }, 
+                {
+                    "identifier": "Is_5280_TrisSchd_A_B_SmrDsn", 
+                    "times": [
+                        [
+                            0, 
+                            0
+                        ], 
+                        [
+                            6, 
+                            0
+                        ], 
+                        [
+                            18, 
+                            0
+                        ]
+                    ], 
+                    "values": [
+                        0.0, 
+                        1.0, 
+                        0.0
+                    ], 
+                    "type": "ScheduleDay", 
+                    "interpolate": false
+                }, 
+                {
+                    "identifier": "IS_5280_Sch_Tris_Summer_Day Schedule", 
+                    "times": [
+                        [
+                            0, 
+                            0
+                        ], 
+                        [
+                            6, 
+                            0
+                        ], 
+                        [
+                            18, 
+                            0
+                        ]
+                    ], 
+                    "values": [
+                        0.0, 
+                        1.0, 
+                        0.0
+                    ], 
+                    "type": "ScheduleDay", 
+                    "interpolate": false
+                }, 
+                {
+                    "identifier": "IS_5280_Sch_Tris_Winter_Day Schedule", 
+                    "times": [
+                        [
+                            0, 
+                            0
+                        ], 
+                        [
+                            6, 
+                            0
+                        ], 
+                        [
+                            18, 
+                            0
+                        ]
+                    ], 
+                    "values": [
+                        1.0, 
+                        0.0, 
+                        1.0
+                    ], 
+                    "type": "ScheduleDay", 
+                    "interpolate": false
+                }
+            ]
+        }
+    }, 
+    "IS_5280_InternalFloor": {
+        "display_name": "IS_5280_InternalFloor", 
+        "type": "OpaqueConstruction", 
+        "identifier": "IS_5280_InternalFloor", 
+        "materials": [
+            {
+                "conductivity": 1.0, 
+                "specific_heat": 900.0, 
+                "density": 1000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.02, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Cement_Mortar_2cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Cement_Mortar_2cm"
+            }, 
+            {
+                "conductivity": 2.0, 
+                "specific_heat": 1000.0, 
+                "density": 2400.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.14000000000000001, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_RegularConcrete_14cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_RegularConcrete_14cm"
+            }, 
+            {
+                "conductivity": 2.0, 
+                "specific_heat": 1000.0, 
+                "density": 2000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.10000000000000001, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Sand_10cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Sand_10cm"
+            }, 
+            {
+                "conductivity": 1.3999999999999999, 
+                "specific_heat": 1000.0, 
+                "density": 2000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.02, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Clay_2cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Clay_2cm"
+            }, 
+            {
+                "conductivity": 1.3, 
+                "specific_heat": 840.0, 
+                "density": 2300.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.014999999999999999, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Ceramic_1.5cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Ceramic_1.5cm"
+            }
+        ]
+    }, 
+    "IS_5280_Floor_Unheated_C_D": {
+        "display_name": "IS_5280_Floor_Unheated_C_D", 
+        "type": "OpaqueConstruction", 
+        "identifier": "IS_5280_Floor_Unheated_C_D", 
+        "materials": [
+            {
+                "conductivity": 1.0, 
+                "specific_heat": 900.0, 
+                "density": 1000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.02, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Cement_Mortar_2cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Cement_Mortar_2cm"
+            }, 
+            {
+                "conductivity": 2.0, 
+                "specific_heat": 1000.0, 
+                "density": 2400.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.14000000000000001, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_RegularConcrete_14cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_RegularConcrete_14cm"
+            }, 
+            {
+                "conductivity": 0.040000000000000001, 
+                "specific_heat": 1450.0, 
+                "density": 30.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.025000000000000001, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Ins_2.5cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Ins_2.5cm"
+            }, 
+            {
+                "conductivity": 2.0, 
+                "specific_heat": 1000.0, 
+                "density": 2000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.10000000000000001, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Sand_10cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Sand_10cm"
+            }, 
+            {
+                "conductivity": 1.3999999999999999, 
+                "specific_heat": 1000.0, 
+                "density": 2000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.02, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Clay_2cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Clay_2cm"
+            }, 
+            {
+                "conductivity": 1.3, 
+                "specific_heat": 840.0, 
+                "density": 2300.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.014999999999999999, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Ceramic_1.5cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Ceramic_1.5cm"
+            }
+        ]
+    }, 
+    "IS_5280_Floor_OverUnheated_C": {
+        "display_name": "IS_5280_Floor_OverUnheated_C", 
+        "type": "OpaqueConstruction", 
+        "identifier": "IS_5280_Floor_OverUnheated_C", 
+        "materials": [
+            {
+                "conductivity": 1.0, 
+                "specific_heat": 900.0, 
+                "density": 1000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.02, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Cement_Mortar_2cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Cement_Mortar_2cm"
+            }, 
+            {
+                "conductivity": 2.0, 
+                "specific_heat": 1000.0, 
+                "density": 2400.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.14000000000000001, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_RegularConcrete_14cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_RegularConcrete_14cm"
+            }, 
+            {
+                "conductivity": 0.040000000000000001, 
+                "specific_heat": 1450.0, 
+                "density": 30.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.035000000000000003, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Ins_3.5cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Ins_3.5cm"
+            }, 
+            {
+                "conductivity": 2.0, 
+                "specific_heat": 1000.0, 
+                "density": 2000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.10000000000000001, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Sand_10cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Sand_10cm"
+            }, 
+            {
+                "conductivity": 1.3999999999999999, 
+                "specific_heat": 1000.0, 
+                "density": 2000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.02, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Clay_2cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Clay_2cm"
+            }, 
+            {
+                "conductivity": 1.3, 
+                "specific_heat": 840.0, 
+                "density": 2300.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.014999999999999999, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Ceramic_1.5cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Ceramic_1.5cm"
+            }
+        ]
+    }, 
+    "IS_5280_ExtWall_D": {
+        "display_name": "IS_5280_ExtWall_D", 
+        "type": "OpaqueConstruction", 
+        "identifier": "IS_5280_ExtWall_D", 
+        "materials": [
+            {
+                "conductivity": 1.0, 
+                "specific_heat": 900.0, 
+                "density": 1000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.02, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Cement_Mortar_2cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Cement_Mortar_2cm"
+            }, 
+            {
+                "conductivity": 0.34000000000000002, 
+                "specific_heat": 1000.0, 
+                "density": 900.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.28999999999999998, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_ConcBlck_29cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_ConcBlck_29cm"
+            }, 
+            {
+                "conductivity": 0.80000000000000004, 
+                "specific_heat": 1000.0, 
+                "density": 1600.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.014999999999999999, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Lime-Cement_Mortar_1.5cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Lime-Cement_Mortar_1.5cm"
+            }
+        ]
+    }, 
+    "IS_5280_Ceiling_Unheated_B_D": {
+        "display_name": "IS_5280_Ceiling_Unheated_B_D", 
+        "type": "OpaqueConstruction", 
+        "identifier": "IS_5280_Ceiling_Unheated_B_D", 
+        "materials": [
+            {
+                "conductivity": 1.3, 
+                "specific_heat": 840.0, 
+                "density": 2300.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.014999999999999999, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Ceramic_1.5cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Ceramic_1.5cm"
+            }, 
+            {
+                "conductivity": 1.3999999999999999, 
+                "specific_heat": 1000.0, 
+                "density": 2000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.02, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Clay_2cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Clay_2cm"
+            }, 
+            {
+                "conductivity": 2.0, 
+                "specific_heat": 1000.0, 
+                "density": 2000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.10000000000000001, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Sand_10cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Sand_10cm"
+            }, 
+            {
+                "conductivity": 0.040000000000000001, 
+                "specific_heat": 1450.0, 
+                "density": 30.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.025000000000000001, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Ins_2.5cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Ins_2.5cm"
+            }, 
+            {
+                "conductivity": 2.0, 
+                "specific_heat": 1000.0, 
+                "density": 2400.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.14000000000000001, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_RegularConcrete_14cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_RegularConcrete_14cm"
+            }, 
+            {
+                "conductivity": 1.0, 
+                "specific_heat": 900.0, 
+                "density": 1000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.02, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Cement_Mortar_2cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Cement_Mortar_2cm"
+            }
+        ]
+    }, 
+    "IS_5280_Ceiling_Unheated_C": {
+        "display_name": "IS_5280_Ceiling_Unheated_C", 
+        "type": "OpaqueConstruction", 
+        "identifier": "IS_5280_Ceiling_Unheated_C", 
+        "materials": [
+            {
+                "conductivity": 1.3, 
+                "specific_heat": 840.0, 
+                "density": 2300.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.014999999999999999, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Ceramic_1.5cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Ceramic_1.5cm"
+            }, 
+            {
+                "conductivity": 1.3999999999999999, 
+                "specific_heat": 1000.0, 
+                "density": 2000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.02, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Clay_2cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Clay_2cm"
+            }, 
+            {
+                "conductivity": 2.0, 
+                "specific_heat": 1000.0, 
+                "density": 2000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.10000000000000001, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Sand_10cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Sand_10cm"
+            }, 
+            {
+                "conductivity": 0.040000000000000001, 
+                "specific_heat": 1450.0, 
+                "density": 30.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.035000000000000003, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Ins_3.5cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Ins_3.5cm"
+            }, 
+            {
+                "conductivity": 2.0, 
+                "specific_heat": 1000.0, 
+                "density": 2400.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.14000000000000001, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_RegularConcrete_14cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_RegularConcrete_14cm"
+            }, 
+            {
+                "conductivity": 1.0, 
+                "specific_heat": 900.0, 
+                "density": 1000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.02, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Cement_Mortar_2cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Cement_Mortar_2cm"
+            }
+        ]
+    }, 
+    "IS_5280_ExtWall_A": {
+        "display_name": "IS_5280_ExtWall_A", 
+        "type": "OpaqueConstruction", 
+        "identifier": "IS_5280_ExtWall_A", 
+        "materials": [
+            {
+                "conductivity": 1.0, 
+                "specific_heat": 900.0, 
+                "density": 1000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.02, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Cement_Mortar_2cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Cement_Mortar_2cm"
+            }, 
+            {
+                "conductivity": 0.34000000000000002, 
+                "specific_heat": 1000.0, 
+                "density": 900.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.20000000000000001, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_ConcBlck_20cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_ConcBlck_20cm"
+            }, 
+            {
+                "conductivity": 0.80000000000000004, 
+                "specific_heat": 1000.0, 
+                "density": 1600.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.014999999999999999, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Lime-Cement_Mortar_1.5cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Lime-Cement_Mortar_1.5cm"
+            }
+        ]
+    }, 
+    "IS_5280_ExtWall_C": {
+        "display_name": "IS_5280_ExtWall_C", 
+        "type": "OpaqueConstruction", 
+        "identifier": "IS_5280_ExtWall_C", 
+        "materials": [
+            {
+                "conductivity": 1.0, 
+                "specific_heat": 900.0, 
+                "density": 1000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.02, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Cement_Mortar_2cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Cement_Mortar_2cm"
+            }, 
+            {
+                "conductivity": 0.34000000000000002, 
+                "specific_heat": 1000.0, 
+                "density": 900.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.26000000000000001, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_ConcBlck_26cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_ConcBlck_26cm"
+            }, 
+            {
+                "conductivity": 0.80000000000000004, 
+                "specific_heat": 1000.0, 
+                "density": 1600.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.014999999999999999, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Lime-Cement_Mortar_1.5cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Lime-Cement_Mortar_1.5cm"
+            }
+        ]
+    }, 
+    "IS_5280_ExtWall_B": {
+        "display_name": "IS_5280_ExtWall_B", 
+        "type": "OpaqueConstruction", 
+        "identifier": "IS_5280_ExtWall_B", 
+        "materials": [
+            {
+                "conductivity": 1.0, 
+                "specific_heat": 900.0, 
+                "density": 1000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.02, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Cement_Mortar_2cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Cement_Mortar_2cm"
+            }, 
+            {
+                "conductivity": 0.34000000000000002, 
+                "specific_heat": 1000.0, 
+                "density": 900.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.22, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_ConcBlck_22cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_ConcBlck_22cm"
+            }, 
+            {
+                "conductivity": 0.80000000000000004, 
+                "specific_heat": 1000.0, 
+                "density": 1600.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.014999999999999999, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Lime-Cement_Mortar_1.5cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Lime-Cement_Mortar_1.5cm"
+            }
+        ]
+    }, 
+    "IS_5280_Floor_OverUnheated_B_D": {
+        "display_name": "IS_5280_Floor_OverUnheated_B_D", 
+        "type": "OpaqueConstruction", 
+        "identifier": "IS_5280_Floor_OverUnheated_B_D", 
+        "materials": [
+            {
+                "conductivity": 1.0, 
+                "specific_heat": 900.0, 
+                "density": 1000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.02, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Cement_Mortar_2cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Cement_Mortar_2cm"
+            }, 
+            {
+                "conductivity": 2.0, 
+                "specific_heat": 1000.0, 
+                "density": 2400.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.14000000000000001, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_RegularConcrete_14cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_RegularConcrete_14cm"
+            }, 
+            {
+                "conductivity": 0.040000000000000001, 
+                "specific_heat": 1450.0, 
+                "density": 30.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.025000000000000001, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Ins_2.5cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Ins_2.5cm"
+            }, 
+            {
+                "conductivity": 2.0, 
+                "specific_heat": 1000.0, 
+                "density": 2000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.10000000000000001, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Sand_10cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Sand_10cm"
+            }, 
+            {
+                "conductivity": 1.3999999999999999, 
+                "specific_heat": 1000.0, 
+                "density": 2000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.02, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Clay_2cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Clay_2cm"
+            }, 
+            {
+                "conductivity": 1.3, 
+                "specific_heat": 840.0, 
+                "density": 2300.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.014999999999999999, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Ceramic_1.5cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Ceramic_1.5cm"
+            }
+        ]
+    }, 
+    "IS_5280_Floor_OverOpenSpace_C_D": {
+        "display_name": "IS_5280_Floor_OverOpenSpace_C_D", 
+        "type": "OpaqueConstruction", 
+        "identifier": "IS_5280_Floor_OverOpenSpace_C_D", 
+        "materials": [
+            {
+                "conductivity": 1.0, 
+                "specific_heat": 900.0, 
+                "density": 1000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.02, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Cement_Mortar_2cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Cement_Mortar_2cm"
+            }, 
+            {
+                "conductivity": 2.0, 
+                "specific_heat": 1000.0, 
+                "density": 2400.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.14000000000000001, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_RegularConcrete_14cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_RegularConcrete_14cm"
+            }, 
+            {
+                "conductivity": 0.040000000000000001, 
+                "specific_heat": 1450.0, 
+                "density": 30.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.035000000000000003, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Ins_3.5cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Ins_3.5cm"
+            }, 
+            {
+                "conductivity": 2.0, 
+                "specific_heat": 1000.0, 
+                "density": 2000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.10000000000000001, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Sand_10cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Sand_10cm"
+            }, 
+            {
+                "conductivity": 1.3999999999999999, 
+                "specific_heat": 1000.0, 
+                "density": 2000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.02, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Clay_2cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Clay_2cm"
+            }, 
+            {
+                "conductivity": 1.3, 
+                "specific_heat": 840.0, 
+                "density": 2300.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.014999999999999999, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Ceramic_1.5cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Ceramic_1.5cm"
+            }
+        ]
+    }, 
+    "IS_5280_Floor_OverOpenSpace_A": {
+        "display_name": "IS_5280_Floor_OverOpenSpace_A", 
+        "type": "OpaqueConstruction", 
+        "identifier": "IS_5280_Floor_OverOpenSpace_A", 
+        "materials": [
+            {
+                "conductivity": 1.0, 
+                "specific_heat": 900.0, 
+                "density": 1000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.02, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Cement_Mortar_2cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Cement_Mortar_2cm"
+            }, 
+            {
+                "conductivity": 2.0, 
+                "specific_heat": 1000.0, 
+                "density": 2400.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.14000000000000001, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_RegularConcrete_14cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_RegularConcrete_14cm"
+            }, 
+            {
+                "conductivity": 0.040000000000000001, 
+                "specific_heat": 1450.0, 
+                "density": 30.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.02, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Ins_2cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Ins_2cm"
+            }, 
+            {
+                "conductivity": 2.0, 
+                "specific_heat": 1000.0, 
+                "density": 2000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.10000000000000001, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Sand_10cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Sand_10cm"
+            }, 
+            {
+                "conductivity": 1.3999999999999999, 
+                "specific_heat": 1000.0, 
+                "density": 2000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.02, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Clay_2cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Clay_2cm"
+            }, 
+            {
+                "conductivity": 1.3, 
+                "specific_heat": 840.0, 
+                "density": 2300.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.014999999999999999, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Ceramic_1.5cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Ceramic_1.5cm"
+            }
+        ]
+    }, 
+    "IS_5280_Floor_OverOpenSpace_B": {
+        "display_name": "IS_5280_Floor_OverOpenSpace_B", 
+        "type": "OpaqueConstruction", 
+        "identifier": "IS_5280_Floor_OverOpenSpace_B", 
+        "materials": [
+            {
+                "conductivity": 1.0, 
+                "specific_heat": 900.0, 
+                "density": 1000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.02, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Cement_Mortar_2cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Cement_Mortar_2cm"
+            }, 
+            {
+                "conductivity": 2.0, 
+                "specific_heat": 1000.0, 
+                "density": 2400.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.14000000000000001, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_RegularConcrete_14cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_RegularConcrete_14cm"
+            }, 
+            {
+                "conductivity": 0.040000000000000001, 
+                "specific_heat": 1450.0, 
+                "density": 30.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.025000000000000001, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Ins_2.5cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Ins_2.5cm"
+            }, 
+            {
+                "conductivity": 2.0, 
+                "specific_heat": 1000.0, 
+                "density": 2000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.10000000000000001, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Sand_10cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Sand_10cm"
+            }, 
+            {
+                "conductivity": 1.3999999999999999, 
+                "specific_heat": 1000.0, 
+                "density": 2000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.02, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Clay_2cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Clay_2cm"
+            }, 
+            {
+                "conductivity": 1.3, 
+                "specific_heat": 840.0, 
+                "density": 2300.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.014999999999999999, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Ceramic_1.5cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Ceramic_1.5cm"
+            }
+        ]
+    }, 
+    "IS_5280_Floor_OverUnheated_A": {
+        "display_name": "IS_5280_Floor_OverUnheated_A", 
+        "type": "OpaqueConstruction", 
+        "identifier": "IS_5280_Floor_OverUnheated_A", 
+        "materials": [
+            {
+                "conductivity": 1.0, 
+                "specific_heat": 900.0, 
+                "density": 1000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.02, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Cement_Mortar_2cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Cement_Mortar_2cm"
+            }, 
+            {
+                "conductivity": 2.0, 
+                "specific_heat": 1000.0, 
+                "density": 2400.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.14000000000000001, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_RegularConcrete_14cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_RegularConcrete_14cm"
+            }, 
+            {
+                "conductivity": 0.040000000000000001, 
+                "specific_heat": 1450.0, 
+                "density": 30.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.02, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Ins_2cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Ins_2cm"
+            }, 
+            {
+                "conductivity": 2.0, 
+                "specific_heat": 1000.0, 
+                "density": 2000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.10000000000000001, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Sand_10cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Sand_10cm"
+            }, 
+            {
+                "conductivity": 1.3999999999999999, 
+                "specific_heat": 1000.0, 
+                "density": 2000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.02, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Clay_2cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Clay_2cm"
+            }, 
+            {
+                "conductivity": 1.3, 
+                "specific_heat": 840.0, 
+                "density": 2300.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.014999999999999999, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Ceramic_1.5cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Ceramic_1.5cm"
+            }
+        ]
+    }, 
+    "IS_5280_Ceiling_Unheated_A": {
+        "display_name": "IS_5280_Ceiling_Unheated_A", 
+        "type": "OpaqueConstruction", 
+        "identifier": "IS_5280_Ceiling_Unheated_A", 
+        "materials": [
+            {
+                "conductivity": 1.3, 
+                "specific_heat": 840.0, 
+                "density": 2300.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.014999999999999999, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Ceramic_1.5cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Ceramic_1.5cm"
+            }, 
+            {
+                "conductivity": 1.3999999999999999, 
+                "specific_heat": 1000.0, 
+                "density": 2000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.02, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Clay_2cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Clay_2cm"
+            }, 
+            {
+                "conductivity": 2.0, 
+                "specific_heat": 1000.0, 
+                "density": 2000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.10000000000000001, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Sand_10cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Sand_10cm"
+            }, 
+            {
+                "conductivity": 0.040000000000000001, 
+                "specific_heat": 1450.0, 
+                "density": 30.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.02, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Ins_2cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Ins_2cm"
+            }, 
+            {
+                "conductivity": 2.0, 
+                "specific_heat": 1000.0, 
+                "density": 2400.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.14000000000000001, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_RegularConcrete_14cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_RegularConcrete_14cm"
+            }, 
+            {
+                "conductivity": 1.0, 
+                "specific_heat": 900.0, 
+                "density": 1000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.02, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Cement_Mortar_2cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Cement_Mortar_2cm"
+            }
+        ]
+    }, 
+    "IS_5280_Dg_Wind_Tris_New_D": {
+        "display_name": "IS_5280_Dg_Wind_Tris_New_D", 
+        "identifier": "IS_5280_Dg_Wind_Tris_New_D", 
+        "control_type": "AlwaysOn", 
+        "shade_material": {
+            "top_opening_multiplier": 1.0, 
+            "type": "EnergyWindowMaterialShade", 
+            "infrared_transmittance": 0.050000000000000003, 
+            "visible_transmittance": 0.14999999999999999, 
+            "right_opening_multiplier": 1.0, 
+            "left_opening_multiplier": 1.0, 
+            "display_name": "IS_5280_Tris_New", 
+            "identifier": "IS_5280_Tris_New", 
+            "distance_to_glass": 0.10000000000000001, 
+            "airflow_permeability": 0.0, 
+            "solar_transmittance": 0.14999999999999999, 
+            "emissivity": 0.90000000000000002, 
+            "conductivity": 160.0, 
+            "thickness": 0.001, 
+            "solar_reflectance": 0.59999999999999998, 
+            "bottom_opening_multiplier": 1.0, 
+            "visible_reflectance": 0.59999999999999998
+        }, 
+        "type": "WindowConstructionShade", 
+        "window_construction": {
+            "display_name": "IS_5280_WindowReference_Const", 
+            "type": "WindowConstruction", 
+            "identifier": "IS_5280_WindowReference_Const", 
+            "materials": [
+                {
+                    "shgc": 0.63, 
+                    "vt": 0.60999999999999999, 
+                    "display_name": "IS_5280_WindowReference_Mat", 
+                    "identifier": "IS_5280_WindowReference_Mat", 
+                    "u_factor": 4.0, 
+                    "type": "EnergyWindowMaterialSimpleGlazSys"
+                }
+            ]
+        }, 
+        "shade_location": "Exterior", 
+        "schedule": {
+            "display_name": "Is_5280_TrisSchd_D", 
+            "identifier": "Is_5280_TrisSchd_D", 
+            "schedule_rules": [
+                {
+                    "apply_tuesday": true, 
+                    "apply_saturday": true, 
+                    "schedule_day": "IS_5280_Sch_Tris_Summer_Day Schedule", 
+                    "apply_friday": true, 
+                    "apply_monday": true, 
+                    "start_date": [
+                        3, 
+                        1
+                    ], 
+                    "end_date": [
+                        11, 
+                        30
+                    ], 
+                    "apply_wednesday": true, 
+                    "type": "ScheduleRuleAbridged", 
+                    "apply_thursday": true, 
+                    "apply_sunday": true
+                }, 
+                {
+                    "apply_tuesday": true, 
+                    "apply_saturday": true, 
+                    "schedule_day": "IS_5280_Sch_Tris_Winter_Day Schedule", 
+                    "apply_friday": true, 
+                    "apply_monday": true, 
+                    "start_date": [
+                        1, 
+                        1
+                    ], 
+                    "end_date": [
+                        2, 
+                        28
+                    ], 
+                    "apply_wednesday": true, 
+                    "type": "ScheduleRuleAbridged", 
+                    "apply_thursday": true, 
+                    "apply_sunday": true
+                }
+            ], 
+            "default_day_schedule": "IS_5280_Sch_Tris_Winter_Day Schedule", 
+            "summer_designday_schedule": "Is_5280_TrisSchd_D_SmrDsn", 
+            "schedule_type_limit": {
+                "upper_limit": 1.0, 
+                "identifier": "Fractional", 
+                "lower_limit": 0.0, 
+                "numeric_type": "Continuous", 
+                "unit_type": "Dimensionless", 
+                "type": "ScheduleTypeLimit"
+            }, 
+            "type": "ScheduleRuleset", 
+            "winter_designday_schedule": "Is_5280_TrisSchd_D_SmrDsn", 
+            "day_schedules": [
+                {
+                    "identifier": "IS_5280_Sch_Tris_Winter_Day Schedule", 
+                    "times": [
+                        [
+                            0, 
+                            0
+                        ], 
+                        [
+                            6, 
+                            0
+                        ], 
+                        [
+                            18, 
+                            0
+                        ]
+                    ], 
+                    "values": [
+                        1.0, 
+                        0.0, 
+                        1.0
+                    ], 
+                    "type": "ScheduleDay", 
+                    "interpolate": false
+                }, 
+                {
+                    "identifier": "Is_5280_TrisSchd_D_SmrDsn", 
+                    "times": [
+                        [
+                            0, 
+                            0
+                        ], 
+                        [
+                            6, 
+                            0
+                        ], 
+                        [
+                            18, 
+                            0
+                        ]
+                    ], 
+                    "values": [
+                        0.0, 
+                        1.0, 
+                        0.0
+                    ], 
+                    "type": "ScheduleDay", 
+                    "interpolate": false
+                }, 
+                {
+                    "identifier": "Is_5280_TrisSchd_D_SmrDsn", 
+                    "times": [
+                        [
+                            0, 
+                            0
+                        ], 
+                        [
+                            6, 
+                            0
+                        ], 
+                        [
+                            18, 
+                            0
+                        ]
+                    ], 
+                    "values": [
+                        0.0, 
+                        1.0, 
+                        0.0
+                    ], 
+                    "type": "ScheduleDay", 
+                    "interpolate": false
+                }, 
+                {
+                    "identifier": "IS_5280_Sch_Tris_Summer_Day Schedule", 
+                    "times": [
+                        [
+                            0, 
+                            0
+                        ], 
+                        [
+                            6, 
+                            0
+                        ], 
+                        [
+                            18, 
+                            0
+                        ]
+                    ], 
+                    "values": [
+                        0.0, 
+                        1.0, 
+                        0.0
+                    ], 
+                    "type": "ScheduleDay", 
+                    "interpolate": false
+                }, 
+                {
+                    "identifier": "IS_5280_Sch_Tris_Winter_Day Schedule", 
+                    "times": [
+                        [
+                            0, 
+                            0
+                        ], 
+                        [
+                            6, 
+                            0
+                        ], 
+                        [
+                            18, 
+                            0
+                        ]
+                    ], 
+                    "values": [
+                        1.0, 
+                        0.0, 
+                        1.0
+                    ], 
+                    "type": "ScheduleDay", 
+                    "interpolate": false
+                }
+            ]
+        }
+    }, 
+    "IS_5280_WindowReference_Const": {
+        "display_name": "IS_5280_WindowReference_Const", 
+        "type": "WindowConstruction", 
+        "identifier": "IS_5280_WindowReference_Const", 
+        "materials": [
+            {
+                "shgc": 0.63, 
+                "vt": 0.60999999999999999, 
+                "display_name": "IS_5280_WindowReference_Mat", 
+                "identifier": "IS_5280_WindowReference_Mat", 
+                "u_factor": 4.0, 
+                "type": "EnergyWindowMaterialSimpleGlazSys"
+            }
+        ]
+    }, 
+    "IS_5280_Dg_Wind_Tris_New_C": {
+        "display_name": "IS_5280_Dg_Wind_Tris_New_C", 
+        "identifier": "IS_5280_Dg_Wind_Tris_New_C", 
+        "control_type": "AlwaysOn", 
+        "shade_material": {
+            "top_opening_multiplier": 1.0, 
+            "type": "EnergyWindowMaterialShade", 
+            "infrared_transmittance": 0.050000000000000003, 
+            "visible_transmittance": 0.14999999999999999, 
+            "right_opening_multiplier": 1.0, 
+            "left_opening_multiplier": 1.0, 
+            "display_name": "IS_5280_Tris_New", 
+            "identifier": "IS_5280_Tris_New", 
+            "distance_to_glass": 0.10000000000000001, 
+            "airflow_permeability": 0.0, 
+            "solar_transmittance": 0.14999999999999999, 
+            "emissivity": 0.90000000000000002, 
+            "conductivity": 160.0, 
+            "thickness": 0.001, 
+            "solar_reflectance": 0.59999999999999998, 
+            "bottom_opening_multiplier": 1.0, 
+            "visible_reflectance": 0.59999999999999998
+        }, 
+        "type": "WindowConstructionShade", 
+        "window_construction": {
+            "display_name": "IS_5280_WindowReference_Const", 
+            "type": "WindowConstruction", 
+            "identifier": "IS_5280_WindowReference_Const", 
+            "materials": [
+                {
+                    "shgc": 0.63, 
+                    "vt": 0.60999999999999999, 
+                    "display_name": "IS_5280_WindowReference_Mat", 
+                    "identifier": "IS_5280_WindowReference_Mat", 
+                    "u_factor": 4.0, 
+                    "type": "EnergyWindowMaterialSimpleGlazSys"
+                }
+            ]
+        }, 
+        "shade_location": "Exterior", 
+        "schedule": {
+            "display_name": "Is_5280_TrisSchd_C", 
+            "identifier": "Is_5280_TrisSchd_C", 
+            "schedule_rules": [
+                {
+                    "apply_tuesday": true, 
+                    "apply_saturday": true, 
+                    "schedule_day": "IS_5280_Sch_Tris_Summer_Day Schedule", 
+                    "apply_friday": true, 
+                    "apply_monday": true, 
+                    "start_date": [
+                        5, 
+                        1
+                    ], 
+                    "end_date": [
+                        10, 
+                        31
+                    ], 
+                    "apply_wednesday": true, 
+                    "type": "ScheduleRuleAbridged", 
+                    "apply_thursday": true, 
+                    "apply_sunday": true
+                }, 
+                {
+                    "apply_tuesday": true, 
+                    "apply_saturday": true, 
+                    "schedule_day": "IS_5280_Sch_Tris_Winter_Day Schedule", 
+                    "apply_friday": true, 
+                    "apply_monday": true, 
+                    "start_date": [
+                        1, 
+                        1
+                    ], 
+                    "end_date": [
+                        4, 
+                        30
+                    ], 
+                    "apply_wednesday": true, 
+                    "type": "ScheduleRuleAbridged", 
+                    "apply_thursday": true, 
+                    "apply_sunday": true
+                }
+            ], 
+            "default_day_schedule": "IS_5280_Sch_Tris_Winter_Day Schedule", 
+            "summer_designday_schedule": "Is_5280_TrisSchd_C_SmrDsn", 
+            "schedule_type_limit": {
+                "upper_limit": 1.0, 
+                "identifier": "Fractional", 
+                "lower_limit": 0.0, 
+                "numeric_type": "Continuous", 
+                "unit_type": "Dimensionless", 
+                "type": "ScheduleTypeLimit"
+            }, 
+            "type": "ScheduleRuleset", 
+            "winter_designday_schedule": "Is_5280_TrisSchd_C_SmrDsn", 
+            "day_schedules": [
+                {
+                    "identifier": "IS_5280_Sch_Tris_Winter_Day Schedule", 
+                    "times": [
+                        [
+                            0, 
+                            0
+                        ], 
+                        [
+                            6, 
+                            0
+                        ], 
+                        [
+                            18, 
+                            0
+                        ]
+                    ], 
+                    "values": [
+                        1.0, 
+                        0.0, 
+                        1.0
+                    ], 
+                    "type": "ScheduleDay", 
+                    "interpolate": false
+                }, 
+                {
+                    "identifier": "Is_5280_TrisSchd_C_SmrDsn", 
+                    "times": [
+                        [
+                            0, 
+                            0
+                        ], 
+                        [
+                            6, 
+                            0
+                        ], 
+                        [
+                            18, 
+                            0
+                        ]
+                    ], 
+                    "values": [
+                        0.0, 
+                        1.0, 
+                        0.0
+                    ], 
+                    "type": "ScheduleDay", 
+                    "interpolate": false
+                }, 
+                {
+                    "identifier": "Is_5280_TrisSchd_C_SmrDsn", 
+                    "times": [
+                        [
+                            0, 
+                            0
+                        ], 
+                        [
+                            6, 
+                            0
+                        ], 
+                        [
+                            18, 
+                            0
+                        ]
+                    ], 
+                    "values": [
+                        0.0, 
+                        1.0, 
+                        0.0
+                    ], 
+                    "type": "ScheduleDay", 
+                    "interpolate": false
+                }, 
+                {
+                    "identifier": "IS_5280_Sch_Tris_Summer_Day Schedule", 
+                    "times": [
+                        [
+                            0, 
+                            0
+                        ], 
+                        [
+                            6, 
+                            0
+                        ], 
+                        [
+                            18, 
+                            0
+                        ]
+                    ], 
+                    "values": [
+                        0.0, 
+                        1.0, 
+                        0.0
+                    ], 
+                    "type": "ScheduleDay", 
+                    "interpolate": false
+                }, 
+                {
+                    "identifier": "IS_5280_Sch_Tris_Winter_Day Schedule", 
+                    "times": [
+                        [
+                            0, 
+                            0
+                        ], 
+                        [
+                            6, 
+                            0
+                        ], 
+                        [
+                            18, 
+                            0
+                        ]
+                    ], 
+                    "values": [
+                        1.0, 
+                        0.0, 
+                        1.0
+                    ], 
+                    "type": "ScheduleDay", 
+                    "interpolate": false
+                }
+            ]
+        }
+    }, 
+    "IS_5280_Ceiling_UnderUnheated_A_B": {
+        "display_name": "IS_5280_Ceiling_UnderUnheated_A_B", 
+        "type": "OpaqueConstruction", 
+        "identifier": "IS_5280_Ceiling_UnderUnheated_A_B", 
+        "materials": [
+            {
+                "conductivity": 1.3, 
+                "specific_heat": 840.0, 
+                "density": 2300.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.014999999999999999, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Ceramic_1.5cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Ceramic_1.5cm"
+            }, 
+            {
+                "conductivity": 1.3999999999999999, 
+                "specific_heat": 1000.0, 
+                "density": 2000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.02, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Clay_2cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Clay_2cm"
+            }, 
+            {
+                "conductivity": 2.0, 
+                "specific_heat": 1000.0, 
+                "density": 2000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.10000000000000001, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Sand_10cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Sand_10cm"
+            }, 
+            {
+                "conductivity": 0.040000000000000001, 
+                "specific_heat": 1450.0, 
+                "density": 30.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.02, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Ins_2cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Ins_2cm"
+            }, 
+            {
+                "conductivity": 2.0, 
+                "specific_heat": 1000.0, 
+                "density": 2400.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.14000000000000001, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_RegularConcrete_14cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_RegularConcrete_14cm"
+            }, 
+            {
+                "conductivity": 1.0, 
+                "specific_heat": 900.0, 
+                "density": 1000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.02, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Cement_Mortar_2cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Cement_Mortar_2cm"
+            }
+        ]
+    }, 
+    "IS_5280_InternalCeiling": {
+        "display_name": "IS_5280_InternalCeiling", 
+        "type": "OpaqueConstruction", 
+        "identifier": "IS_5280_InternalCeiling", 
+        "materials": [
+            {
+                "conductivity": 1.3, 
+                "specific_heat": 840.0, 
+                "density": 2300.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.014999999999999999, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Ceramic_1.5cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Ceramic_1.5cm"
+            }, 
+            {
+                "conductivity": 1.3999999999999999, 
+                "specific_heat": 1000.0, 
+                "density": 2000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.02, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Clay_2cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Clay_2cm"
+            }, 
+            {
+                "conductivity": 2.0, 
+                "specific_heat": 1000.0, 
+                "density": 2000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.10000000000000001, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Sand_10cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Sand_10cm"
+            }, 
+            {
+                "conductivity": 2.0, 
+                "specific_heat": 1000.0, 
+                "density": 2400.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.14000000000000001, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_RegularConcrete_14cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_RegularConcrete_14cm"
+            }, 
+            {
+                "conductivity": 1.0, 
+                "specific_heat": 900.0, 
+                "density": 1000.0, 
+                "thermal_absorptance": 0.90000000000000002, 
+                "thickness": 0.02, 
+                "solar_absorptance": 0.69999999999999996, 
+                "visible_absorptance": 0.69999999999999996, 
+                "display_name": "IS_5280_Cement_Mortar_2cm", 
+                "roughness": "MediumRough", 
+                "type": "EnergyMaterial", 
+                "identifier": "IS_5280_Cement_Mortar_2cm"
+            }
+        ]
+    }, 
+    "IS_5280_Dg_Wind_Tris_Old": {
+        "display_name": "IS_5280_Dg_Wind_Tris_Old", 
+        "identifier": "IS_5280_Dg_Wind_Tris_Old", 
+        "control_type": "AlwaysOn", 
+        "shade_material": {
+            "top_opening_multiplier": 0.5, 
+            "type": "EnergyWindowMaterialShade", 
+            "infrared_transmittance": 0.0, 
+            "visible_transmittance": 0.40000000000000002, 
+            "right_opening_multiplier": 0.5, 
+            "left_opening_multiplier": 0.5, 
+            "display_name": "IS_5280_Tris_Old", 
+            "identifier": "IS_5280_Tris_Old", 
+            "distance_to_glass": 0.10000000000000001, 
+            "airflow_permeability": 0.0, 
+            "solar_transmittance": 0.40000000000000002, 
+            "emissivity": 0.90000000000000002, 
+            "conductivity": 0.02, 
+            "thickness": 0.001, 
+            "solar_reflectance": 0.5, 
+            "bottom_opening_multiplier": 0.5, 
+            "visible_reflectance": 0.5
+        }, 
+        "type": "WindowConstructionShade", 
+        "window_construction": {
+            "display_name": "IS_5280_WindowReference_Const", 
+            "type": "WindowConstruction", 
+            "identifier": "IS_5280_WindowReference_Const", 
+            "materials": [
+                {
+                    "shgc": 0.63, 
+                    "vt": 0.60999999999999999, 
+                    "display_name": "IS_5280_WindowReference_Mat", 
+                    "identifier": "IS_5280_WindowReference_Mat", 
+                    "u_factor": 4.0, 
+                    "type": "EnergyWindowMaterialSimpleGlazSys"
+                }
+            ]
+        }, 
+        "shade_location": "Exterior"
+    }
+}

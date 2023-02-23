@@ -1,0 +1,1 @@
+number of epochs = 2, batch_size = 8, learning_rate = 0.001 

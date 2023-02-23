@@ -1,0 +1,73 @@
+{
+    "FR_BER_LCA_Dg_Alum_wood_1_4": {
+        "shgc": 0.39000000000000001, 
+        "vt": 0.69999999999999996, 
+        "display_name": "FR_BER_LCA_Dg_Alum_wood_1_4", 
+        "identifier": "FR_BER_LCA_Dg_Alum_wood_1_4", 
+        "u_factor": 1.3999999999999999, 
+        "type": "EnergyWindowMaterialSimpleGlazSys"
+    }, 
+    "FR_BER_LCA_polystyrene_R_2.5": {
+        "conductivity": 0.040000000000000001, 
+        "specific_heat": 1450.0, 
+        "density": 30.0, 
+        "thermal_absorptance": 0.90000000000000002, 
+        "thickness": 0.10000000000000001, 
+        "solar_absorptance": 0.69999999999999996, 
+        "visible_absorptance": 0.69999999999999996, 
+        "display_name": "FR_BER_LCA_polystyrene_R_2.5", 
+        "roughness": "MediumRough", 
+        "type": "EnergyMaterial", 
+        "identifier": "FR_BER_LCA_polystyrene_R_2.5"
+    }, 
+    "FR_BER_LCA_polystyrene_R_5": {
+        "conductivity": 0.040000000000000001, 
+        "specific_heat": 1450.0, 
+        "density": 30.0, 
+        "thermal_absorptance": 0.90000000000000002, 
+        "thickness": 0.20000000000000001, 
+        "solar_absorptance": 0.69999999999999996, 
+        "visible_absorptance": 0.69999999999999996, 
+        "display_name": "FR_BER_LCA_polystyrene_R_5", 
+        "roughness": "MediumRough", 
+        "type": "EnergyMaterial", 
+        "identifier": "FR_BER_LCA_polystyrene_R_5"
+    }, 
+    "FR_BER_LCA_Tg_Alum_wood_0_8": {
+        "shgc": 0.33000000000000002, 
+        "vt": 0.56000000000000005, 
+        "display_name": "FR_BER_LCA_Tg_Alum_wood_0_8", 
+        "identifier": "FR_BER_LCA_Tg_Alum_wood_0_8", 
+        "u_factor": 0.80000000000000004, 
+        "type": "EnergyWindowMaterialSimpleGlazSys"
+    }, 
+    "FR_BER_LCA_Tg_Alum_wood_1_1": {
+        "shgc": 0.58999999999999997, 
+        "vt": 0.58999999999999997, 
+        "display_name": "FR_BER_LCA_Tg_Alum_wood_1_1", 
+        "identifier": "FR_BER_LCA_Tg_Alum_wood_1_1", 
+        "u_factor": 1.1000000000000001, 
+        "type": "EnergyWindowMaterialSimpleGlazSys"
+    }, 
+    "FR_BER_LCA_polystyrene_R_10": {
+        "conductivity": 0.040000000000000001, 
+        "specific_heat": 1450.0, 
+        "density": 30.0, 
+        "thermal_absorptance": 0.90000000000000002, 
+        "thickness": 0.40000000000000002, 
+        "solar_absorptance": 0.69999999999999996, 
+        "visible_absorptance": 0.69999999999999996, 
+        "display_name": "FR_BER_LCA_polystyrene_R_10", 
+        "roughness": "MediumRough", 
+        "type": "EnergyMaterial", 
+        "identifier": "FR_BER_LCA_polystyrene_R_10"
+    }, 
+    "FR_BER_LCA_Dg_Alum_BOUVET_1.7": {
+        "shgc": 0.70999999999999996, 
+        "vt": 0.75, 
+        "display_name": "FR_BER_LCA_Dg_Alum_BOUVET_1.7", 
+        "identifier": "FR_BER_LCA_Dg_Alum_BOUVET_1.7", 
+        "u_factor": 1.7, 
+        "type": "EnergyWindowMaterialSimpleGlazSys"
+    }
+}

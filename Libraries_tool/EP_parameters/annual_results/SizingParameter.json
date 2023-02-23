@@ -1,0 +1,6 @@
+{
+  "type": "SizingParameter",
+  "design_days": null,
+  "heating_factor": 1.25,
+  "cooling_factor": 1.15
+}

@@ -1,0 +1,8 @@
+{
+  "type": "SimulationControl",
+  "do_zone_sizing": true,
+  "do_system_sizing": false,
+  "do_plant_sizing": false,
+  "run_for_sizing_periods": false,
+  "run_for_run_periods": true
+}

@@ -1,0 +1,1432 @@
+{
+    "On_All_Day": {
+        "display_name": "On_All_Day", 
+        "identifier": "On_All_Day", 
+        "default_day_schedule": "On_All_Day_Day Schedule", 
+        "schedule_type_limit": {
+            "upper_limit": 1.0, 
+            "identifier": "On-Off", 
+            "lower_limit": 0.0, 
+            "numeric_type": "Discrete", 
+            "unit_type": "Dimensionless", 
+            "type": "ScheduleTypeLimit"
+        }, 
+        "type": "ScheduleRuleset", 
+        "day_schedules": [
+            {
+                "identifier": "On_All_Day_Day Schedule", 
+                "times": [
+                    [
+                        0, 
+                        0
+                    ]
+                ], 
+                "values": [
+                    1.0
+                ], 
+                "type": "ScheduleDay", 
+                "interpolate": false
+            }
+        ]
+    }, 
+    "IS_5280_Residential_NightVentSch": {
+        "display_name": "IS_5280_Residential_NightVentSch", 
+        "identifier": "IS_5280_Residential_NightVentSch", 
+        "default_day_schedule": "IS_5280_Residential_NightVentSch_Day Schedule", 
+        "schedule_type_limit": {
+            "upper_limit": 1.0, 
+            "identifier": "Fractional", 
+            "lower_limit": 0.0, 
+            "numeric_type": "Continuous", 
+            "unit_type": "Dimensionless", 
+            "type": "ScheduleTypeLimit"
+        }, 
+        "type": "ScheduleRuleset", 
+        "day_schedules": [
+            {
+                "identifier": "IS_5280_Residential_NightVentSch_Day Schedule", 
+                "times": [
+                    [
+                        0, 
+                        0
+                    ], 
+                    [
+                        7, 
+                        0
+                    ], 
+                    [
+                        19, 
+                        0
+                    ]
+                ], 
+                "values": [
+                    1.0, 
+                    0.0, 
+                    1.0
+                ], 
+                "type": "ScheduleDay", 
+                "interpolate": false
+            }
+        ]
+    }, 
+    "Is_5280_TrisSchd_D": {
+        "display_name": "Is_5280_TrisSchd_D", 
+        "identifier": "Is_5280_TrisSchd_D", 
+        "schedule_rules": [
+            {
+                "apply_tuesday": true, 
+                "apply_saturday": true, 
+                "schedule_day": "IS_5280_Sch_Tris_Summer_Day Schedule", 
+                "apply_friday": true, 
+                "apply_monday": true, 
+                "start_date": [
+                    3, 
+                    1
+                ], 
+                "end_date": [
+                    11, 
+                    30
+                ], 
+                "apply_wednesday": true, 
+                "type": "ScheduleRuleAbridged", 
+                "apply_thursday": true, 
+                "apply_sunday": true
+            }, 
+            {
+                "apply_tuesday": true, 
+                "apply_saturday": true, 
+                "schedule_day": "IS_5280_Sch_Tris_Winter_Day Schedule", 
+                "apply_friday": true, 
+                "apply_monday": true, 
+                "start_date": [
+                    1, 
+                    1
+                ], 
+                "end_date": [
+                    2, 
+                    28
+                ], 
+                "apply_wednesday": true, 
+                "type": "ScheduleRuleAbridged", 
+                "apply_thursday": true, 
+                "apply_sunday": true
+            }
+        ], 
+        "default_day_schedule": "IS_5280_Sch_Tris_Winter_Day Schedule", 
+        "summer_designday_schedule": "Is_5280_TrisSchd_D_SmrDsn", 
+        "schedule_type_limit": {
+            "upper_limit": 1.0, 
+            "identifier": "Fractional", 
+            "lower_limit": 0.0, 
+            "numeric_type": "Continuous", 
+            "unit_type": "Dimensionless", 
+            "type": "ScheduleTypeLimit"
+        }, 
+        "type": "ScheduleRuleset", 
+        "winter_designday_schedule": "Is_5280_TrisSchd_D_SmrDsn", 
+        "day_schedules": [
+            {
+                "identifier": "IS_5280_Sch_Tris_Winter_Day Schedule", 
+                "times": [
+                    [
+                        0, 
+                        0
+                    ], 
+                    [
+                        6, 
+                        0
+                    ], 
+                    [
+                        18, 
+                        0
+                    ]
+                ], 
+                "values": [
+                    1.0, 
+                    0.0, 
+                    1.0
+                ], 
+                "type": "ScheduleDay", 
+                "interpolate": false
+            }, 
+            {
+                "identifier": "Is_5280_TrisSchd_D_SmrDsn", 
+                "times": [
+                    [
+                        0, 
+                        0
+                    ], 
+                    [
+                        6, 
+                        0
+                    ], 
+                    [
+                        18, 
+                        0
+                    ]
+                ], 
+                "values": [
+                    0.0, 
+                    1.0, 
+                    0.0
+                ], 
+                "type": "ScheduleDay", 
+                "interpolate": false
+            }, 
+            {
+                "identifier": "Is_5280_TrisSchd_D_SmrDsn", 
+                "times": [
+                    [
+                        0, 
+                        0
+                    ], 
+                    [
+                        6, 
+                        0
+                    ], 
+                    [
+                        18, 
+                        0
+                    ]
+                ], 
+                "values": [
+                    0.0, 
+                    1.0, 
+                    0.0
+                ], 
+                "type": "ScheduleDay", 
+                "interpolate": false
+            }, 
+            {
+                "identifier": "IS_5280_Sch_Tris_Summer_Day Schedule", 
+                "times": [
+                    [
+                        0, 
+                        0
+                    ], 
+                    [
+                        6, 
+                        0
+                    ], 
+                    [
+                        18, 
+                        0
+                    ]
+                ], 
+                "values": [
+                    0.0, 
+                    1.0, 
+                    0.0
+                ], 
+                "type": "ScheduleDay", 
+                "interpolate": false
+            }, 
+            {
+                "identifier": "IS_5280_Sch_Tris_Winter_Day Schedule", 
+                "times": [
+                    [
+                        0, 
+                        0
+                    ], 
+                    [
+                        6, 
+                        0
+                    ], 
+                    [
+                        18, 
+                        0
+                    ]
+                ], 
+                "values": [
+                    1.0, 
+                    0.0, 
+                    1.0
+                ], 
+                "type": "ScheduleDay", 
+                "interpolate": false
+            }
+        ]
+    }, 
+    "Is_5280_CoolingSch_D": {
+        "display_name": "Is_5280_CoolingSch_D", 
+        "identifier": "Is_5280_CoolingSch_D", 
+        "schedule_rules": [
+            {
+                "apply_tuesday": true, 
+                "apply_saturday": true, 
+                "schedule_day": "On_All_Day_Day Schedule", 
+                "apply_friday": true, 
+                "apply_monday": true, 
+                "start_date": [
+                    3, 
+                    1
+                ], 
+                "end_date": [
+                    11, 
+                    30
+                ], 
+                "apply_wednesday": true, 
+                "type": "ScheduleRuleAbridged", 
+                "apply_thursday": true, 
+                "apply_sunday": true
+            }, 
+            {
+                "apply_tuesday": true, 
+                "apply_saturday": true, 
+                "schedule_day": "Off_All_Day_Day Schedule", 
+                "apply_friday": true, 
+                "apply_monday": true, 
+                "start_date": [
+                    1, 
+                    1
+                ], 
+                "end_date": [
+                    2, 
+                    28
+                ], 
+                "apply_wednesday": true, 
+                "type": "ScheduleRuleAbridged", 
+                "apply_thursday": true, 
+                "apply_sunday": true
+            }
+        ], 
+        "default_day_schedule": "Off_All_Day_Day Schedule", 
+        "schedule_type_limit": {
+            "upper_limit": 1.0, 
+            "identifier": "On-Off", 
+            "lower_limit": 0.0, 
+            "numeric_type": "Discrete", 
+            "unit_type": "Dimensionless", 
+            "type": "ScheduleTypeLimit"
+        }, 
+        "type": "ScheduleRuleset", 
+        "day_schedules": [
+            {
+                "identifier": "Off_All_Day_Day Schedule", 
+                "times": [
+                    [
+                        0, 
+                        0
+                    ]
+                ], 
+                "values": [
+                    0.0
+                ], 
+                "type": "ScheduleDay", 
+                "interpolate": false
+            }, 
+            {
+                "identifier": "On_All_Day_Day Schedule", 
+                "times": [
+                    [
+                        0, 
+                        0
+                    ]
+                ], 
+                "values": [
+                    1.0
+                ], 
+                "type": "ScheduleDay", 
+                "interpolate": false
+            }, 
+            {
+                "identifier": "Off_All_Day_Day Schedule", 
+                "times": [
+                    [
+                        0, 
+                        0
+                    ]
+                ], 
+                "values": [
+                    0.0
+                ], 
+                "type": "ScheduleDay", 
+                "interpolate": false
+            }
+        ]
+    }, 
+    "Is_5280_HeatingSch_C": {
+        "display_name": "Is_5280_HeatingSch_C", 
+        "identifier": "Is_5280_HeatingSch_C", 
+        "schedule_rules": [
+            {
+                "apply_tuesday": true, 
+                "apply_saturday": true, 
+                "schedule_day": "Off_All_Day_Day Schedule", 
+                "apply_friday": true, 
+                "apply_monday": true, 
+                "start_date": [
+                    5, 
+                    1
+                ], 
+                "end_date": [
+                    10, 
+                    31
+                ], 
+                "apply_wednesday": true, 
+                "type": "ScheduleRuleAbridged", 
+                "apply_thursday": true, 
+                "apply_sunday": true
+            }, 
+            {
+                "apply_tuesday": true, 
+                "apply_saturday": true, 
+                "schedule_day": "On_All_Day_Day Schedule", 
+                "apply_friday": true, 
+                "apply_monday": true, 
+                "start_date": [
+                    1, 
+                    1
+                ], 
+                "end_date": [
+                    4, 
+                    30
+                ], 
+                "apply_wednesday": true, 
+                "type": "ScheduleRuleAbridged", 
+                "apply_thursday": true, 
+                "apply_sunday": true
+            }
+        ], 
+        "default_day_schedule": "On_All_Day_Day Schedule", 
+        "schedule_type_limit": {
+            "upper_limit": 1.0, 
+            "identifier": "On-Off", 
+            "lower_limit": 0.0, 
+            "numeric_type": "Discrete", 
+            "unit_type": "Dimensionless", 
+            "type": "ScheduleTypeLimit"
+        }, 
+        "type": "ScheduleRuleset", 
+        "day_schedules": [
+            {
+                "identifier": "On_All_Day_Day Schedule", 
+                "times": [
+                    [
+                        0, 
+                        0
+                    ]
+                ], 
+                "values": [
+                    1.0
+                ], 
+                "type": "ScheduleDay", 
+                "interpolate": false
+            }, 
+            {
+                "identifier": "Off_All_Day_Day Schedule", 
+                "times": [
+                    [
+                        0, 
+                        0
+                    ]
+                ], 
+                "values": [
+                    0.0
+                ], 
+                "type": "ScheduleDay", 
+                "interpolate": false
+            }, 
+            {
+                "identifier": "On_All_Day_Day Schedule", 
+                "times": [
+                    [
+                        0, 
+                        0
+                    ]
+                ], 
+                "values": [
+                    1.0
+                ], 
+                "type": "ScheduleDay", 
+                "interpolate": false
+            }
+        ]
+    }, 
+    "IS_5280_Residential_OccupancySch": {
+        "display_name": "IS_5280_Residential_OccupancySch", 
+        "identifier": "IS_5280_Residential_OccupancySch", 
+        "default_day_schedule": "IS_5280_Residential_OccupancySch_Day Schedule", 
+        "schedule_type_limit": {
+            "upper_limit": 1.0, 
+            "identifier": "Fractional", 
+            "lower_limit": 0.0, 
+            "numeric_type": "Continuous", 
+            "unit_type": "Dimensionless", 
+            "type": "ScheduleTypeLimit"
+        }, 
+        "type": "ScheduleRuleset", 
+        "day_schedules": [
+            {
+                "identifier": "IS_5280_Residential_OccupancySch_Day Schedule", 
+                "times": [
+                    [
+                        0, 
+                        0
+                    ], 
+                    [
+                        5, 
+                        0
+                    ], 
+                    [
+                        6, 
+                        0
+                    ], 
+                    [
+                        8, 
+                        0
+                    ], 
+                    [
+                        16, 
+                        0
+                    ]
+                ], 
+                "values": [
+                    1.0, 
+                    0.29999999999999999, 
+                    1.0, 
+                    0.0, 
+                    1.0
+                ], 
+                "type": "ScheduleDay", 
+                "interpolate": false
+            }
+        ]
+    }, 
+    "IS_5280_Residential_LightsOnSch": {
+        "display_name": "IS_5280_Residential_LightsOnSch", 
+        "identifier": "IS_5280_Residential_LightsOnSch", 
+        "default_day_schedule": "IS_5280_Residential_LightsOnSch_Day Schedule", 
+        "schedule_type_limit": {
+            "upper_limit": 1.0, 
+            "identifier": "On/Off", 
+            "lower_limit": 0.0, 
+            "numeric_type": "Discrete", 
+            "unit_type": "Dimensionless", 
+            "type": "ScheduleTypeLimit"
+        }, 
+        "type": "ScheduleRuleset", 
+        "day_schedules": [
+            {
+                "identifier": "IS_5280_Residential_LightsOnSch_Day Schedule", 
+                "times": [
+                    [
+                        0, 
+                        0
+                    ], 
+                    [
+                        17, 
+                        0
+                    ]
+                ], 
+                "values": [
+                    0.0, 
+                    1.0
+                ], 
+                "type": "ScheduleDay", 
+                "interpolate": false
+            }
+        ]
+    }, 
+    "Is_5280_TrisSchd_A_B": {
+        "display_name": "Is_5280_TrisSchd_A_B", 
+        "identifier": "Is_5280_TrisSchd_A_B", 
+        "schedule_rules": [
+            {
+                "apply_tuesday": true, 
+                "apply_saturday": true, 
+                "schedule_day": "IS_5280_Sch_Tris_Summer_Day Schedule", 
+                "apply_friday": true, 
+                "apply_monday": true, 
+                "start_date": [
+                    4, 
+                    1
+                ], 
+                "end_date": [
+                    11, 
+                    30
+                ], 
+                "apply_wednesday": true, 
+                "type": "ScheduleRuleAbridged", 
+                "apply_thursday": true, 
+                "apply_sunday": true
+            }, 
+            {
+                "apply_tuesday": true, 
+                "apply_saturday": true, 
+                "schedule_day": "IS_5280_Sch_Tris_Winter_Day Schedule", 
+                "apply_friday": true, 
+                "apply_monday": true, 
+                "start_date": [
+                    1, 
+                    1
+                ], 
+                "end_date": [
+                    3, 
+                    31
+                ], 
+                "apply_wednesday": true, 
+                "type": "ScheduleRuleAbridged", 
+                "apply_thursday": true, 
+                "apply_sunday": true
+            }
+        ], 
+        "default_day_schedule": "IS_5280_Sch_Tris_Winter_Day Schedule", 
+        "summer_designday_schedule": "Is_5280_TrisSchd_A_B_SmrDsn", 
+        "schedule_type_limit": {
+            "upper_limit": 1.0, 
+            "identifier": "Fractional", 
+            "lower_limit": 0.0, 
+            "numeric_type": "Continuous", 
+            "unit_type": "Dimensionless", 
+            "type": "ScheduleTypeLimit"
+        }, 
+        "type": "ScheduleRuleset", 
+        "winter_designday_schedule": "Is_5280_TrisSchd_A_B_SmrDsn", 
+        "day_schedules": [
+            {
+                "identifier": "IS_5280_Sch_Tris_Winter_Day Schedule", 
+                "times": [
+                    [
+                        0, 
+                        0
+                    ], 
+                    [
+                        6, 
+                        0
+                    ], 
+                    [
+                        18, 
+                        0
+                    ]
+                ], 
+                "values": [
+                    1.0, 
+                    0.0, 
+                    1.0
+                ], 
+                "type": "ScheduleDay", 
+                "interpolate": false
+            }, 
+            {
+                "identifier": "Is_5280_TrisSchd_A_B_SmrDsn", 
+                "times": [
+                    [
+                        0, 
+                        0
+                    ], 
+                    [
+                        6, 
+                        0
+                    ], 
+                    [
+                        18, 
+                        0
+                    ]
+                ], 
+                "values": [
+                    0.0, 
+                    1.0, 
+                    0.0
+                ], 
+                "type": "ScheduleDay", 
+                "interpolate": false
+            }, 
+            {
+                "identifier": "Is_5280_TrisSchd_A_B_SmrDsn", 
+                "times": [
+                    [
+                        0, 
+                        0
+                    ], 
+                    [
+                        6, 
+                        0
+                    ], 
+                    [
+                        18, 
+                        0
+                    ]
+                ], 
+                "values": [
+                    0.0, 
+                    1.0, 
+                    0.0
+                ], 
+                "type": "ScheduleDay", 
+                "interpolate": false
+            }, 
+            {
+                "identifier": "IS_5280_Sch_Tris_Summer_Day Schedule", 
+                "times": [
+                    [
+                        0, 
+                        0
+                    ], 
+                    [
+                        6, 
+                        0
+                    ], 
+                    [
+                        18, 
+                        0
+                    ]
+                ], 
+                "values": [
+                    0.0, 
+                    1.0, 
+                    0.0
+                ], 
+                "type": "ScheduleDay", 
+                "interpolate": false
+            }, 
+            {
+                "identifier": "IS_5280_Sch_Tris_Winter_Day Schedule", 
+                "times": [
+                    [
+                        0, 
+                        0
+                    ], 
+                    [
+                        6, 
+                        0
+                    ], 
+                    [
+                        18, 
+                        0
+                    ]
+                ], 
+                "values": [
+                    1.0, 
+                    0.0, 
+                    1.0
+                ], 
+                "type": "ScheduleDay", 
+                "interpolate": false
+            }
+        ]
+    }, 
+    "IS_5280_Residential_CoolingSetpointSch": {
+        "display_name": "IS_5280_Residential_CoolingSetpointSch", 
+        "identifier": "IS_5280_Residential_CoolingSetpointSch", 
+        "default_day_schedule": "IS_5280_Residential_CoolingSetpointSch_Day Schedule", 
+        "schedule_type_limit": {
+            "upper_limit": {
+                "type": "NoLimit"
+            }, 
+            "identifier": "Temperature", 
+            "lower_limit": -273.14999999999998, 
+            "numeric_type": "Continuous", 
+            "unit_type": "Temperature", 
+            "type": "ScheduleTypeLimit"
+        }, 
+        "type": "ScheduleRuleset", 
+        "day_schedules": [
+            {
+                "identifier": "IS_5280_Residential_CoolingSetpointSch_Day Schedule", 
+                "times": [
+                    [
+                        0, 
+                        0
+                    ]
+                ], 
+                "values": [
+                    24.0
+                ], 
+                "type": "ScheduleDay", 
+                "interpolate": false
+            }
+        ]
+    }, 
+    "Is_5280_HeatingSch_A_B": {
+        "display_name": "Is_5280_HeatingSch_A_B", 
+        "identifier": "Is_5280_HeatingSch_A_B", 
+        "schedule_rules": [
+            {
+                "apply_tuesday": true, 
+                "apply_saturday": true, 
+                "schedule_day": "Off_All_Day_Day Schedule", 
+                "apply_friday": true, 
+                "apply_monday": true, 
+                "start_date": [
+                    4, 
+                    1
+                ], 
+                "end_date": [
+                    11, 
+                    30
+                ], 
+                "apply_wednesday": true, 
+                "type": "ScheduleRuleAbridged", 
+                "apply_thursday": true, 
+                "apply_sunday": true
+            }, 
+            {
+                "apply_tuesday": true, 
+                "apply_saturday": true, 
+                "schedule_day": "On_All_Day_Day Schedule", 
+                "apply_friday": true, 
+                "apply_monday": true, 
+                "start_date": [
+                    1, 
+                    1
+                ], 
+                "end_date": [
+                    3, 
+                    31
+                ], 
+                "apply_wednesday": true, 
+                "type": "ScheduleRuleAbridged", 
+                "apply_thursday": true, 
+                "apply_sunday": true
+            }
+        ], 
+        "default_day_schedule": "On_All_Day_Day Schedule", 
+        "schedule_type_limit": {
+            "upper_limit": 1.0, 
+            "identifier": "On-Off", 
+            "lower_limit": 0.0, 
+            "numeric_type": "Discrete", 
+            "unit_type": "Dimensionless", 
+            "type": "ScheduleTypeLimit"
+        }, 
+        "type": "ScheduleRuleset", 
+        "day_schedules": [
+            {
+                "identifier": "On_All_Day_Day Schedule", 
+                "times": [
+                    [
+                        0, 
+                        0
+                    ]
+                ], 
+                "values": [
+                    1.0
+                ], 
+                "type": "ScheduleDay", 
+                "interpolate": false
+            }, 
+            {
+                "identifier": "Off_All_Day_Day Schedule", 
+                "times": [
+                    [
+                        0, 
+                        0
+                    ]
+                ], 
+                "values": [
+                    0.0
+                ], 
+                "type": "ScheduleDay", 
+                "interpolate": false
+            }, 
+            {
+                "identifier": "On_All_Day_Day Schedule", 
+                "times": [
+                    [
+                        0, 
+                        0
+                    ]
+                ], 
+                "values": [
+                    1.0
+                ], 
+                "type": "ScheduleDay", 
+                "interpolate": false
+            }
+        ]
+    }, 
+    "Off_All_Day": {
+        "display_name": "Off_All_Day", 
+        "identifier": "Off_All_Day", 
+        "default_day_schedule": "Off_All_Day_Day Schedule", 
+        "schedule_type_limit": {
+            "upper_limit": 1.0, 
+            "identifier": "On-Off", 
+            "lower_limit": 0.0, 
+            "numeric_type": "Discrete", 
+            "unit_type": "Dimensionless", 
+            "type": "ScheduleTypeLimit"
+        }, 
+        "type": "ScheduleRuleset", 
+        "day_schedules": [
+            {
+                "identifier": "Off_All_Day_Day Schedule", 
+                "times": [
+                    [
+                        0, 
+                        0
+                    ]
+                ], 
+                "values": [
+                    0.0
+                ], 
+                "type": "ScheduleDay", 
+                "interpolate": false
+            }
+        ]
+    }, 
+    "Is_5280_HeatingSch_D": {
+        "display_name": "Is_5280_HeatingSch_D", 
+        "identifier": "Is_5280_HeatingSch_D", 
+        "schedule_rules": [
+            {
+                "apply_tuesday": true, 
+                "apply_saturday": true, 
+                "schedule_day": "Off_All_Day_Day Schedule", 
+                "apply_friday": true, 
+                "apply_monday": true, 
+                "start_date": [
+                    3, 
+                    1
+                ], 
+                "end_date": [
+                    11, 
+                    30
+                ], 
+                "apply_wednesday": true, 
+                "type": "ScheduleRuleAbridged", 
+                "apply_thursday": true, 
+                "apply_sunday": true
+            }, 
+            {
+                "apply_tuesday": true, 
+                "apply_saturday": true, 
+                "schedule_day": "On_All_Day_Day Schedule", 
+                "apply_friday": true, 
+                "apply_monday": true, 
+                "start_date": [
+                    1, 
+                    1
+                ], 
+                "end_date": [
+                    2, 
+                    28
+                ], 
+                "apply_wednesday": true, 
+                "type": "ScheduleRuleAbridged", 
+                "apply_thursday": true, 
+                "apply_sunday": true
+            }
+        ], 
+        "default_day_schedule": "On_All_Day_Day Schedule", 
+        "schedule_type_limit": {
+            "upper_limit": 1.0, 
+            "identifier": "On-Off", 
+            "lower_limit": 0.0, 
+            "numeric_type": "Discrete", 
+            "unit_type": "Dimensionless", 
+            "type": "ScheduleTypeLimit"
+        }, 
+        "type": "ScheduleRuleset", 
+        "day_schedules": [
+            {
+                "identifier": "On_All_Day_Day Schedule", 
+                "times": [
+                    [
+                        0, 
+                        0
+                    ]
+                ], 
+                "values": [
+                    1.0
+                ], 
+                "type": "ScheduleDay", 
+                "interpolate": false
+            }, 
+            {
+                "identifier": "Off_All_Day_Day Schedule", 
+                "times": [
+                    [
+                        0, 
+                        0
+                    ]
+                ], 
+                "values": [
+                    0.0
+                ], 
+                "type": "ScheduleDay", 
+                "interpolate": false
+            }, 
+            {
+                "identifier": "On_All_Day_Day Schedule", 
+                "times": [
+                    [
+                        0, 
+                        0
+                    ]
+                ], 
+                "values": [
+                    1.0
+                ], 
+                "type": "ScheduleDay", 
+                "interpolate": false
+            }
+        ]
+    }, 
+    "Is_5280_TrisSchd_C": {
+        "display_name": "Is_5280_TrisSchd_C", 
+        "identifier": "Is_5280_TrisSchd_C", 
+        "schedule_rules": [
+            {
+                "apply_tuesday": true, 
+                "apply_saturday": true, 
+                "schedule_day": "IS_5280_Sch_Tris_Summer_Day Schedule", 
+                "apply_friday": true, 
+                "apply_monday": true, 
+                "start_date": [
+                    5, 
+                    1
+                ], 
+                "end_date": [
+                    10, 
+                    31
+                ], 
+                "apply_wednesday": true, 
+                "type": "ScheduleRuleAbridged", 
+                "apply_thursday": true, 
+                "apply_sunday": true
+            }, 
+            {
+                "apply_tuesday": true, 
+                "apply_saturday": true, 
+                "schedule_day": "IS_5280_Sch_Tris_Winter_Day Schedule", 
+                "apply_friday": true, 
+                "apply_monday": true, 
+                "start_date": [
+                    1, 
+                    1
+                ], 
+                "end_date": [
+                    4, 
+                    30
+                ], 
+                "apply_wednesday": true, 
+                "type": "ScheduleRuleAbridged", 
+                "apply_thursday": true, 
+                "apply_sunday": true
+            }
+        ], 
+        "default_day_schedule": "IS_5280_Sch_Tris_Winter_Day Schedule", 
+        "summer_designday_schedule": "Is_5280_TrisSchd_C_SmrDsn", 
+        "schedule_type_limit": {
+            "upper_limit": 1.0, 
+            "identifier": "Fractional", 
+            "lower_limit": 0.0, 
+            "numeric_type": "Continuous", 
+            "unit_type": "Dimensionless", 
+            "type": "ScheduleTypeLimit"
+        }, 
+        "type": "ScheduleRuleset", 
+        "winter_designday_schedule": "Is_5280_TrisSchd_C_SmrDsn", 
+        "day_schedules": [
+            {
+                "identifier": "IS_5280_Sch_Tris_Winter_Day Schedule", 
+                "times": [
+                    [
+                        0, 
+                        0
+                    ], 
+                    [
+                        6, 
+                        0
+                    ], 
+                    [
+                        18, 
+                        0
+                    ]
+                ], 
+                "values": [
+                    1.0, 
+                    0.0, 
+                    1.0
+                ], 
+                "type": "ScheduleDay", 
+                "interpolate": false
+            }, 
+            {
+                "identifier": "Is_5280_TrisSchd_C_SmrDsn", 
+                "times": [
+                    [
+                        0, 
+                        0
+                    ], 
+                    [
+                        6, 
+                        0
+                    ], 
+                    [
+                        18, 
+                        0
+                    ]
+                ], 
+                "values": [
+                    0.0, 
+                    1.0, 
+                    0.0
+                ], 
+                "type": "ScheduleDay", 
+                "interpolate": false
+            }, 
+            {
+                "identifier": "Is_5280_TrisSchd_C_SmrDsn", 
+                "times": [
+                    [
+                        0, 
+                        0
+                    ], 
+                    [
+                        6, 
+                        0
+                    ], 
+                    [
+                        18, 
+                        0
+                    ]
+                ], 
+                "values": [
+                    0.0, 
+                    1.0, 
+                    0.0
+                ], 
+                "type": "ScheduleDay", 
+                "interpolate": false
+            }, 
+            {
+                "identifier": "IS_5280_Sch_Tris_Summer_Day Schedule", 
+                "times": [
+                    [
+                        0, 
+                        0
+                    ], 
+                    [
+                        6, 
+                        0
+                    ], 
+                    [
+                        18, 
+                        0
+                    ]
+                ], 
+                "values": [
+                    0.0, 
+                    1.0, 
+                    0.0
+                ], 
+                "type": "ScheduleDay", 
+                "interpolate": false
+            }, 
+            {
+                "identifier": "IS_5280_Sch_Tris_Winter_Day Schedule", 
+                "times": [
+                    [
+                        0, 
+                        0
+                    ], 
+                    [
+                        6, 
+                        0
+                    ], 
+                    [
+                        18, 
+                        0
+                    ]
+                ], 
+                "values": [
+                    1.0, 
+                    0.0, 
+                    1.0
+                ], 
+                "type": "ScheduleDay", 
+                "interpolate": false
+            }
+        ]
+    }, 
+    "IS_5280_Sch_Tris_Winter": {
+        "display_name": "IS_5280_Sch_Tris_Winter", 
+        "identifier": "IS_5280_Sch_Tris_Winter", 
+        "default_day_schedule": "IS_5280_Sch_Tris_Winter_Day Schedule", 
+        "schedule_type_limit": {
+            "upper_limit": 1.0, 
+            "identifier": "Fractional", 
+            "lower_limit": 0.0, 
+            "numeric_type": "Continuous", 
+            "unit_type": "Dimensionless", 
+            "type": "ScheduleTypeLimit"
+        }, 
+        "type": "ScheduleRuleset", 
+        "day_schedules": [
+            {
+                "identifier": "IS_5280_Sch_Tris_Winter_Day Schedule", 
+                "times": [
+                    [
+                        0, 
+                        0
+                    ], 
+                    [
+                        6, 
+                        0
+                    ], 
+                    [
+                        18, 
+                        0
+                    ]
+                ], 
+                "values": [
+                    1.0, 
+                    0.0, 
+                    1.0
+                ], 
+                "type": "ScheduleDay", 
+                "interpolate": false
+            }
+        ]
+    }, 
+    "Is_5280_CoolingSch_A_B": {
+        "display_name": "Is_5280_CoolingSch_A_B", 
+        "identifier": "Is_5280_CoolingSch_A_B", 
+        "schedule_rules": [
+            {
+                "apply_tuesday": true, 
+                "apply_saturday": true, 
+                "schedule_day": "On_All_Day_Day Schedule", 
+                "apply_friday": true, 
+                "apply_monday": true, 
+                "start_date": [
+                    4, 
+                    1
+                ], 
+                "end_date": [
+                    11, 
+                    30
+                ], 
+                "apply_wednesday": true, 
+                "type": "ScheduleRuleAbridged", 
+                "apply_thursday": true, 
+                "apply_sunday": true
+            }, 
+            {
+                "apply_tuesday": true, 
+                "apply_saturday": true, 
+                "schedule_day": "Off_All_Day_Day Schedule", 
+                "apply_friday": true, 
+                "apply_monday": true, 
+                "start_date": [
+                    1, 
+                    1
+                ], 
+                "end_date": [
+                    3, 
+                    31
+                ], 
+                "apply_wednesday": true, 
+                "type": "ScheduleRuleAbridged", 
+                "apply_thursday": true, 
+                "apply_sunday": true
+            }
+        ], 
+        "default_day_schedule": "Off_All_Day_Day Schedule", 
+        "schedule_type_limit": {
+            "upper_limit": 1.0, 
+            "identifier": "On-Off", 
+            "lower_limit": 0.0, 
+            "numeric_type": "Discrete", 
+            "unit_type": "Dimensionless", 
+            "type": "ScheduleTypeLimit"
+        }, 
+        "type": "ScheduleRuleset", 
+        "day_schedules": [
+            {
+                "identifier": "Off_All_Day_Day Schedule", 
+                "times": [
+                    [
+                        0, 
+                        0
+                    ]
+                ], 
+                "values": [
+                    0.0
+                ], 
+                "type": "ScheduleDay", 
+                "interpolate": false
+            }, 
+            {
+                "identifier": "On_All_Day_Day Schedule", 
+                "times": [
+                    [
+                        0, 
+                        0
+                    ]
+                ], 
+                "values": [
+                    1.0
+                ], 
+                "type": "ScheduleDay", 
+                "interpolate": false
+            }, 
+            {
+                "identifier": "Off_All_Day_Day Schedule", 
+                "times": [
+                    [
+                        0, 
+                        0
+                    ]
+                ], 
+                "values": [
+                    0.0
+                ], 
+                "type": "ScheduleDay", 
+                "interpolate": false
+            }
+        ]
+    }, 
+    "IS_5280_Sch_Tris_Summer": {
+        "display_name": "IS_5280_Sch_Tris_Summer", 
+        "identifier": "IS_5280_Sch_Tris_Summer", 
+        "default_day_schedule": "IS_5280_Sch_Tris_Summer_Day Schedule", 
+        "schedule_type_limit": {
+            "upper_limit": 1.0, 
+            "identifier": "Fractional", 
+            "lower_limit": 0.0, 
+            "numeric_type": "Continuous", 
+            "unit_type": "Dimensionless", 
+            "type": "ScheduleTypeLimit"
+        }, 
+        "type": "ScheduleRuleset", 
+        "day_schedules": [
+            {
+                "identifier": "IS_5280_Sch_Tris_Summer_Day Schedule", 
+                "times": [
+                    [
+                        0, 
+                        0
+                    ], 
+                    [
+                        6, 
+                        0
+                    ], 
+                    [
+                        18, 
+                        0
+                    ]
+                ], 
+                "values": [
+                    0.0, 
+                    1.0, 
+                    0.0
+                ], 
+                "type": "ScheduleDay", 
+                "interpolate": false
+            }
+        ]
+    }, 
+    "IS_5280_Residential_ActivitySch": {
+        "display_name": "IS_5280_Residential_ActivitySch", 
+        "identifier": "IS_5280_Residential_ActivitySch", 
+        "default_day_schedule": "IS_5280_Residential_ActivitySch_Day Schedule", 
+        "schedule_type_limit": {
+            "upper_limit": {
+                "type": "NoLimit"
+            }, 
+            "identifier": "Activity Level", 
+            "lower_limit": 0.0, 
+            "numeric_type": "Continuous", 
+            "unit_type": "ActivityLevel", 
+            "type": "ScheduleTypeLimit"
+        }, 
+        "type": "ScheduleRuleset", 
+        "day_schedules": [
+            {
+                "identifier": "IS_5280_Residential_ActivitySch_Day Schedule", 
+                "times": [
+                    [
+                        0, 
+                        0
+                    ], 
+                    [
+                        9, 
+                        0
+                    ], 
+                    [
+                        17, 
+                        0
+                    ]
+                ], 
+                "values": [
+                    80.0, 
+                    125.0, 
+                    80.0
+                ], 
+                "type": "ScheduleDay", 
+                "interpolate": false
+            }
+        ]
+    }, 
+    "IS_5280_Residential_EquipmentSch": {
+        "display_name": "IS_5280_Residential_EquipmentSch", 
+        "identifier": "IS_5280_Residential_EquipmentSch", 
+        "default_day_schedule": "IS_5280_Residential_EquipmentSch_Day Schedule", 
+        "schedule_type_limit": {
+            "upper_limit": 1.0, 
+            "identifier": "Fractional", 
+            "lower_limit": 0.0, 
+            "numeric_type": "Continuous", 
+            "unit_type": "Dimensionless", 
+            "type": "ScheduleTypeLimit"
+        }, 
+        "type": "ScheduleRuleset", 
+        "day_schedules": [
+            {
+                "identifier": "IS_5280_Residential_EquipmentSch_Day Schedule", 
+                "times": [
+                    [
+                        0, 
+                        0
+                    ], 
+                    [
+                        16, 
+                        0
+                    ]
+                ], 
+                "values": [
+                    0.10000000000000001, 
+                    0.90000000000000002
+                ], 
+                "type": "ScheduleDay", 
+                "interpolate": false
+            }
+        ]
+    }, 
+    "IS_5280_Residential_HeatingSetpointSch": {
+        "display_name": "IS_5280_Residential_HeatingSetpointSch", 
+        "identifier": "IS_5280_Residential_HeatingSetpointSch", 
+        "default_day_schedule": "IS_5280_Residential_HeatingSetpointSch_Day Schedule", 
+        "schedule_type_limit": {
+            "upper_limit": {
+                "type": "NoLimit"
+            }, 
+            "identifier": "Temperature", 
+            "lower_limit": -273.14999999999998, 
+            "numeric_type": "Continuous", 
+            "unit_type": "Temperature", 
+            "type": "ScheduleTypeLimit"
+        }, 
+        "type": "ScheduleRuleset", 
+        "day_schedules": [
+            {
+                "identifier": "IS_5280_Residential_HeatingSetpointSch_Day Schedule", 
+                "times": [
+                    [
+                        0, 
+                        0
+                    ]
+                ], 
+                "values": [
+                    20.0
+                ], 
+                "type": "ScheduleDay", 
+                "interpolate": false
+            }
+        ]
+    }
+}

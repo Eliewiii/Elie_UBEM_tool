@@ -8,29 +8,35 @@ import logging
 import argparse
 import json
 
-# sys.path.append('D://Elie//PhD//Programming//Elie_UBEM_tool')
-sys.path.append('D://Documents//PhD')
+# Get Appdata\local folder
+local_appdata = os.environ['LOCALAPPDATA']
+path_tool = os.path.join(local_appdata, "Building_urban_analysis")
 
-
+# # Import libraries from the tool
 from urban_canopy_ubem_tool.urban_canopy import UrbanCanopy
 
 # default paths if no input is given
 
-# WORK
+# WORK todo: remove
 # default_path_gis = "D:\Elie\PhD\Simulation\Input_Data\GIS\gis_typo_id_extra_small"
 # default_path_gis = "D:\Elie\PhD\Simulation\\Input_Data\GIS\Example_context_filter_medium"
 # default_folder_gis_extraction = "D:\Elie\PhD\Simulation\sim_new_tool\gis_extraction"
 
 
-# HOME
+# HOME todo: remove
 # default_path_gis="D:\Documents\Phd_23_02_12\Simulation\Input_Data\GIS\gis_typo_id_extra_small"
-default_path_gis="D:\Documents\Phd_23_02_12\Simulation\Input_Data\GIS\gis_typo_id_small"
-default_folder_gis_extraction = "D:\Documents\Phd_23_02_12\Simulation\sim_new_tool\gis_extraction"
+# default_path_gis="D:\Documents\Phd_23_02_12\Simulation\Input_Data\GIS\gis_typo_id_small"
+# default_folder_gis_extraction = "D:\Documents\Phd_23_02_12\Simulation\sim_new_tool\gis_extraction"
 
+
+# Default values
+default_path_gis=os.path.join(path_tool, "Libraries", "GIS", "gis_typo_id_extra_small")
+default_folder_gis_extraction = os.path.join(path_tool, "Simulation_temp", "gis_extraction")
 default_unit = "m"
-
-
 default_additional_gis_attribute_key_dict = None
+default_move_buildings_to_origin = False
+default_run_by_the_tool = False
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -38,7 +44,9 @@ if __name__ == "__main__":
     parser.add_argument("-f", "--folder", help="path to the simulation folder", nargs='?', default=default_folder_gis_extraction)
     parser.add_argument("-u", "--unit", help="value of arg3", nargs='?', default=default_unit)
     parser.add_argument("-d", "--dic", help="path to the additional key dictionary", nargs='?', default=default_additional_gis_attribute_key_dict)
-    parser.add_argument("-m", "--mov", help="Boolean telling if building should be moved to the origin", nargs='?', default=False)
+    parser.add_argument("-m", "--mov", help="Boolean telling if building should be moved to the origin", nargs='?', default=default_move_buildings_to_origin)
+    parser.add_argument("-t", "--tool", help="Boolean telling if the code is run from an editor or externally by the batch file", nargs='?',
+                        default=default_run_by_the_tool)
 
     args = parser.parse_args()
 
@@ -49,6 +57,13 @@ if __name__ == "__main__":
     path_additional_gis_attribute_key_dict = args.dic
     move_buildings_to_origin = bool(args.mov)
     move_buildings_to_origin = True
+    run_by_the_tool = bool(args.tool)
+
+    # Create the folder if it does not exist
+    os.makedirs(path_folder_gis_extraction, exist_ok=True)
+
+    # Add the path of scripts in the tool to sys so that the lib can be used
+    sys.path.append(os.path.join(path_tool, "Scripts"))
 
     # Create or load the urban canopy object
     path_urban_canopy_pkl = os.path.join(path_folder_gis_extraction, "urban_canopy.pkl")

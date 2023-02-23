@@ -1,12 +1,14 @@
 @echo off
 
-rem Activate the virtual environment
-set "VENV_SCRIPTS=D:\Elie\PhD\tool_venv\Scripts"
+rem Set variables
+set path_venv_script=%LOCALAPPDATA%\Building_urban_analysis\tool_venv\Scripts
+set path_python_scripts=%LOCALAPPDATA%\Building_urban_analysis\Scripts"
 
-call "%VENV_SCRIPTS%\activate.bat"
+echo Activate the virtual environment
+call "%path_venv_script%\activate.bat"
 
-rem Run the Python script with optional arguments
-python D:\Elie\PhD\Programming\Elie_UBEM_tool\mains_tool\extract_gis/main_extract_gis.py %*
+echo Run the GIS extraction
+python %path_python_scripts%\mains_tool\extract_gis/main_extract_gis.py %* -t 1
 
 rem Deactivate the virtual environment
 deactivate

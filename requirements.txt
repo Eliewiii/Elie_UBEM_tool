@@ -30,9 +30,6 @@ ladybug-core
 ladybug-geometry
 ladybug-geometry-polyskel
 matplotlib==3.6.2
-mkl-fft
-mkl-random
-mkl-service
 munch==2.5.0
 numpy
 packaging==23.0

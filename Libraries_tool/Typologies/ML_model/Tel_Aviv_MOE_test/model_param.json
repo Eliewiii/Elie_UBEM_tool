@@ -1,6 +1,0 @@
-{
-  "identifier" : "model_sample",
-  "path_folder" : "D:\\Elie\\PhD\\Simulation\\Input_Data\\Typology\\machine_learning_training\\Tel_Aviv_MOE_test" ,
-  "shapes" : ["H", "Rectangle", "Train"],
-  "pixel_size" : [90,90]
-}

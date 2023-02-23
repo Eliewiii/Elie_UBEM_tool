@@ -1,8 +1,0 @@
-{
-"type": "ShadowCalculation",
-"solar_distribution": "FullExteriorWithReflections",
-"calculation_method": "PolygonClipping",
-"calculation_update_method": "Periodic",
-"calculation_frequency": 30,
-"maximum_figures": 15000
-}

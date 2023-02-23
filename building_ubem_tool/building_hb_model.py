@@ -5,9 +5,15 @@ as they will be simulated
 
 import logging
 
+import dragonfly
+
 from honeybee.model import Model
+from ladybug_geometry.geometry3d import Vector3D
 
 from building import Building
+
+from libraries_addons.hb_model_addons import elevation_and_height_from_hb_model
+
 
 class BuildingHBModel(Building):
     """Building class, representing one building in an urban canopy."""
@@ -39,7 +45,8 @@ class BuildingHBModel(Building):
 
         return building_hb_model
 
-    def from_hbjson(self, path_hbjson, urban_canopy=None):
+    @classmethod
+    def from_hbjson(cls, path_hbjson, urban_canopy=None):
         """
         Create a BuildingHBModel object from a HBJSON file
         :return: building_hb_model : BuildingHBModel object
@@ -49,6 +56,33 @@ class BuildingHBModel(Building):
         # get the identifier the
         identifier = hb_model.identifier
         # Try to extract certain characteristics of the model from the hb_model
+        elevation, height = elevation_and_height_from_hb_model(hb_model)
+        # create the BuildingHBModel object from the HB model
+        building_hb_model = cls(identifier)
+        # set the attributes of the BuildingHBModel object
+        building_hb_model.hb_model = hb_model
+        building_hb_model.urban_canopy = urban_canopy
+        building_hb_model.elevation = elevation
+        building_hb_model.height = height
+
+        return building_hb_model
+
+    def move(self,vector):
+        """
+        Move the building
+        :param vector:
+        :return:
+        """
+        # move the lb footprint
+        if self.lb_footprint is not None:
+            self.lb_footprint=self.lb_footprint.move(Vector3D(vector[0], vector[1], 0)) # the footprint is moved only in the x and y directions
+        # adjust the elevation
+        if self.elevation is not None:
+            self.elevation = self.elevation + vector[2]
+        # make it moved
+        self.hb_model_obj.move(Vector3D(vector[0], vector[1], vector[2]))  # the model is moved fully
+        self.moved_to_origin = True
+
 
 
 
@@ -81,7 +115,11 @@ def lb_footprint_from_hb_model(hb_model):
     :return:
     """
 
-    None
+    # turn into dragonfly building
+    dragonfly_building = dragonfly.Building.from_honeybee(hb_model)
+    # get the footprint
+    lb_footprint_list = dragonfly_building.footprint
+    # merge LB footprint
 
 
 def lb_faces_ground_bc_from_hb_model(hb_model):

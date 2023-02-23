@@ -8,7 +8,7 @@ from honeybee_energy.lib.constructionsets import construction_set_by_identifier
 from honeybee_energy.lib.programtypes import program_type_by_identifier
 
 
-def hb_model_elevation(hb_model):
+def elevation_and_height_from_hb_model(hb_model):
     """
     Extract the elevation of the building from the hb model
     :param hb_model:
@@ -18,6 +18,32 @@ def hb_model_elevation(hb_model):
     height = max([room.max.z for room in hb_model.rooms]) - elevation
 
     return elevation, height
+
+
+
+def lb_footprint_to_hb_model(lb_footprint, height, elevation, typology_layout=False,core_to_floor_area_ratio=0.15):
+    """
+    Create a honeybee model with extruded footprints of the building
+    :param lb_footprint:
+    :param height:
+    :param elevation:
+    :param typology_layout: if True, it will use the layout of the building typology to build the building
+    :param core_to_floor_area_ratio:
+    :return:
+    """
+
+    if typology_layout:
+        None
+    if not typology_layout:  # Automatic subdivision of the building on cores an apartments
+        hb_model = Room.from_footprint("building", lb_footprint, height, elevation)
+
+
+
+    return None
+
+
+
+
 
 
 

@@ -5,8 +5,11 @@ import logging
 
 from shapely.geometry import Polygon
 
+import dragonfly
+
 from ladybug_geometry.geometry3d.pointvector import Point3D
 from ladybug_geometry.geometry3d.face import Face3D
+from honeybee.boundarycondition import Outdoors
 
 def lb_face_to_shapely_polygon(lb_face):
     """Convert a Ladybug Face to a Shapely Polygon."""
@@ -59,6 +62,140 @@ def merge_lb_face_list(lb_face_list,):
         # raise error
         raise ValueError("The list of faces to merge is empty")
 
+
+
+def lb_footprint_to_df_building(lb_footprint, core_area_ratio=0.15, tol=0.005):
+    """ generate a Dragonfly building out of the footprint, generating a core in the center """
+
+    footprint_area = lb_footprint.area
+    # target area of the core and the acceptable range
+    target_core_area = footprint_area * core_area_ratio
+    max_core_area = target_core_area * (1 + tol)
+    min_core_area = target_core_area * (1 - tol)
+    # list with the floor height between each floor
+    floor_to_floor_heights = [self.floor_height for i in range(self.num_floor)]
+    # initialization of the dichotomy
+    perimeter_offset_boundary_up = 20
+    perimeter_offset_boundary_down = 1
+    perimeter_offset = perimeter_offset_boundary_down
+    first_try_df_building = dragonfly.building.Building.from_footprint(identifier="Building_" + str(self.id),
+                                                                       footprint=[lb_footprint],
+                                                                       floor_to_floor_heights=[3.],
+                                                                       perimeter_offset=perimeter_offset)
+    # number of rooms including the core when subdivided by the Dragonfly algorithm
+    nb_rooms_per_stories = len(first_try_df_building.unique_stories[0].room_2ds)
+    # core_area = first_try_df_building.unique_stories[0].room_2ds[-1].floor_area()
+
+    max_iteration = 30
+    converged = False
+    for i in range(max_iteration):
+        # print("it {}".format(i),footprint_area,target_core_area)
+        perimeter_offset = (perimeter_offset_boundary_up + perimeter_offset_boundary_down) / 2.
+
+        df_building = dragonfly.building.Building.from_footprint(identifier="Building_" + str(self.id),
+                                                                 footprint=[lb_footprint],
+                                                                 floor_to_floor_heights=[3.],
+                                                                 perimeter_offset=perimeter_offset)
+        # print("it {}".format(i))
+        if len(df_building.unique_stories[0].room_2ds) >= nb_rooms_per_stories:
+            nb_cores=len(df_building.unique_stories[0].room_2ds)-nb_rooms_per_stories+1
+            core_area = sum([df_building.unique_stories[0].room_2ds[-i-1].floor_area for i in range(nb_cores)])
+            if max_core_area < core_area:
+                perimeter_offset_boundary_down = perimeter_offset
+            elif min_core_area > core_area:
+                perimeter_offset_boundary_up = perimeter_offset
+            else :
+                converged= True
+                break
+        else:
+            # print("wrong number of room")
+            perimeter_offset_boundary_up = perimeter_offset
+
+    if converged:
+        self.DF_building = dragonfly.building.Building.from_footprint(identifier="Building_" + str(self.id),
+                                                                      footprint=[lb_footprint],
+                                                                      floor_to_floor_heights=floor_to_floor_heights,
+                                                                      perimeter_offset=perimeter_offset)
+        # Rename the room to know what are the apartments and cores
+        for id_story in range (len(self.DF_building.unique_stories)):
+            for room_id in range(nb_rooms_per_stories-1):
+                self.DF_building.unique_stories[0].room_2ds[room_id].identifier= "apartment_" + str(room_id)
+            # last room is the core
+            for i in range(len(self.DF_building.unique_stories[0].room_2ds)-nb_rooms_per_stories + 1):
+                self.DF_building.unique_stories[0].room_2ds[-i-1].identifier = "core_" + str(i)
+
+
+
+    else:
+        logging.warning(f" building_{self.id} : the automatic subdivision in rooms and cores failed")
+        self.DF_building = dragonfly.building.Building.from_footprint(identifier="Building_" + str(self.id),
+                                                                      footprint=[lb_footprint],
+                                                                      floor_to_floor_heights=floor_to_floor_heights)
+        # rename only the main room
+        for id_story in range (len(self.DF_building.unique_stories)):
+                self.DF_building.unique_stories[0].room_2ds[0].identifier= "apartment_" + str(0)
+
+def find_perimeter_offset_df_building(lb_footprint, core_area_ratio=0.15, tol=0.005):
+    """ generate a Dragonfly building out of the footprint, generating a core in the center """
+
+    footprint_area = lb_footprint.area
+    # target area of the core and the acceptable range
+    target_core_area = footprint_area * core_area_ratio
+    max_core_area = target_core_area * (1 + tol)
+    min_core_area = target_core_area * (1 - tol)
+    # Dichotomy parameters
+    perimeter_offset_boundary_up = 20
+    perimeter_offset_boundary_down = 1
+
+
+    max_iteration = 30
+    converged = False
+    for i in range(max_iteration):
+        # print("it {}".format(i),footprint_area,target_core_area)
+        perimeter_offset = (perimeter_offset_boundary_up + perimeter_offset_boundary_down) / 2.
+
+        df_building = dragonfly.building.Building.from_footprint(identifier="temp",
+                                                                 footprint=[lb_footprint],
+                                                                 floor_to_floor_heights=[3.],  # Doesn't matter
+                                                                 perimeter_offset=perimeter_offset)
+        # print("it {}".format(i))
+
+        # get the Room2D that are cores = without any Outdoor boundary condition
+
+        if len(df_building.unique_stories[0].room_2ds) >= nb_rooms_per_stories:
+            nb_cores = len(df_building.unique_stories[0].room_2ds) - nb_rooms_per_stories + 1
+            core_area = sum([df_building.unique_stories[0].room_2ds[-i - 1].floor_area for i in range(nb_cores)])
+            if max_core_area < core_area:
+                perimeter_offset_boundary_down = perimeter_offset
+            elif min_core_area > core_area:
+                perimeter_offset_boundary_up = perimeter_offset
+            else:
+                converged = True
+                break
+        else:
+            # print("wrong number of room")
+            perimeter_offset_boundary_up = perimeter_offset
+
+    if converged:
+        self.DF_building = dragonfly.building.Building.from_footprint(identifier="Building_" + str(self.id),
+                                                                      footprint=[lb_footprint],
+                                                                      floor_to_floor_heights=floor_to_floor_heights,
+                                                                      perimeter_offset=perimeter_offset)
+        # Rename the room to know what are the apartments and cores
+        for id_story in range(len(self.DF_building.unique_stories)):
+            for room_id in range(nb_rooms_per_stories - 1):
+                self.DF_building.unique_stories[0].room_2ds[room_id].identifier = "apartment_" + str(room_id)
+            # last room is the core
+            for i in range(len(self.DF_building.unique_stories[0].room_2ds) - nb_rooms_per_stories + 1):
+                self.DF_building.unique_stories[0].room_2ds[-i - 1].identifier = "core_" + str(i)
+
+def roo2d_is_core(room_2d):
+    """ check if a room is a core or not """
+    # isinstance(surface.boundary_condition, Outdoors)
+    for boundary_condition in room_2d.boun:
+        if isinstance(boundary_condition, Outdoors):
+            return False
+    return True
 
 
 

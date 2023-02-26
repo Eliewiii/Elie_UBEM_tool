@@ -55,6 +55,7 @@ if __name__ == "__main__":
     move_buildings_to_origin = bool(args.mov)
     move_buildings_to_origin = True
     run_by_the_tool = bool(args.tool)
+    print (args.tool,run_by_the_tool)
 
     # Create the folder if it does not exist
     os.makedirs(path_folder_gis_extraction, exist_ok=True)

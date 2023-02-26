@@ -31,7 +31,7 @@ from urban_canopy_ubem_tool.urban_canopy import UrbanCanopy
 
 # Default values
 default_path_gis=os.path.join(path_tool, "Libraries", "GIS", "gis_typo_id_extra_small")
-default_folder_gis_extraction = os.path.join(path_tool, "Simulation_temp", "gis_extraction")
+default_folder_gis_extraction = os.path.join(path_tool, "Simulation_temp")
 default_unit = "m"
 default_additional_gis_attribute_key_dict = None
 default_move_buildings_to_origin = False
@@ -42,7 +42,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-g", "--gis", help="path to gis file", nargs='?', default=default_path_gis)
     parser.add_argument("-f", "--folder", help="path to the simulation folder", nargs='?', default=default_folder_gis_extraction)
-    parser.add_argument("-u", "--unit", help="value of arg3", nargs='?', default=default_unit)
+    parser.add_argument("-u", "--unit", help="unit of the GIS", nargs='?', default=default_unit)
     parser.add_argument("-d", "--dic", help="path to the additional key dictionary", nargs='?', default=default_additional_gis_attribute_key_dict)
     parser.add_argument("-m", "--mov", help="Boolean telling if building should be moved to the origin", nargs='?', default=default_move_buildings_to_origin)
     parser.add_argument("-t", "--tool", help="Boolean telling if the code is run from an editor or externally by the batch file", nargs='?',
@@ -63,7 +63,8 @@ if __name__ == "__main__":
     os.makedirs(path_folder_gis_extraction, exist_ok=True)
 
     # Add the path of scripts in the tool to sys so that the lib can be used
-    sys.path.append(os.path.join(path_tool, "Scripts"))
+    if run_by_the_tool:
+        sys.path.append(os.path.join(path_tool, "Scripts"))
 
     # Create or load the urban canopy object
     path_urban_canopy_pkl = os.path.join(path_folder_gis_extraction, "urban_canopy.pkl")

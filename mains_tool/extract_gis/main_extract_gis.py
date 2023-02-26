@@ -12,9 +12,6 @@ import json
 local_appdata = os.environ['LOCALAPPDATA']
 path_tool = os.path.join(local_appdata, "Building_urban_analysis")
 
-# # Import libraries from the tool
-from urban_canopy_ubem_tool.urban_canopy import UrbanCanopy
-
 # default paths if no input is given
 
 # WORK todo: remove
@@ -65,6 +62,9 @@ if __name__ == "__main__":
     # Add the path of scripts in the tool to sys so that the lib can be used
     if run_by_the_tool:
         sys.path.append(os.path.join(path_tool, "Scripts"))
+        # # Import libraries from the tool
+    # Import libraries from the tool (after as we don't know it's run from the tool or PyCharm)
+    from urban_canopy_ubem_tool.urban_canopy import UrbanCanopy
 
     # Create or load the urban canopy object
     path_urban_canopy_pkl = os.path.join(path_folder_gis_extraction, "urban_canopy.pkl")

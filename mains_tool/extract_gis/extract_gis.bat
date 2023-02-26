@@ -12,3 +12,4 @@ python %path_python_scripts%\mains_tool\extract_gis/main_extract_gis.py %* -t 1
 
 rem Deactivate the virtual environment
 deactivate
+pause

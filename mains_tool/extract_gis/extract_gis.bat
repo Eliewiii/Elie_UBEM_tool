@@ -8,7 +8,7 @@ echo Activate the virtual environment
 call "%path_venv_script%\activate.bat"
 
 echo Run the GIS extraction
-python %path_python_scripts%\mains_tool\extract_gis/main_extract_gis.py -t 1 %*
+python %path_python_scripts%\mains_tool\extract_gis/main_extract_gis.py %*
 
 rem Deactivate the virtual environment
 deactivate

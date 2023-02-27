@@ -47,23 +47,10 @@ if __name__ == "__main__":
     # Configurate and make the logfile
     path_logger = os.path.join(path_folder_gis_extraction, "log_report.log")
 
-    logging.basicConfig(level=logging.WARNING, format="%(asctime)s [%(levelname)s] %(message)s", # todo: previous logger to remove
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s", # todo: previous logger to remove
                         handlers=[logging.FileHandler(path_logger), logging.StreamHandler(sys.stdout)])
 
     # logging.getLogger('name of the package').setLevel(logging.CRITICAL) todo for later
-
-    # Set up the logging configuration
-    # logging.basicConfig(
-    #     level=logging.INFO,
-    #     format='%(asctime)s %(levelname)s %(message)s',
-    #     handlers=[
-    #         # Print log messages of level INFO and above to the terminal
-    #         logging.StreamHandler(),
-    #
-    #         # Write log messages of level WARNING and above to a log file
-    #         logging.FileHandler(path_logger)
-    #     ]
-    # )
 
     # Add the path of scripts in the tool to sys so that the lib can be used
     if run_by_the_tool:

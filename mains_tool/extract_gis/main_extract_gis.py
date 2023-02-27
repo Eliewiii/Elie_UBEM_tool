@@ -12,20 +12,6 @@ import json
 local_appdata = os.environ['LOCALAPPDATA']
 path_tool = os.path.join(local_appdata, "Building_urban_analysis")
 
-# default paths if no input is given
-
-# WORK todo: remove
-# default_path_gis = "D:\Elie\PhD\Simulation\Input_Data\GIS\gis_typo_id_extra_small"
-# default_path_gis = "D:\Elie\PhD\Simulation\\Input_Data\GIS\Example_context_filter_medium"
-# default_folder_gis_extraction = "D:\Elie\PhD\Simulation\sim_new_tool\gis_extraction"
-
-
-# HOME todo: remove
-# default_path_gis="D:\Documents\Phd_23_02_12\Simulation\Input_Data\GIS\gis_typo_id_extra_small"
-# default_path_gis="D:\Documents\Phd_23_02_12\Simulation\Input_Data\GIS\gis_typo_id_small"
-# default_folder_gis_extraction = "D:\Documents\Phd_23_02_12\Simulation\sim_new_tool\gis_extraction"
-
-
 # Default values
 default_path_gis=os.path.join(path_tool, "Libraries", "GIS", "gis_typo_id_extra_small")
 default_folder_gis_extraction = os.path.join(path_tool, "Simulation_temp")
@@ -58,6 +44,26 @@ if __name__ == "__main__":
 
     # Create the folder if it does not exist
     os.makedirs(path_folder_gis_extraction, exist_ok=True)
+    # Configurate and make the logfile
+    path_logger = os.path.join(path_folder_gis_extraction, "log_report.log")
+
+    logging.basicConfig(level=logging.WARNING, format="%(asctime)s [%(levelname)s] %(message)s", # todo: previous logger to remove
+                        handlers=[logging.FileHandler(path_logger), logging.StreamHandler(sys.stdout)])
+
+    # logging.getLogger('name of the package').setLevel(logging.CRITICAL) todo for later
+
+    # Set up the logging configuration
+    # logging.basicConfig(
+    #     level=logging.INFO,
+    #     format='%(asctime)s %(levelname)s %(message)s',
+    #     handlers=[
+    #         # Print log messages of level INFO and above to the terminal
+    #         logging.StreamHandler(),
+    #
+    #         # Write log messages of level WARNING and above to a log file
+    #         logging.FileHandler(path_logger)
+    #     ]
+    # )
 
     # Add the path of scripts in the tool to sys so that the lib can be used
     if run_by_the_tool:

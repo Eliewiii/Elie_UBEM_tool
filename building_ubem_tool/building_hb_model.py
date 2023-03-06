@@ -29,8 +29,20 @@ class BuildingHBModel(Building):
         self.hb_model_obj = None
         self.hb_model_dict = None
 
+    def load_hb_attributes(self):
+        """
+        Load the attributes that cannot be pickled from equivalent attribute dict.
+        """
+        # Convert the hb_model_dict to hb_model_obj
+        self.hb_model_obj = Model.from_dict(self.hb_model_dict)
 
 
+    def pickle_hb_attributes(self):
+        """
+        Convert the hb_model_obj to hb_model_dict to be able to pickle it.
+        """
+        # Convert the hb_model_obj to hb_model_dict
+        self.hb_model_dict = self.hb_model_obj.to_dict()  #todo: test if it works
     @classmethod
     def from_building(cls, building_obj):
         """

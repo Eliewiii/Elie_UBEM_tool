@@ -47,7 +47,7 @@ if __name__ == "__main__":
     # Configurate and make the logfile
     path_logger = os.path.join(path_folder_gis_extraction, "log_report.log")
 
-    logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s", # todo: previous logger to remove
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s",
                         handlers=[logging.FileHandler(path_logger), logging.StreamHandler(sys.stdout)])
 
     # logging.getLogger('name of the package').setLevel(logging.CRITICAL) todo for later

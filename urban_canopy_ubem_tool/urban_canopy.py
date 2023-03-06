@@ -38,13 +38,30 @@ class UrbanCanopy:
     def from_pkl(cls, path_pkl):
         """ Load the urban canopy from a pickle file """
         with open(path_pkl, 'rb') as f:
+            # Load pickle file
             urban_canopy = pickle.load(f)
+            # Load the buildings objects that might have some properties stored into dict (ex hb_models)
+            urban_canopy.load_building_hb_attributes()
         return urban_canopy
 
     def to_pkl(self, path_folder):
         """ Save the urban canopy to a pickle file """
         with open(os.path.join(path_folder, "urban_canopy.pkl"), 'wb') as f:
+            # todo
+            self.pickle_building_hb_attributes()
+            # todo
             pickle.dump(self, f)
+
+    def load_building_hb_attributes(self):
+        """ Load the buildings objects that might have some properties stored into dict (ex hb_models) """
+        for building_id, building_obj in self.building_dict.items():
+            building_obj.load_hb_attributes()
+
+    def pickle_building_hb_attributes(self):
+        """ Pickle the buildings objects that might have some properties stored into dict (ex hb_models) """
+        for building_id, building_obj in self.building_dict.items():
+            building_obj.pickle_hb_attributes()
+
 
     def add_list_of_buildings(self, building_id_list, building_obj_list):
         """ Add a list of buildings to the urban canopy"""

@@ -47,6 +47,17 @@ class Building:
         # Position
         self.moved_to_origin = False  # boolean to know if the building has been moved
 
+
+    def load_hb_attributes(self):
+        """ Load the attributes that cannot be pickled from equivalent attribute dict. """
+        # for Building not relevant yet, so nothing to do
+        None
+
+    def pickle_hb_attributes(self):
+        """ Pickle the attributes that cannot be pickled. """
+        # for Building not relevant yet, so nothing to do
+        None
+
     @classmethod
     def from_lb_footprint(cls, lb_footprint, identifier, urban_canopy=None, building_id_shp=None):
         """Generate a Building from a Ladybug footprint."""
@@ -79,6 +90,7 @@ class Building:
         # get the building id
         if building_id_key_gis is None:
             # if the building identifier is not specified in the shp file, use the index of the building in the shp file
+            # todo: maybe convert into a string, the results are weird in GH, but not problematic
             building_id = building_id_shp
         else:
             building_id = shp_file[building_id_key_gis][building_id_shp]

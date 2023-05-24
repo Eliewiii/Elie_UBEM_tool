@@ -18,7 +18,7 @@ from typology_identifier.generate_models._ml_datasets_and_network_classes import
 from typology_identifier.generate_models._load_ml_parameters import load_ml_parameters
 
 
-def evaluate_ml_model(path_model_parameters_json, min_percentage=None):
+def evaluate_ml_model(path_model_parameters_json, min_percentage=None, is_saved=None):
     """
 
     :param path_model_parameters_json:
@@ -85,9 +85,13 @@ def evaluate_ml_model(path_model_parameters_json, min_percentage=None):
         evaluation_dictionary[shape]["false negative [%]"] = evaluation_dictionary[shape]["not_identified"] / \
                                                              evaluation_dictionary[shape]["nb_image"] * 100
     print(evaluation_dictionary)
-
+    # Result
     with open(os.path.join(path_folder_model, "eval_result.json"), "w") as out_file:
         json.dump(evaluation_dictionary, out_file, indent=4)
+    # Saved
+    if is_saved:
+        with open(os.path.join(path_folder_model, f"{min_percentage}.json"), "w") as out_file:
+            json.dump(evaluation_dictionary, out_file, indent=4)
 
 
 def make_evaluation_dictionary(shapes_to_labels_dic):

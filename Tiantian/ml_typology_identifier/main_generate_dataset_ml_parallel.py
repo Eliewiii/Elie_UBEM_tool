@@ -1,7 +1,7 @@
 """
 
 """
-from typology_identifier.generate_ML_data.sample_and_test_data import generate_data_base_from_sample
+from typology_identifier.generate_ML_data.sample_and_test_data import generate_data_base_from_sample, clean_directory
 import os
 
 import logging
@@ -9,12 +9,13 @@ from time import time
 from multiprocessing import Pool
 
 # Inputs, path to model
-path_folder_model = "D:\Elie\PhD\Simulation\Input_Data\Typology\machine_learning_training\Tel_Aviv_MOE_test" # TO MODIFY
+#path_folder_model = "D:\Elie\PhD\Simulation\Input_Data\Typology\machine_learning_training\Tel_Aviv_MOE_test" # TO MODIFY
+path_folder_model="D:\\Pycharm\\meachnie_learning\\Neve_Avivim_test"
 
 is_deg = False  # tell if the GIS are in degree or in meters, if degree it needs to be converted in meter.
 
-nb_noised_sample = 10  # TO MODIFY
-nb_angles = 10         # TO MODIFY
+nb_noised_sample = 40  # TO MODIFY
+nb_angles = 35         # TO MODIFY
 
 # Initialization inputs
 path_folder_shp_data = os.path.join(path_folder_model, "shp_data")
@@ -24,6 +25,8 @@ path_folder_shp_test = os.path.join(path_folder_shp_data, "test_shp")
 path_folder_output_data_training = path_folder_shp_data = os.path.join(path_folder_model, "training")
 path_folder_output_data_test = os.path.join(path_folder_model, "test")
 
+# create the file folder for the specific noise and angles
+path_folder_noise_angles = os.path.join(path_folder_model, "noise_"+str(nb_noised_sample)+"_angles_"+str(nb_angles))
 
 def generate_sample_ml(building_type, training_or_test):
     """ generate all the sample images  """

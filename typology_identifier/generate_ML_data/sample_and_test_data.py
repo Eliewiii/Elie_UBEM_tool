@@ -66,7 +66,7 @@ def generate_data_base_from_sample(path_file_shp,index,output_building_type_path
 
 
 
-def generate_data_base_from_sample_parallel(path_file_shp,index,output_building_type_path,nb_sample_noise = 10,nb_angles = 10,is_deg=False):
+def generate_data_base_from_sample_parallel(path_file_shp,index,output_building_type_path,nb_sample_noise = 10,nb_angles = 10,max_shift=0.5,is_deg=False):
     """
 
 
@@ -99,7 +99,7 @@ def generate_data_base_from_sample_parallel(path_file_shp,index,output_building_
 
     for i in range(nb_sample_noise) :
         # rotate the shape
-        noisy_shape = add_noise_to_shape(shape)
+        noisy_shape = add_noise_to_shape(shape,max_shift)
         # generate the image
         image_output_path = os.path.join(output_building_type_path, "sample_{}.png".format(index))
         Polygon_to_png_BnW(noisy_shape,image_output_path)
@@ -196,7 +196,7 @@ def rotate_shape(shape,angle):
 
 
 
-def add_noise_to_shape(polygon):
+def add_noise_to_shape(polygon,max_shift):
     """
 
     """
@@ -210,19 +210,19 @@ def add_noise_to_shape(polygon):
     new_interiors = []
 
     for vertex in exterior[:-1] :
-        new_exterior.append(add_noise_to_point(vertex))
+        new_exterior.append(add_noise_to_point(vertex,max_shift))
     for interior in interiors:
         new_hole = []
         for vertex in interior[:-1]:
-            new_hole.append(add_noise_to_point(vertex))
+            new_hole.append(add_noise_to_point(vertex,max_shift))
         new_interiors.append(new_hole)
     return(Polygon(shell=new_exterior,holes=new_interiors))
 
 ### ADD MIRROR EFFECT EVENTUALLY
 
 
-def add_noise_to_point(vertex):
-    max_shift = 0.5  # max
+def add_noise_to_point(vertex,max_shift=0.5):
+
     [x, y] = [vertex[0], vertex[1]]
     return((x + random.uniform(-max_shift,max_shift), y + random.uniform(-max_shift,max_shift)))
 

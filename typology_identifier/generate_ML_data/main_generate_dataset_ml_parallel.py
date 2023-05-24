@@ -16,6 +16,7 @@ is_deg = False  # tell if the GIS are in degree or in meters, if degree it needs
 
 nb_noised_sample = 10  # TO MODIFY
 nb_angles = 10         # TO MODIFY
+max_shift=0.5
 
 # Initialization inputs
 path_folder_shp_data = os.path.join(path_folder_model, "shp_data")
@@ -53,7 +54,7 @@ def generate_sample_ml(building_type, training_or_test):
                 path_file_shp = os.path.join(path_building_type_shp, sample, shp_file)
                 # return the index at the end of the generation
                 index = generate_data_base_from_sample(path_file_shp, index, path_output_building_type,
-                                                       nb_noised_sample,nb_angles, is_deg)
+                                                       nb_noised_sample,nb_angles,max_shift, is_deg)
 
 if __name__ == "__main__":  # mandatory for parallel processing, what is executed by the master should be under this
     # Training set

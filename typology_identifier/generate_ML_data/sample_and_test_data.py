@@ -19,7 +19,7 @@ from time import time
 
 
 
-def generate_data_base_from_sample(path_file_shp,index,output_building_type_path,nb_sample_noise,nb_angles,is_deg):
+def generate_data_base_from_sample(path_file_shp,index,output_building_type_path,nb_sample_noise,nb_angles,max_shift,is_deg):
     """
 
 
@@ -52,7 +52,7 @@ def generate_data_base_from_sample(path_file_shp,index,output_building_type_path
     ## images with moise
     for i in range(nb_sample_noise) :
         # rotate the shape
-        noisy_shape = add_noise_to_shape(shape)
+        noisy_shape = add_noise_to_shape(shape,max_shift)
         # generate the image
         image_output_path = os.path.join(output_building_type_path, "sample_{}.png".format(index))
         Polygon_to_png_BnW(noisy_shape,image_output_path)

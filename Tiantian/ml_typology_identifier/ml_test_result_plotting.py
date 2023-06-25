@@ -1,5 +1,8 @@
 import matplotlib.pyplot as plt
 import pandas as pd
+from average_result import average_result_noise_angle
+from train_and_evaluate_model import path_result_run_dic,path_folder_sub_model_list,entire_run_num
+
 import os
 
 # Variables initialization
@@ -155,6 +158,15 @@ def box_plotting(result1_path,result2_path,result3_path):
     plt.ylabel("True positive [%]")
     plt.savefig("D:\\Pycharm\\meachnie_learning\\Neve_Avivim_test\\noise_40_angles_35\\H_multiple_simu_result.png") #edit
     plt.show()
+
+
+### calculate the average of results ####
+
+
+for path_result in path_folder_sub_model_list:
+    average_result_noise_angle(path_result, path_result_run_dic[path_result],entire_run_num,18)
+
+
 
 noise30_angles_result_path = "D:\\Pycharm\\meachnie_learning\\Neve_Avivim_test\\noise_30_angles_35\\adjusted_result.csv"
 noise35_angles_result_path = "D:\\Pycharm\\meachnie_learning\\Neve_Avivim_test\\noise_35_angles_35\\adjusted_result.csv"

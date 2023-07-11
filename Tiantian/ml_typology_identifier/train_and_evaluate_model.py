@@ -6,35 +6,25 @@ import os
 import shutil
 import json
 
-import Tiantian.ml_typology_identifier.main_generate_dataset_ml_parallel
 #from typology_identifier.generate_models._train_ml_model import train_ml_model   ##to do
 from Tiantian.ml_typology_identifier.generate_models._train_ml_model import train_ml_model
 #from typology_identifier.generate_models._evaluate_ml_model import evaluate_ml_model  ##to do
 from Tiantian.ml_typology_identifier.generate_models._evaluate_ml_model import evaluate_ml_model
-from main_generate_dataset_ml_parallel import nb_noised_sample, nb_angles_sample, nb_max_shift_sample, nb_iteration
 from average_result import average_result_noise_angle
+
+# Import the parameters
+from Tiantian.ml_typology_identifier.config import *
+
 
 #os.mkdir(path_folder_noise_angles)
 
-# Inputs parameters training
-epoch_list = [i*5 for i in range(1,3)]
-num_epochs = 5  ## TO MODOIFY  ##
-continue_training = False  ## TO MODOIFY  ## continue the training of an existing model (if it exist) or create a new one
 
-batch_size = 8
-learning_rate = 0.001
-# Inputs parameters evaluation
-min_percentage_list = [0.75, 0.8, 0.85]
-# parameters
-path_result_run_dic = {}
-entire_run_num = 3
 #nb_angle_list=[20,40]
 #nb_noise_list=[20,40]
 # create a dictionary, key = noise_angle, value = file directory
 #max_shift_list = [0.5]
 # Path to model
 # path_folder_model = "D:\Elie\PhD\Simulation\Input_Data\Typology\machine_learning_training\Tel_Aviv_MOE_test" # to modify
-path_folder_model = "D:\\Pycharm\\meachnie_learning\\Neve_Avivim_test"
 path_folder_sub_model_list = []
 for noise in nb_noised_sample:
     for angles in nb_angles_sample:
@@ -50,7 +40,9 @@ if __name__ == "__main__":
     # The integrated simulation is repeated three times from epochs 5 to 30
     path_folder_noise_angles_list = []
     one_run_result_length = 0
-    for path_folder_sub_model in path_folder_sub_model_list:
+    nb_loops = len(path_folder_sub_model_list)
+    for loop,path_folder_sub_model in enumerate(path_folder_sub_model_list):
+        print("loop {} our of {}".format(loop, nb_loops))
         path_folder_noise_angles = os.path.join(path_folder_model, path_folder_sub_model.split("data_")[1])
         path_folder_noise_angles_list.append(path_folder_noise_angles)
         os.mkdir(path_folder_noise_angles)
@@ -78,7 +70,7 @@ if __name__ == "__main__":
                     target = path_model_parameters_json
                     shutil.copy(original, target)
                     path_it = os.path.join(path_folder_sub_model,"it_"+str(data_it))
-                    train_ml_model(path_model_parameters_json, path_it, num_epochs=num_epochs, batch_size=batch_size,
+                    train_ml_model(path_model_parameters_json, path_it, num_epochs=step_num_epochs, batch_size=batch_size,
                                 learning_rate=learning_rate,continue_training=continue_training)
 
                     # Evaluation

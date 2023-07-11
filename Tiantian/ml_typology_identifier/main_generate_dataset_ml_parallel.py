@@ -4,23 +4,12 @@
 from typology_identifier.generate_ML_data.sample_and_test_data import generate_data_base_from_sample, clean_directory
 import os
 
-import logging
 from time import time
 from multiprocessing import Pool
 
-# Inputs, path to model
-#path_folder_model = "D:\Elie\PhD\Simulation\Input_Data\Typology\machine_learning_training\Tel_Aviv_MOE_test" # TO MODIFY
-path_folder_model="D:\\Pycharm\\meachnie_learning\\Neve_Avivim_test"
+# Import the parameters
+from Tiantian.ml_typology_identifier.config import *
 
-is_deg = False  # tell if the GIS are in degree or in meters, if degree it needs to be converted in meter.
-
-nb_noised_sample = [1,2]
-# nb_noised_sample = [(i*10-5*(i-1)) for i in range(1, 3)]  # TO MODIFY 30-40
-
-nb_angles_sample = [1,2]      # TO MODIFY 35
-nb_max_shift_sample = [0.5,0.6]
-
-nb_iteration = 3
 
 # Initialization inputs
 path_folder_shp_data = os.path.join(path_folder_model, "shp_data")

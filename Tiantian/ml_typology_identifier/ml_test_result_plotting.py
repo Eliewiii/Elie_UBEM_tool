@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 from average_result import average_result_noise_angle
-from train_and_evaluate_model import path_result_run_dic,path_folder_sub_model_list,entire_run_num
+from train_and_evaluate_model import path_result_run_dic,path_folder_noise_angles_list,entire_run_num, nb_iteration
 
 import os
 
@@ -163,8 +163,10 @@ def box_plotting(result1_path,result2_path,result3_path):
 ### calculate the average of results ####
 
 
-for path_result in path_folder_sub_model_list:
-    average_result_noise_angle(path_result, path_result_run_dic[path_result],entire_run_num,18)
+for path_result in path_folder_noise_angles_list:   # todo
+    for it in nb_iteration:
+        key = "It_" + str(it)
+        average_result_noise_angle(path_result, path_result_run_dic[key],entire_run_num,18)
 
 
 

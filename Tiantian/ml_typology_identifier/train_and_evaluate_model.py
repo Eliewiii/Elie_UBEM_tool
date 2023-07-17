@@ -16,15 +16,8 @@ from average_result import average_result_noise_angle
 from Tiantian.ml_typology_identifier.config import *
 
 
-#os.mkdir(path_folder_noise_angles)
 
 
-#nb_angle_list=[20,40]
-#nb_noise_list=[20,40]
-# create a dictionary, key = noise_angle, value = file directory
-#max_shift_list = [0.5]
-# Path to model
-# path_folder_model = "D:\Elie\PhD\Simulation\Input_Data\Typology\machine_learning_training\Tel_Aviv_MOE_test" # to modify
 path_folder_sub_model_list = []
 for noise in nb_noised_sample:
     for angles in nb_angles_sample:
@@ -71,7 +64,7 @@ if __name__ == "__main__":
                     shutil.copy(original, target)
                     path_it = os.path.join(path_folder_sub_model,"it_"+str(data_it))
                     train_ml_model(path_model_parameters_json, path_it, num_epochs=step_num_epochs, batch_size=batch_size,
-                                learning_rate=learning_rate,continue_training=continue_training)
+                                learning_rate=learning_rate,continue_training=True)
 
                     # Evaluation
                     for min_percentage in min_percentage_list:
@@ -107,9 +100,9 @@ if __name__ == "__main__":
                 #adjusted_result_filename = "adjusted_result"+str(simulation_time+1)
                 with open(os.path.join(path_folder_noise_angles_run, "adjusted_result.csv"), 'w') as newfile:
                     newfile.write("Percentages,Epochs,Shapes,true positive,false positive\n")
-                    for percentage in [0.75, 0.8, 0.85]:           # three different min advantages
+                    for percentage in min_percentage_list:           # three different min advantages
                         for shape in ["H", "Rectangle", "Train"]:  # "Other" unnecessary
-                            for nepo in [5, 10, 15, 20, 25, 30]:   # number of epochs
+                            for nepo in epoch_list:   # number of epochs
                                 for index in range(0, len(cont)):
                                     # it is necessary to split the specific row of the content to extract the data
                                     a = cont[index].split(",")

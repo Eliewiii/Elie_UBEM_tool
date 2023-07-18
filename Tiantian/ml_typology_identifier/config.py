@@ -17,11 +17,11 @@ nb_iteration = 3
 """ Parameters for training and evaluation """
 
 # Inputs parameters training
-step_num_epochs = 5  ## TO MODOIFY  ##
-total_number_epoch = 50
+step_num_epochs = 1  ## TO MODOIFY  ##
+total_number_epoch = 20
 epoch_list = [i*step_num_epochs for i in range(1,total_number_epoch//step_num_epochs+1)]
 
-continue_training = True  ## TO MODOIFY  ## continue the training of an existing model (if it exist) or create a new one
+#continue_training = True  ## TO MODOIFY  ## continue the training of an existing model (if it exist) or create a new one
 
 batch_size = 8
 learning_rate = 0.001
